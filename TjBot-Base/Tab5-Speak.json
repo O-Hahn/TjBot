@@ -1,0 +1,1114 @@
+[
+    {
+        "id": "bf032407.c8df18",
+        "type": "tab",
+        "label": "Speak",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b92b7adb.1e93b8",
+        "type": "comment",
+        "z": "bf032407.c8df18",
+        "name": "Speak and Translate",
+        "info": "Speak out the given Text and / or translate \nto the given language",
+        "x": 110,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "dce63ad4.3c88c8",
+        "type": "inject",
+        "z": "bf032407.c8df18",
+        "name": "Trigger Reset ",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 111,
+        "y": 153.7999267578125,
+        "wires": [
+            [
+                "425dea4f.ded334",
+                "959fb816.b2afc8",
+                "9247968b.791688",
+                "16198224.6d455e"
+            ]
+        ]
+    },
+    {
+        "id": "425dea4f.ded334",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "default",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "toTranslate",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 343,
+        "y": 105,
+        "wires": [
+            [
+                "93ffc62f.af2188"
+            ]
+        ]
+    },
+    {
+        "id": "959fb816.b2afc8",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "default",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "en",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "destLang",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 344,
+        "y": 154.1500244140625,
+        "wires": [
+            [
+                "80b70b.cce2e8f8"
+            ]
+        ]
+    },
+    {
+        "id": "9247968b.791688",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "default",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "de",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "srcLang",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 345,
+        "y": 201.4000244140625,
+        "wires": [
+            [
+                "56c5698c.1ddcb8"
+            ]
+        ]
+    },
+    {
+        "id": "16198224.6d455e",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "default",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 345,
+        "y": 288,
+        "wires": [
+            [
+                "a3e2b5be.576688",
+                "8eb4da7b.d83968",
+                "f9c77b97.3d9ec8"
+            ]
+        ]
+    },
+    {
+        "id": "93ffc62f.af2188",
+        "type": "ui_text_input",
+        "z": "bf032407.c8df18",
+        "name": "toTranslate",
+        "label": "",
+        "group": "db8163b5.fc4ff",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "mode": "text",
+        "delay": "0",
+        "topic": "",
+        "x": 507.20001220703125,
+        "y": 104.4000244140625,
+        "wires": [
+            [
+                "e3b68c3d.f367",
+                "6f6389e.aa14a78"
+            ]
+        ]
+    },
+    {
+        "id": "80b70b.cce2e8f8",
+        "type": "ui_dropdown",
+        "z": "bf032407.c8df18",
+        "name": "destLang",
+        "label": "",
+        "place": "Select option",
+        "group": "db8163b5.fc4ff",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "options": [
+            {
+                "label": "de",
+                "value": "de",
+                "type": "str"
+            },
+            {
+                "label": "es",
+                "value": "es",
+                "type": "str"
+            },
+            {
+                "label": "en",
+                "value": "en",
+                "type": "str"
+            },
+            {
+                "label": "fr",
+                "value": "fr",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 496.00006103515625,
+        "y": 153.800048828125,
+        "wires": [
+            [
+                "85dc4ac1.b33d38"
+            ]
+        ]
+    },
+    {
+        "id": "56c5698c.1ddcb8",
+        "type": "ui_dropdown",
+        "z": "bf032407.c8df18",
+        "name": "srcLang",
+        "label": "",
+        "place": "Select option",
+        "group": "db8163b5.fc4ff",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "options": [
+            {
+                "label": "de",
+                "value": "de",
+                "type": "str"
+            },
+            {
+                "label": "es",
+                "value": "es",
+                "type": "str"
+            },
+            {
+                "label": "en",
+                "value": "en",
+                "type": "str"
+            },
+            {
+                "label": "fr",
+                "value": "fr",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 494,
+        "y": 201.4000244140625,
+        "wires": [
+            [
+                "1de3c93e.7611d7"
+            ]
+        ]
+    },
+    {
+        "id": "ab9815fc.102878",
+        "type": "ui_text",
+        "z": "bf032407.c8df18",
+        "group": "db8163b5.fc4ff",
+        "order": 6,
+        "width": "6",
+        "height": "4",
+        "name": "Speaktext",
+        "label": "Speak",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 205,
+        "y": 745,
+        "wires": []
+    },
+    {
+        "id": "e3b68c3d.f367",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "toTranslate",
+        "rules": [
+            {
+                "t": "set",
+                "p": "toTranslate",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "theTranslation",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 685,
+        "y": 104.1500244140625,
+        "wires": [
+            [
+                "15d6c2fc.07b58d"
+            ]
+        ]
+    },
+    {
+        "id": "6f6389e.aa14a78",
+        "type": "debug",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 670,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "85dc4ac1.b33d38",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "destLang",
+        "rules": [
+            {
+                "t": "set",
+                "p": "destLang",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 662,
+        "y": 153.75,
+        "wires": [
+            [
+                "b37ea7a6.73dab8"
+            ]
+        ]
+    },
+    {
+        "id": "1de3c93e.7611d7",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "srcLang",
+        "rules": [
+            {
+                "t": "set",
+                "p": "srcLang",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 663,
+        "y": 202,
+        "wires": [
+            [
+                "b37ea7a6.73dab8"
+            ]
+        ]
+    },
+    {
+        "id": "75bbf9db.92b078",
+        "type": "watson-translator",
+        "z": "bf032407.c8df18",
+        "name": "Translate",
+        "action": "translate",
+        "basemodel": "ar-en",
+        "domain": "general",
+        "srclang": "en",
+        "destlang": "es",
+        "password": "",
+        "apikey": "dwZ7Eo05jw83STCfqc7bqEuOAAxBcL5AUG8GJpcDlxMz",
+        "custom": "",
+        "domainhidden": "general",
+        "srclanghidden": "en",
+        "destlanghidden": "es",
+        "basemodelhidden": "ar-en",
+        "customhidden": "",
+        "filetype": "forcedglossary",
+        "trainid": "",
+        "lgparams2": true,
+        "neural": false,
+        "default-endpoint": true,
+        "service-endpoint": "https://gateway.watsonplatform.net/language-translator/api",
+        "x": 905,
+        "y": 465,
+        "wires": [
+            [
+                "3d6c8138.4c019e",
+                "ab172751.da9d58",
+                "678ae0fc.639b4"
+            ]
+        ]
+    },
+    {
+        "id": "15d6c2fc.07b58d",
+        "type": "switch",
+        "z": "bf032407.c8df18",
+        "name": "Empty",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "null"
+            },
+            {
+                "t": "eq",
+                "v": "",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 3,
+        "x": 848.2001953125,
+        "y": 105,
+        "wires": [
+            [
+                "f7653d6f.ca428"
+            ],
+            [
+                "f7653d6f.ca428"
+            ],
+            [
+                "12231132.4c2a6f"
+            ]
+        ]
+    },
+    {
+        "id": "b37ea7a6.73dab8",
+        "type": "debug",
+        "z": "bf032407.c8df18",
+        "name": "Trans Lang",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 840,
+        "y": 169.5,
+        "wires": []
+    },
+    {
+        "id": "3d6c8138.4c019e",
+        "type": "debug",
+        "z": "bf032407.c8df18",
+        "name": "Translate",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1085,
+        "y": 405,
+        "wires": []
+    },
+    {
+        "id": "7de94fe8.78739",
+        "type": "switch",
+        "z": "bf032407.c8df18",
+        "name": "Translate?",
+        "property": "srcLang",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "destLang",
+                "vt": "flow"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 715,
+        "y": 505,
+        "wires": [
+            [
+                "75bbf9db.92b078"
+            ],
+            [
+                "ab172751.da9d58",
+                "678ae0fc.639b4"
+            ]
+        ]
+    },
+    {
+        "id": "f7653d6f.ca428",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "Error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Nothing to speak",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1032,
+        "y": 74.1500244140625,
+        "wires": [
+            [
+                "60a8ff76.33ca3"
+            ]
+        ]
+    },
+    {
+        "id": "12231132.4c2a6f",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "Valid",
+        "rules": [
+            {
+                "t": "set",
+                "p": "toTranslate",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Text is valid",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1032,
+        "y": 117.1500244140625,
+        "wires": [
+            [
+                "60a8ff76.33ca3",
+                "c0b36a70.d6b208"
+            ]
+        ]
+    },
+    {
+        "id": "3d89b7b2.6248d8",
+        "type": "switch",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "property": "ok",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "false",
+                "vt": "jsonata"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 530,
+        "y": 460,
+        "wires": [
+            [
+                "6076a27d.58520c"
+            ],
+            [
+                "7de94fe8.78739"
+            ]
+        ]
+    },
+    {
+        "id": "63a35e98.b03c2",
+        "type": "ui_text",
+        "z": "bf032407.c8df18",
+        "group": "db8163b5.fc4ff",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Notification",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 210,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "6076a27d.58520c",
+        "type": "change",
+        "z": "bf032407.c8df18",
+        "name": "Error",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Missing text",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 695,
+        "y": 425,
+        "wires": [
+            [
+                "bdac45ca.e103e8"
+            ]
+        ]
+    },
+    {
+        "id": "ab172751.da9d58",
+        "type": "function",
+        "z": "bf032407.c8df18",
+        "name": "set message",
+        "func": "var toTranslate = flow.get('toTranslate')||0;\nvar destLang = flow.get('destLang') || 0;\nvar srcLang = flow.get('srcLang') || 0;\nvar device = global.get(\"device\") || \"\";\n\nvar devEvent = {\n    \"d\" : {\n        \"device\" : device,\n        \"toTranlate\" : toTranslate,\n        \"speak\" : msg.payload,\n        \"srclang\" : srcLang,\n        \"destlang\" : destLang,\n        \"sentiment\" : 0,\n        \"voice\" : msg.payload.voice,\n        \"lightr\" : \"000\",\n        \"lightg\" : \"000\",\n        \"lightb\" : \"000\"\n    }\n};\n\nmsg.devEvent = devEvent;\n\nreturn msg;",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 1095,
+        "y": 525,
+        "wires": [
+            [
+                "9c54da78.99a038"
+            ]
+        ]
+    },
+    {
+        "id": "b595781.6615088",
+        "type": "function",
+        "z": "bf032407.c8df18",
+        "name": "Check",
+        "func": "var toTranslate = flow.get('toTranslate')||0;\nvar destLang = flow.get('destLang') || 0;\nvar srcLang = flow.get('srcLang') || 0;\nvar ok=false;\n\nif (toTranslate !==0 && destLang !==0 && srcLang !==0) {\n    ok=true;\n    msg.payload=toTranslate;\n    msg.srclang=srcLang;\n    msg.destlang=destLang;\n}\n\nnode.log(\"Translate : \"+toTranslate);\nnode.log(\"Dest Lang :\"+destLang);\nnode.log(\"Src Lang :\"+srcLang);\nnode.log(\"Status :\"+ok);\n\nflow.set('ok',ok);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 460,
+        "wires": [
+            [
+                "3d89b7b2.6248d8",
+                "f7b886c1.72c8a8"
+            ]
+        ]
+    },
+    {
+        "id": "9c54da78.99a038",
+        "type": "sentiment",
+        "z": "bf032407.c8df18",
+        "name": "sentiment",
+        "x": 1265,
+        "y": 525,
+        "wires": [
+            [
+                "590d2696.666008"
+            ]
+        ]
+    },
+    {
+        "id": "f7b886c1.72c8a8",
+        "type": "debug",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 555,
+        "y": 385,
+        "wires": []
+    },
+    {
+        "id": "e46a1f1f.2882b",
+        "type": "ui_button",
+        "z": "bf032407.c8df18",
+        "name": "Translate",
+        "group": "db8163b5.fc4ff",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Speak & Translate",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "toTranslate",
+        "payloadType": "flow",
+        "topic": "",
+        "x": 200,
+        "y": 460,
+        "wires": [
+            [
+                "b595781.6615088"
+            ]
+        ]
+    },
+    {
+        "id": "590d2696.666008",
+        "type": "function",
+        "z": "bf032407.c8df18",
+        "name": "set speak",
+        "func": "msg.devEvent.d.sentiment=msg.sentiment.score;\n\nif (msg.sentiment.score > 0 ) {\n    msg.devEvent.d.lightg = \"255\";\n} else if (msg.sentiment.score === 0) {\n    msg.devEvent.d.lightb = \"255\";\n} else {\n    msg.devEvent.d.lightr = \"255\";\n}\n\n// msg.payload = JSON.stringify(msg.devEvent); \n\nmsg.payload = msg.sentiment.score;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1425,
+        "y": 525,
+        "wires": [
+            [
+                "d0f788db.50e858",
+                "32689aef.5d2796"
+            ]
+        ]
+    },
+    {
+        "id": "d0f788db.50e858",
+        "type": "debug",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "devEvent",
+        "x": 1625,
+        "y": 465,
+        "wires": []
+    },
+    {
+        "id": "a952307.d4fddd",
+        "type": "link in",
+        "z": "bf032407.c8df18",
+        "name": "Notification",
+        "links": [
+            "60a8ff76.33ca3",
+            "bdac45ca.e103e8",
+            "8eb4da7b.d83968"
+        ],
+        "x": 75,
+        "y": 520,
+        "wires": [
+            [
+                "63a35e98.b03c2"
+            ]
+        ]
+    },
+    {
+        "id": "60a8ff76.33ca3",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "Display Error",
+        "links": [
+            "a952307.d4fddd"
+        ],
+        "x": 1162,
+        "y": 75,
+        "wires": []
+    },
+    {
+        "id": "98505be5.4314c8",
+        "type": "link in",
+        "z": "bf032407.c8df18",
+        "name": "Translate",
+        "links": [
+            "c0b36a70.d6b208"
+        ],
+        "x": 75,
+        "y": 460,
+        "wires": [
+            [
+                "e46a1f1f.2882b"
+            ]
+        ]
+    },
+    {
+        "id": "c0b36a70.d6b208",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "Translate",
+        "links": [
+            "98505be5.4314c8"
+        ],
+        "x": 1161,
+        "y": 118,
+        "wires": []
+    },
+    {
+        "id": "bdac45ca.e103e8",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "Display Error",
+        "links": [
+            "a952307.d4fddd"
+        ],
+        "x": 820,
+        "y": 425,
+        "wires": []
+    },
+    {
+        "id": "a3e2b5be.576688",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "links": [
+            "b98dcb4f.ccda98"
+        ],
+        "x": 470,
+        "y": 248,
+        "wires": []
+    },
+    {
+        "id": "b98dcb4f.ccda98",
+        "type": "link in",
+        "z": "bf032407.c8df18",
+        "name": "Set Output",
+        "links": [
+            "a3e2b5be.576688",
+            "678ae0fc.639b4"
+        ],
+        "x": 80,
+        "y": 745,
+        "wires": [
+            [
+                "ab9815fc.102878",
+                "20cdf0ff.521ba"
+            ]
+        ]
+    },
+    {
+        "id": "678ae0fc.639b4",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "links": [
+            "b98dcb4f.ccda98"
+        ],
+        "x": 1040,
+        "y": 465,
+        "wires": []
+    },
+    {
+        "id": "d48d1415.401458",
+        "type": "ui_text",
+        "z": "bf032407.c8df18",
+        "group": "db8163b5.fc4ff",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Sentiment",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 200,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "8eb4da7b.d83968",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "links": [
+            "a952307.d4fddd"
+        ],
+        "x": 470,
+        "y": 288,
+        "wires": []
+    },
+    {
+        "id": "bce80bcd.e6e928",
+        "type": "link in",
+        "z": "bf032407.c8df18",
+        "name": "Sentiment",
+        "links": [
+            "f9c77b97.3d9ec8",
+            "32689aef.5d2796"
+        ],
+        "x": 75,
+        "y": 580,
+        "wires": [
+            [
+                "d48d1415.401458",
+                "7a89a587.a8e53c"
+            ]
+        ]
+    },
+    {
+        "id": "f9c77b97.3d9ec8",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "links": [
+            "bce80bcd.e6e928"
+        ],
+        "x": 470,
+        "y": 328,
+        "wires": []
+    },
+    {
+        "id": "32689aef.5d2796",
+        "type": "link out",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "links": [
+            "bce80bcd.e6e928"
+        ],
+        "x": 1560,
+        "y": 525,
+        "wires": []
+    },
+    {
+        "id": "198f8406.608b3c",
+        "type": "speakerpi-output",
+        "z": "bf032407.c8df18",
+        "choose": "filebased",
+        "filename": "",
+        "channels": "1",
+        "bitdepth": "8",
+        "samplerate": "11025",
+        "name": "Speaker",
+        "x": 728,
+        "y": 825,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c6211567.8ffcc8",
+        "type": "watson-text-to-speech",
+        "z": "bf032407.c8df18",
+        "name": "Text2Speech",
+        "lang": "de-DE",
+        "langhidden": "de-DE",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "voice": "de-DE_BirgitVoice",
+        "voicehidden": "",
+        "format": "audio/wav",
+        "password": "",
+        "apikey": "3l8MeRSUZlAKGNCK_s-VFBJCT-t6bXo7KMqaSSyErzu9",
+        "payload-response": false,
+        "default-endpoint": true,
+        "service-endpoint": "https://stream.watsonplatform.net/text-to-speech/api",
+        "x": 544,
+        "y": 825,
+        "wires": [
+            [
+                "198f8406.608b3c"
+            ]
+        ]
+    },
+    {
+        "id": "99d5be8d.5caa5",
+        "type": "function",
+        "z": "bf032407.c8df18",
+        "name": "set voice",
+        "func": "var destLang = flow.get('destLang') || 0;\nvar gender = global.get('gender') || \"male\";\nvar voice;\n\nswitch (destLang){\n    case \"de\":\n        if (gender == \"male\") {\n            voice = \"de-DE_DieterVoice\";\n        } else {\n            voice = \"de-DE_BirgitVoice\";\n        }\n        break;\n    case \"en\":\n        if (gender == \"male\") {\n            voice = \"en-US_MichaelVoice\";\n        } else {\n            voice = \"en-US_LisaVoice\";\n        }\n        // voice = \"en-GB_KateVoice\";\n        // voice = \"en-US_AllisonVoice\";\n       break;\n    case \"es\":\n        if (gender == \"male\") {\n            voice = \"es-ES_EnriqueVoice\";\n        } else {\n            voice = \"es-ES_LauraVoice\";\n        }\n        // voice = \"es-LA_SofiaVoice\";\n        // voice = \"es-US_SofiaVoice\";\n        break;\n    case \"fr\":\n        voice = \"fr-FR_ReneeVoice\";\n        break;\n    case \"it\":\n        voice = \"it-IT_FrancescaVoice\";\n        break;\n    case \"ja\":\n        voice = \"ja-JP_EmiVoice\";\n        break;\n    case \"pt\":\n        voice = \"pt-BR_IsabelaVoice\";\n        break;\n    default:\n        break;\n}\n\nmsg.voice = voice;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 385,
+        "y": 825,
+        "wires": [
+            [
+                "c6211567.8ffcc8"
+            ]
+        ]
+    },
+    {
+        "id": "20cdf0ff.521ba",
+        "type": "switch",
+        "z": "bf032407.c8df18",
+        "name": "empty?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 225,
+        "y": 825,
+        "wires": [
+            [
+                "99d5be8d.5caa5"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7a89a587.a8e53c",
+        "type": "function",
+        "z": "bf032407.c8df18",
+        "name": "set emotion",
+        "func": "if (msg.payload === 0) {\n    msg.payload = \"nutreal\"; \n} else if (msg.payload < 0) {\n    msg.payload = \"frusty\";\n} else {\n    msg.payload = \"smily\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 210,
+        "y": 620,
+        "wires": [
+            [
+                "45141e3f.5bb8d",
+                "a8962f2e.6e806"
+            ]
+        ]
+    },
+    {
+        "id": "45141e3f.5bb8d",
+        "type": "function",
+        "z": "bf032407.c8df18",
+        "name": "SenseHAT",
+        "func": "// get the Images\nvar senseHATImages = global.get(\"senseHATImages\");\nvar loop = true;\nvar sImage = \"\";\nvar image = [];\n\n// get the right image \nfor (var i = 0; i < senseHATImages.length && loop; i++) {\n    // set the image to be displayed\n    if (senseHATImages[i].name == msg.payload) {\n        loop = false;\n        sImage = senseHATImages[i].sImage;\n        image = senseHATImages[i].image;\n    }\n}\n\nmsg.payload = sImage;\nmsg.image = image;\nmsg.speed = 5;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 620,
+        "wires": [
+            [
+                "d3811c2.67745e"
+            ]
+        ]
+    },
+    {
+        "id": "a8962f2e.6e806",
+        "type": "debug",
+        "z": "bf032407.c8df18",
+        "name": "Speak Sentiment",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 410,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "d3811c2.67745e",
+        "type": "rpi-sensehat out",
+        "z": "bf032407.c8df18",
+        "name": "",
+        "x": 570,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "db8163b5.fc4ff",
+        "type": "ui_group",
+        "z": "",
+        "name": "Speak & Translate",
+        "tab": "fc1acd5.42e293",
+        "order": 3,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "fc1acd5.42e293",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Watson",
+        "icon": "fa-bullhorn",
+        "order": 2
+    }
+]

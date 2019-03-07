@@ -1,0 +1,558 @@
+[
+    {
+        "id": "7c482b28.9b8054",
+        "type": "tab",
+        "label": "Eye",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "22268d5a.d96742",
+        "type": "function",
+        "z": "7c482b28.9b8054",
+        "name": "SenseHAT",
+        "func": "// get the Images\nvar senseHATImages = global.get(\"senseHATImages\");\nvar loop = true;\nvar sImage = \"\";\nvar image = [];\n\n// get the right image \nfor (var i = 0; i < senseHATImages.length && loop; i++) {\n    // set the image to be displayed\n    if (senseHATImages[i].name == msg.payload) {\n        loop = false;\n        sImage = senseHATImages[i].sImage;\n        image = senseHATImages[i].image;\n    }\n}\n\nmsg.payload = sImage;\nmsg.image = image;\nmsg.speed = 5;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 740,
+        "wires": [
+            [
+                "876ae8f2.38a2b8",
+                "109c3e8b.c58e21"
+            ]
+        ]
+    },
+    {
+        "id": "27c62519.69e4ca",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "start",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 102,
+        "y": 220,
+        "wires": [
+            [
+                "37eae8dc.0b8aa8"
+            ]
+        ]
+    },
+    {
+        "id": "6aa96713.e12fb8",
+        "type": "function",
+        "z": "7c482b28.9b8054",
+        "name": "Eye",
+        "func": "var xPos = flow.get(\"xPos\");\nvar yPos = flow.get(\"yPos\");\n\nvar eyeArr = Array();\nvar ret = Array();\n\nvar off = [ \n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\"\n];\n\nvar eye = [ \n\"e\",\"e\",\"w\",\"w\",\"w\",\"w\",\"e\",\"e\",\n\"e\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"e\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"e\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"e\",\n\"e\",\"e\",\"w\",\"w\",\"w\",\"w\",\"e\",\"e\"\n];\n\n// what to do \nswitch(msg.payload) {\n    case \"up\":\n        if (yPos > 0) {\n            yPos = yPos - 1;\n        }\n        break;\n    case \"down\":\n        if (yPos < 6 ) {\n            yPos = yPos + 1;\n        }\n        break;\n    case \"left\":\n        if (xPos > 0) {\n            xPos = xPos - 1;\n        }\n        break;\n    case \"right\":\n        if (xPos < 6) {\n            xPos = xPos + 1;\n        }\n        break;\n    case \"off\":\n        xPos = 0;\n        yPos = 0;\n        eye = off;\n        global.set(\"eyeShow\", false);\n        break;\n    case \"start\":\n        xPos = 3;\n        yPos = 3;\n        global.set(\"eyeShow\", true);\n        break; \n    case \"wink\":\n        break;\n}\n\nif (msg.payload != \"off\" && !global.get(\"eyeShow\")) {\n    return null;    \n}\n\n// set the eye in the position \neye[yPos*8+xPos] = \"e\";\neye[yPos*8+xPos+1] = \"e\";\neye[(yPos+1)*8+xPos] = \"e\";\neye[(yPos+1)*8+xPos+1] = \"e\";\n\n// store the eye\neyeArr.push(eye);\n\n// if wink -- change eye\nif (msg.payload == \"wink\") {\n    // close eye\n    var cEye = eye.slice();\n    for (var i = 0; i < 4; i++) {\n        for (var x = 0; x < 8; x++) {\n            cEye[i*8+x] = \"o\";\n            cEye[(7-i)*8+x] = \"o\";\n        }\n        eyeArr.push(cEye.slice());\n    }\n    \n    eyeArr.push(eyeArr[4].slice());\n    eyeArr.push(eyeArr[3].slice());\n    eyeArr.push(eyeArr[2].slice());\n    eyeArr.push(eyeArr[1].slice());\n    eyeArr.push(eyeArr[0].slice());\n}\n\n// convert all eyes\nvar delay = 0;\nfor (var a=0; a < eyeArr.length; a++) {\n    \n    // turn into string\n    var sImage = \"\";\n    var first = true;\n    var aEye = eyeArr[a];\n    var rotation = global.get(\"rotation\");\n    \n    for (var y = 0; y < 8; y++) {\n        for (var x = 0; x < 8; x++) {\n            if (first === true) {\n                if (rotation){\n                    sImage = rotation + \"\\n\";\n                }\n                sImage = sImage + x + \",\" + y;\n                first = false;\n            } else {\n                sImage = sImage + \",\" + x + \",\" + y;\n            }\n            switch (aEye[y*8+x]) {\n                case \"r\":\n                    sImage = sImage + \",red\";\n                    break;\n                case \"g\":\n                    sImage = sImage + \",green\";\n                    break;\n                case \"b\":\n                    sImage = sImage + \",blue\";\n                    break;\n                case \"y\":\n                    sImage = sImage + \",yellow\";\n                    break;\n                case \"o\":\n                    sImage = sImage + \",210,105,30\";\n                    break;\n                case \"w\":\n                    sImage = sImage + \",white\";\n                    break;\n                default:\n                    sImage = sImage + \",off\";\n                    break;\n            }    \n        }\n    }\n    ret.push( {payload : sImage, delay: delay});\n    delay = delay + global.get(\"eyeDelay\");\n}\n\nflow.set(\"xPos\", xPos);\nflow.set(\"yPos\", yPos);\n\nreturn [ret];",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 442,
+        "y": 80,
+        "wires": [
+            [
+                "da8e711c.91d7b"
+            ]
+        ]
+    },
+    {
+        "id": "da8e711c.91d7b",
+        "type": "delay",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "pauseType": "delayv",
+        "timeout": "300",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 592,
+        "y": 80,
+        "wires": [
+            [
+                "8df08aa6.873168",
+                "4af9c89f.ed5b18"
+            ]
+        ]
+    },
+    {
+        "id": "d8f5952c.8ac6d8",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "off",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 102,
+        "y": 260,
+        "wires": [
+            [
+                "37eae8dc.0b8aa8"
+            ]
+        ]
+    },
+    {
+        "id": "b1685a8f.ff1e08",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "up",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 102,
+        "y": 320,
+        "wires": [
+            [
+                "37eae8dc.0b8aa8"
+            ]
+        ]
+    },
+    {
+        "id": "8b9a5ba6.71efd8",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "down",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 102,
+        "y": 360,
+        "wires": [
+            [
+                "37eae8dc.0b8aa8"
+            ]
+        ]
+    },
+    {
+        "id": "d09e1612.772658",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "left",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 102,
+        "y": 400,
+        "wires": [
+            [
+                "37eae8dc.0b8aa8"
+            ]
+        ]
+    },
+    {
+        "id": "41bb4c02.61d124",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "right",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 102,
+        "y": 440,
+        "wires": [
+            [
+                "37eae8dc.0b8aa8"
+            ]
+        ]
+    },
+    {
+        "id": "de501b1b.98c7f8",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "wink",
+        "payloadType": "str",
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 102,
+        "y": 480,
+        "wires": [
+            [
+                "37eae8dc.0b8aa8"
+            ]
+        ]
+    },
+    {
+        "id": "8df08aa6.873168",
+        "type": "rpi-sensehat out",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "x": 782,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "4af9c89f.ed5b18",
+        "type": "debug",
+        "z": "7c482b28.9b8054",
+        "name": "eye",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 762,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "1b5aa748.4d2ec9",
+        "type": "comment",
+        "z": "7c482b28.9b8054",
+        "name": "Eye Emulation and endpoint",
+        "info": "",
+        "x": 132,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "9c85070.fc4a8f8",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "surprised",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 112,
+        "y": 620,
+        "wires": [
+            [
+                "22268d5a.d96742"
+            ]
+        ]
+    },
+    {
+        "id": "876ae8f2.38a2b8",
+        "type": "rpi-sensehat out",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "x": 552,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "93f9bbef.3f6d08",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "smily",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 102,
+        "y": 659,
+        "wires": [
+            [
+                "22268d5a.d96742"
+            ]
+        ]
+    },
+    {
+        "id": "91db22fa.c86c4",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "frusty",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 102,
+        "y": 699,
+        "wires": [
+            [
+                "22268d5a.d96742"
+            ]
+        ]
+    },
+    {
+        "id": "fd9931fc.fdc07",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "topic": "",
+        "payload": "nutreal",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 102,
+        "y": 739,
+        "wires": [
+            [
+                "22268d5a.d96742"
+            ]
+        ]
+    },
+    {
+        "id": "6cc75bff.fa62f4",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "no light",
+        "topic": "",
+        "payload": "no_light",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 102,
+        "y": 780,
+        "wires": [
+            [
+                "22268d5a.d96742"
+            ]
+        ]
+    },
+    {
+        "id": "3f87079a.098608",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "red light",
+        "topic": "",
+        "payload": "red_light",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 102,
+        "y": 820,
+        "wires": [
+            [
+                "22268d5a.d96742"
+            ]
+        ]
+    },
+    {
+        "id": "8cbeb78f.432128",
+        "type": "inject",
+        "z": "7c482b28.9b8054",
+        "name": "Blue light",
+        "topic": "",
+        "payload": "blue_light",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 111,
+        "y": 861,
+        "wires": [
+            [
+                "22268d5a.d96742"
+            ]
+        ]
+    },
+    {
+        "id": "da511f2c.d3461",
+        "type": "comment",
+        "z": "7c482b28.9b8054",
+        "name": "SenseHAT Faces",
+        "info": "",
+        "x": 92,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "109c3e8b.c58e21",
+        "type": "debug",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 572,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "e990425f.3a968",
+        "type": "http request",
+        "z": "7c482b28.9b8054",
+        "name": "Control Eye",
+        "method": "GET",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 522,
+        "y": 360,
+        "wires": [
+            [
+                "97c76178.f47b8"
+            ]
+        ]
+    },
+    {
+        "id": "97c76178.f47b8",
+        "type": "debug",
+        "z": "7c482b28.9b8054",
+        "name": "Eye Control",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 702,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "850c4ca4.ba2fb",
+        "type": "http in",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "url": "/eye",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 92,
+        "y": 140,
+        "wires": [
+            [
+                "8ab266ea.6e0078",
+                "1ff63998.10a406"
+            ]
+        ]
+    },
+    {
+        "id": "8ab266ea.6e0078",
+        "type": "template",
+        "z": "7c482b28.9b8054",
+        "name": "page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{ \"Eye\":  {{req.query.eye}} }",
+        "x": 262,
+        "y": 140,
+        "wires": [
+            [
+                "f3ae10e3.5ae5"
+            ]
+        ]
+    },
+    {
+        "id": "f3ae10e3.5ae5",
+        "type": "change",
+        "z": "7c482b28.9b8054",
+        "name": "Set Headers",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "headers.content-type",
+                "pt": "msg",
+                "to": "application/json",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 422,
+        "y": 140,
+        "wires": [
+            [
+                "de7ee83b.626c28"
+            ]
+        ]
+    },
+    {
+        "id": "de7ee83b.626c28",
+        "type": "http response",
+        "z": "7c482b28.9b8054",
+        "name": "",
+        "x": 582,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "37eae8dc.0b8aa8",
+        "type": "function",
+        "z": "7c482b28.9b8054",
+        "name": "set eye URL",
+        "func": "msg.url = global.get(\"appurl\") + \"/\" + \"eye?eye=\" + msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 342,
+        "y": 360,
+        "wires": [
+            [
+                "e990425f.3a968"
+            ]
+        ]
+    },
+    {
+        "id": "1ff63998.10a406",
+        "type": "change",
+        "z": "7c482b28.9b8054",
+        "name": "eye control",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.eye",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 282,
+        "y": 80,
+        "wires": [
+            [
+                "6aa96713.e12fb8"
+            ]
+        ]
+    }
+]

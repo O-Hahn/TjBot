@@ -1,0 +1,1759 @@
+[
+    {
+        "id": "93df6797.928558",
+        "type": "tab",
+        "label": "SenseHAT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "72f44957.7ae728",
+        "type": "comment",
+        "z": "93df6797.928558",
+        "name": "Display Environment Sensor Data",
+        "info": "",
+        "x": 150,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ee6cca48.412878",
+        "type": "rpi-sensehat in",
+        "z": "93df6797.928558",
+        "name": "Environment",
+        "motion": false,
+        "env": true,
+        "stick": false,
+        "x": 110,
+        "y": 300,
+        "wires": [
+            [
+                "41746918.9eea58",
+                "361e1aa7.cf3216",
+                "6cf30e37.c5996",
+                "9386fb9.f60db08",
+                "6ef688ca.c07f68",
+                "6157fdb9.cd7374"
+            ]
+        ]
+    },
+    {
+        "id": "24e8e971.bb5f46",
+        "type": "ui_gauge",
+        "z": "93df6797.928558",
+        "name": "",
+        "group": "b8f43394.46b9f",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "Temp",
+        "format": "{{value}}",
+        "min": "-40",
+        "max": "+50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 540,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "41746918.9eea58",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 260,
+        "wires": [
+            [
+                "24e8e971.bb5f46",
+                "647d9a61.450d04"
+            ]
+        ]
+    },
+    {
+        "id": "361e1aa7.cf3216",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set hum",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.humidity",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "e5134980.17cdb8"
+            ]
+        ]
+    },
+    {
+        "id": "6cf30e37.c5996",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set pressure",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.pressure",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 330,
+        "y": 340,
+        "wires": [
+            [
+                "b13a3c72.0345a"
+            ]
+        ]
+    },
+    {
+        "id": "e5134980.17cdb8",
+        "type": "ui_gauge",
+        "z": "93df6797.928558",
+        "name": "",
+        "group": "b8f43394.46b9f",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "Hum",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 530,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "b13a3c72.0345a",
+        "type": "ui_gauge",
+        "z": "93df6797.928558",
+        "name": "",
+        "group": "b8f43394.46b9f",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "gage",
+        "title": "Pressure",
+        "label": "Pressure",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "1500",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 530,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "647d9a61.450d04",
+        "type": "ui_chart",
+        "z": "93df6797.928558",
+        "name": "",
+        "group": "b8f43394.46b9f",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "label": "Temp",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 520,
+        "y": 220,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9386fb9.f60db08",
+        "type": "function",
+        "z": "93df6797.928558",
+        "name": "Set IoT Data",
+        "func": "// enhance payload with a timestamp & devicename\n\nvar device = global.get(\"device\");\nvar dat = new Date();\n\nvar sensor =\n    {\"d\":\n        {\n            \"device\" : device,\n            \"sensor\" : \"SenseHAT\",\n            \"sensortype\" : \"environment\",\n            \"timestamp\" : Math.floor(dat),\n            \"date\" : date = dat.toJSON(),\n            \"temperature\":msg.payload.temperature,\n            \"humidity\": msg.payload.humidity,\n            \"pressure\" : msg.payload.pressure\n        }\n    }; \n\nmsg.payload = sensor;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "d8d779c3.438a08"
+            ]
+        ]
+    },
+    {
+        "id": "171636f5.90d4d9",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "IoT Sent Env",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 710,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "c75c51b3.1cb38",
+        "type": "wiotp out",
+        "z": "93df6797.928558",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "442a10c0.1bc67",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "environment",
+        "format": "json",
+        "qos": "",
+        "name": "Sent2IoTF",
+        "x": 710,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "40a3a1.15193c6",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "Send On",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "d3364e37.86e9a"
+            ]
+        ]
+    },
+    {
+        "id": "291509dc.ea1b76",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "Environment",
+        "rules": [
+            {
+                "t": "set",
+                "p": "environment",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "104c5c73.2378f4",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "Send Off",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "d3364e37.86e9a"
+            ]
+        ]
+    },
+    {
+        "id": "d8d779c3.438a08",
+        "type": "switch",
+        "z": "93df6797.928558",
+        "name": "Send ?",
+        "property": "environment",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "c75c51b3.1cb38",
+                "171636f5.90d4d9"
+            ]
+        ]
+    },
+    {
+        "id": "d3364e37.86e9a",
+        "type": "ui_switch",
+        "z": "93df6797.928558",
+        "name": "",
+        "label": "Send Environment",
+        "group": "610de499.ea3edc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 330,
+        "y": 100,
+        "wires": [
+            [
+                "291509dc.ea1b76"
+            ]
+        ]
+    },
+    {
+        "id": "6ef688ca.c07f68",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "Environment",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 330,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "6157fdb9.cd7374",
+        "type": "function",
+        "z": "93df6797.928558",
+        "name": "Virtueller Taupunkt Sensor",
+        "func": "var Td = msg.payload.temperature * 0.95267614 + \n    msg.payload.pressure*0.00237828 + \n    msg.payload.humidity * 0.2338594 - 24.281223677043389;\n    \nmsg.payload = Td;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 500,
+        "wires": [
+            [
+                "56ad7cb2.c16e94"
+            ]
+        ]
+    },
+    {
+        "id": "56ad7cb2.c16e94",
+        "type": "ui_gauge",
+        "z": "93df6797.928558",
+        "name": "",
+        "group": "b8f43394.46b9f",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "wave",
+        "title": "Taupunkt",
+        "label": "°",
+        "format": "{{value}}",
+        "min": "-50",
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 600,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "5db40d5b.c6d084",
+        "type": "comment",
+        "z": "93df6797.928558",
+        "name": "Display Motion Sensor Data",
+        "info": "",
+        "x": 140,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "c452c3ff.67edc",
+        "type": "rpi-sensehat in",
+        "z": "93df6797.928558",
+        "name": "Motions",
+        "motion": true,
+        "env": false,
+        "stick": false,
+        "x": 90,
+        "y": 800,
+        "wires": [
+            [
+                "5b85e185.6b41e",
+                "41d8b3bc.dde3bc",
+                "8e9af52a.00b958",
+                "f804ce6e.95da2",
+                "c85f1ba.40c09e8",
+                "578629d9.cf8048"
+            ]
+        ]
+    },
+    {
+        "id": "5b85e185.6b41e",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set acceleration",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.acceleration",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 760,
+        "wires": [
+            [
+                "28ca380b.c259d8"
+            ]
+        ]
+    },
+    {
+        "id": "41d8b3bc.dde3bc",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set gyroscope",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.gyroscope",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 800,
+        "wires": [
+            [
+                "478ca41.69aae5c"
+            ]
+        ]
+    },
+    {
+        "id": "8e9af52a.00b958",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set orientation",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.orientation",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 840,
+        "wires": [
+            [
+                "362dfa36.080e46"
+            ]
+        ]
+    },
+    {
+        "id": "f804ce6e.95da2",
+        "type": "function",
+        "z": "93df6797.928558",
+        "name": "Set IoT Data",
+        "func": "// enhance payload with a timestamp & devicename\nvar dat = new Date();\nvar device = global.get(\"device\");\n\nvar sensor =\n    {\"d\":\n        {\n            \"device\" : device,\n            \"sensor\" : \"SenseHAT\", \n            \"sensortype\" : \"motion\",\n            \"timestamp\" : Math.floor(dat),\n            \"date\" : dat.toJSON(),\n            \"acceleration\":msg.payload.acceleration,\n            \"gyroscope\":msg.payload.gyroscope,\n            \"orientation\":msg.payload.orientation,\n            \"compass\":msg.payload.compass\n        }\n    }; \n\n// msg.payload = JSON.stringify(sensor);\nmsg.payload = sensor;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 960,
+        "wires": [
+            [
+                "f119778f.0918f8"
+            ]
+        ]
+    },
+    {
+        "id": "e011112d.3e112",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "IoT Sent Motions",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 730,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "ace0536a.3e1fe",
+        "type": "wiotp out",
+        "z": "93df6797.928558",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "442a10c0.1bc67",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "motions",
+        "format": "json",
+        "qos": "",
+        "name": "Sent2IoTF",
+        "x": 710,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "1ff3baa6.e5c9a5",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "Send On",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 600,
+        "wires": [
+            [
+                "213a4d65.af6402"
+            ]
+        ]
+    },
+    {
+        "id": "542f49cf.25c3c8",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "Motions",
+        "rules": [
+            {
+                "t": "set",
+                "p": "motions",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "624b3c53.cd8a44",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "Send Off",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 640,
+        "wires": [
+            [
+                "213a4d65.af6402"
+            ]
+        ]
+    },
+    {
+        "id": "f119778f.0918f8",
+        "type": "switch",
+        "z": "93df6797.928558",
+        "name": "Send ?",
+        "property": "motions",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 960,
+        "wires": [
+            [
+                "ace0536a.3e1fe",
+                "e011112d.3e112"
+            ]
+        ]
+    },
+    {
+        "id": "213a4d65.af6402",
+        "type": "ui_switch",
+        "z": "93df6797.928558",
+        "name": "",
+        "label": "Send Motions",
+        "group": "610de499.ea3edc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 320,
+        "y": 620,
+        "wires": [
+            [
+                "542f49cf.25c3c8"
+            ]
+        ]
+    },
+    {
+        "id": "c85f1ba.40c09e8",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set compass",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.compass",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 330,
+        "y": 880,
+        "wires": [
+            [
+                "8d380d7f.4d104"
+            ]
+        ]
+    },
+    {
+        "id": "28ca380b.c259d8",
+        "type": "ui_text",
+        "z": "93df6797.928558",
+        "group": "d2873c8d.dd04e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "acceleration",
+        "label": "acceleration",
+        "format": "{{msg.payload.x}} / {{msg.payload.y}} / {{msg.payload.z}}",
+        "layout": "col-center",
+        "x": 570,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "478ca41.69aae5c",
+        "type": "ui_text",
+        "z": "93df6797.928558",
+        "group": "d2873c8d.dd04e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "gyroscope",
+        "label": "gyroscope",
+        "format": "{{msg.payload.x}} / {{msg.payload.y}} / {{msg.payload.z}}",
+        "layout": "col-center",
+        "x": 570,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "362dfa36.080e46",
+        "type": "ui_text",
+        "z": "93df6797.928558",
+        "group": "d2873c8d.dd04e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "orientation",
+        "label": "orientation",
+        "format": "roll: {{msg.payload.roll}} / pitch: {{msg.payload.pitch}} / yaw: {{msg.payload.yaw}}",
+        "layout": "col-center",
+        "x": 570,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "8d380d7f.4d104",
+        "type": "ui_text",
+        "z": "93df6797.928558",
+        "group": "d2873c8d.dd04e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "compass",
+        "label": "compass",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 560,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "578629d9.cf8048",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "Motions",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 320,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "ad9fe981.4e1ce8",
+        "type": "comment",
+        "z": "93df6797.928558",
+        "name": "Display Joystick Inputs",
+        "info": "",
+        "x": 120,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "ddd407db.bd04d8",
+        "type": "rpi-sensehat in",
+        "z": "93df6797.928558",
+        "name": "Joystick",
+        "motion": false,
+        "env": false,
+        "stick": true,
+        "x": 90,
+        "y": 1260,
+        "wires": [
+            [
+                "198336d4.783df9",
+                "f5747062.50d21",
+                "db1993b.2340f7",
+                "2d4c65bd.7954aa"
+            ]
+        ]
+    },
+    {
+        "id": "198336d4.783df9",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.key",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 1220,
+        "wires": [
+            [
+                "84bd3548.fcf638"
+            ]
+        ]
+    },
+    {
+        "id": "f5747062.50d21",
+        "type": "function",
+        "z": "93df6797.928558",
+        "name": "Set IoT Data",
+        "func": "// enhance payload with a timestamp & devicename\nvar dat = new Date();\nvar device = global.get(\"device\");\n\nvar sensor =\n    {\"d\":\n        {\n            \"device\" : device,\n            \"sensor\" : \"SenseHAT\", \n            \"sensortype\" : \"joystick\",\n            \"timestamp\" : Math.floor(dat),\n            \"date\" : dat.toJSON(),\n            \"key\":msg.payload.key,\n            \"state\" : msg.payload.state\n        }\n    }; \n\nmsg.payload = sensor;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 1380,
+        "wires": [
+            [
+                "6e077d9c.734984"
+            ]
+        ]
+    },
+    {
+        "id": "9df340e2.6aece",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "IoT Sent Joystick",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 730,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "2bb00687.4254ba",
+        "type": "wiotp out",
+        "z": "93df6797.928558",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "442a10c0.1bc67",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "joystick",
+        "format": "json",
+        "qos": "",
+        "name": "Sent2IoTF",
+        "x": 710,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "a2cdbc29.7a75",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "Send On",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 1080,
+        "wires": [
+            [
+                "feaed583.528028"
+            ]
+        ]
+    },
+    {
+        "id": "f2f6a4f7.23bee8",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "Joystick",
+        "rules": [
+            {
+                "t": "set",
+                "p": "joystick",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "51012003.2320d",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "Send Off",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 1120,
+        "wires": [
+            [
+                "feaed583.528028"
+            ]
+        ]
+    },
+    {
+        "id": "6e077d9c.734984",
+        "type": "switch",
+        "z": "93df6797.928558",
+        "name": "Send ?",
+        "property": "joystick",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 1380,
+        "wires": [
+            [
+                "2bb00687.4254ba",
+                "9df340e2.6aece"
+            ]
+        ]
+    },
+    {
+        "id": "feaed583.528028",
+        "type": "ui_switch",
+        "z": "93df6797.928558",
+        "name": "",
+        "label": "Send Joystick",
+        "group": "610de499.ea3edc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 320,
+        "y": 1100,
+        "wires": [
+            [
+                "f2f6a4f7.23bee8"
+            ]
+        ]
+    },
+    {
+        "id": "db1993b.2340f7",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "set state",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.state",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 1260,
+        "wires": [
+            [
+                "c3b4a0d4.c7955"
+            ]
+        ]
+    },
+    {
+        "id": "2d4c65bd.7954aa",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "Joystick",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 300,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "84bd3548.fcf638",
+        "type": "ui_text",
+        "z": "93df6797.928558",
+        "group": "ef333bbc.01b448",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Key",
+        "label": "key",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 490,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "c3b4a0d4.c7955",
+        "type": "ui_text",
+        "z": "93df6797.928558",
+        "group": "ef333bbc.01b448",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "State",
+        "label": "state",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 490,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "30f85ee6.412ba2",
+        "type": "comment",
+        "z": "93df6797.928558",
+        "name": "Eye Emulation and endpoint",
+        "info": "",
+        "x": 140,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "c370468c.faf598",
+        "type": "function",
+        "z": "93df6797.928558",
+        "name": "SenseHAT",
+        "func": "// get the Images\nvar senseHATImages = global.get(\"senseHATImages\");\nvar loop = true;\nvar sImage = \"\";\nvar image = [];\n\n// get the right image \nfor (var i = 0; i < senseHATImages.length && loop; i++) {\n    // set the image to be displayed\n    if (senseHATImages[i].name == msg.payload) {\n        loop = false;\n        sImage = senseHATImages[i].sImage;\n        image = senseHATImages[i].image;\n    }\n}\n\nmsg.payload = sImage;\nmsg.image = image;\nmsg.speed = 5;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 358,
+        "y": 2180,
+        "wires": [
+            [
+                "1583ec18.088ff4",
+                "9d869a0c.1cc178"
+            ]
+        ]
+    },
+    {
+        "id": "884ceef8.00d1e",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "start",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 1660,
+        "wires": [
+            [
+                "d2260217.c64b6"
+            ]
+        ]
+    },
+    {
+        "id": "6487dc60.121b54",
+        "type": "function",
+        "z": "93df6797.928558",
+        "name": "Eye",
+        "func": "var xPos = flow.get(\"xPos\");\nvar yPos = flow.get(\"yPos\");\n\nvar eyeArr = Array();\nvar ret = Array();\n\nvar off = [ \n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\"\n];\n\nvar eye = [ \n\"e\",\"e\",\"w\",\"w\",\"w\",\"w\",\"e\",\"e\",\n\"e\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"e\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\n\"e\",\"w\",\"w\",\"w\",\"w\",\"w\",\"w\",\"e\",\n\"e\",\"e\",\"w\",\"w\",\"w\",\"w\",\"e\",\"e\"\n];\n\n// what to do \nswitch(msg.payload) {\n    case \"up\":\n        if (yPos > 0) {\n            yPos = yPos - 1;\n        }\n        break;\n    case \"down\":\n        if (yPos < 6 ) {\n            yPos = yPos + 1;\n        }\n        break;\n    case \"left\":\n        if (xPos > 0) {\n            xPos = xPos - 1;\n        }\n        break;\n    case \"right\":\n        if (xPos < 6) {\n            xPos = xPos + 1;\n        }\n        break;\n    case \"off\":\n        xPos = 0;\n        yPos = 0;\n        eye = off;\n        global.set(\"eyeShow\", false);\n        break;\n    case \"start\":\n        xPos = 3;\n        yPos = 3;\n        global.set(\"eyeShow\", true);\n        break; \n    case \"wink\":\n        break;\n}\n\nif (msg.payload != \"off\" && !global.get(\"eyeShow\")) {\n    return null;    \n}\n\n// set the eye in the position \neye[yPos*8+xPos] = \"e\";\neye[yPos*8+xPos+1] = \"e\";\neye[(yPos+1)*8+xPos] = \"e\";\neye[(yPos+1)*8+xPos+1] = \"e\";\n\n// store the eye\neyeArr.push(eye);\n\n// if wink -- change eye\nif (msg.payload == \"wink\") {\n    // close eye\n    var cEye = eye.slice();\n    for (var i = 0; i < 4; i++) {\n        for (var x = 0; x < 8; x++) {\n            cEye[i*8+x] = \"o\";\n            cEye[(7-i)*8+x] = \"o\";\n        }\n        eyeArr.push(cEye.slice());\n    }\n    \n    eyeArr.push(eyeArr[4].slice());\n    eyeArr.push(eyeArr[3].slice());\n    eyeArr.push(eyeArr[2].slice());\n    eyeArr.push(eyeArr[1].slice());\n    eyeArr.push(eyeArr[0].slice());\n}\n\n// convert all eyes\nvar delay = 0;\nfor (var a=0; a < eyeArr.length; a++) {\n    \n    // turn into string\n    var sImage = \"\";\n    var first = true;\n    var aEye = eyeArr[a];\n    var rotation = global.get(\"rotation\");\n    \n    for (var y = 0; y < 8; y++) {\n        for (var x = 0; x < 8; x++) {\n            if (first === true) {\n                if (rotation){\n                    sImage = rotation + \"\\n\";\n                }\n                sImage = sImage + x + \",\" + y;\n                first = false;\n            } else {\n                sImage = sImage + \",\" + x + \",\" + y;\n            }\n            switch (aEye[y*8+x]) {\n                case \"r\":\n                    sImage = sImage + \",red\";\n                    break;\n                case \"g\":\n                    sImage = sImage + \",green\";\n                    break;\n                case \"b\":\n                    sImage = sImage + \",blue\";\n                    break;\n                case \"y\":\n                    sImage = sImage + \",yellow\";\n                    break;\n                case \"o\":\n                    sImage = sImage + \",210,105,30\";\n                    break;\n                case \"w\":\n                    sImage = sImage + \",white\";\n                    break;\n                default:\n                    sImage = sImage + \",off\";\n                    break;\n            }    \n        }\n    }\n    ret.push( {payload : sImage, delay: delay});\n    delay = delay + global.get(\"eyeDelay\");\n}\n\nflow.set(\"xPos\", xPos);\nflow.set(\"yPos\", yPos);\n\nreturn [ret];",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 450,
+        "y": 1520,
+        "wires": [
+            [
+                "b5d8d4b2.7147e8"
+            ]
+        ]
+    },
+    {
+        "id": "b5d8d4b2.7147e8",
+        "type": "delay",
+        "z": "93df6797.928558",
+        "name": "",
+        "pauseType": "delayv",
+        "timeout": "300",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 600,
+        "y": 1520,
+        "wires": [
+            [
+                "d92b9714.3dfd48",
+                "561a777e.2a1908"
+            ]
+        ]
+    },
+    {
+        "id": "a06160e2.db9fb",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "off",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 1700,
+        "wires": [
+            [
+                "d2260217.c64b6"
+            ]
+        ]
+    },
+    {
+        "id": "af8d6b74.ba1e38",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "up",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 1760,
+        "wires": [
+            [
+                "d2260217.c64b6"
+            ]
+        ]
+    },
+    {
+        "id": "4dc76685.090e28",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "down",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 1800,
+        "wires": [
+            [
+                "d2260217.c64b6"
+            ]
+        ]
+    },
+    {
+        "id": "a8861e95.f03e8",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "left",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 1840,
+        "wires": [
+            [
+                "d2260217.c64b6"
+            ]
+        ]
+    },
+    {
+        "id": "62d1a70f.be8978",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "right",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 1880,
+        "wires": [
+            [
+                "d2260217.c64b6"
+            ]
+        ]
+    },
+    {
+        "id": "31f18df8.1ab122",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "wink",
+        "payloadType": "str",
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 1920,
+        "wires": [
+            [
+                "d2260217.c64b6"
+            ]
+        ]
+    },
+    {
+        "id": "d92b9714.3dfd48",
+        "type": "rpi-sensehat out",
+        "z": "93df6797.928558",
+        "name": "",
+        "x": 790,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "561a777e.2a1908",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "eye",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 770,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "48169d8f.065e34",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "surprised",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 120,
+        "y": 2060,
+        "wires": [
+            [
+                "c370468c.faf598"
+            ]
+        ]
+    },
+    {
+        "id": "1583ec18.088ff4",
+        "type": "rpi-sensehat out",
+        "z": "93df6797.928558",
+        "name": "",
+        "x": 560,
+        "y": 2180,
+        "wires": []
+    },
+    {
+        "id": "295844ea.70df2c",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "smily",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 2099,
+        "wires": [
+            [
+                "c370468c.faf598"
+            ]
+        ]
+    },
+    {
+        "id": "38388a0a.8e4096",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "frusty",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 2139,
+        "wires": [
+            [
+                "c370468c.faf598"
+            ]
+        ]
+    },
+    {
+        "id": "cf2967bc.c41a58",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "",
+        "topic": "",
+        "payload": "nutreal",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 2179,
+        "wires": [
+            [
+                "c370468c.faf598"
+            ]
+        ]
+    },
+    {
+        "id": "f848a41e.ba1b78",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "no light",
+        "topic": "",
+        "payload": "no_light",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 2220,
+        "wires": [
+            [
+                "c370468c.faf598"
+            ]
+        ]
+    },
+    {
+        "id": "224546b.88f42ba",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "red light",
+        "topic": "",
+        "payload": "red_light",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 2260,
+        "wires": [
+            [
+                "c370468c.faf598"
+            ]
+        ]
+    },
+    {
+        "id": "683f6925.3f8958",
+        "type": "inject",
+        "z": "93df6797.928558",
+        "name": "Blue light",
+        "topic": "",
+        "payload": "blue_light",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 119,
+        "y": 2301,
+        "wires": [
+            [
+                "c370468c.faf598"
+            ]
+        ]
+    },
+    {
+        "id": "f0649b35.0ec238",
+        "type": "comment",
+        "z": "93df6797.928558",
+        "name": "SenseHAT Faces",
+        "info": "",
+        "x": 100,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "9d869a0c.1cc178",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 580,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "b3c092a5.04b7d",
+        "type": "http request",
+        "z": "93df6797.928558",
+        "name": "Control Eye",
+        "method": "GET",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 530,
+        "y": 1800,
+        "wires": [
+            [
+                "8bd286e2.4462b8"
+            ]
+        ]
+    },
+    {
+        "id": "8bd286e2.4462b8",
+        "type": "debug",
+        "z": "93df6797.928558",
+        "name": "Eye Control",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 710,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "fa186584.1ac368",
+        "type": "http in",
+        "z": "93df6797.928558",
+        "name": "",
+        "url": "/eye",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 1580,
+        "wires": [
+            [
+                "97730fcd.dc35d",
+                "93147317.e79f8"
+            ]
+        ]
+    },
+    {
+        "id": "97730fcd.dc35d",
+        "type": "template",
+        "z": "93df6797.928558",
+        "name": "page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{ \"Eye\":  {{req.query.eye}} }",
+        "x": 270,
+        "y": 1580,
+        "wires": [
+            [
+                "136572fd.08f6cd"
+            ]
+        ]
+    },
+    {
+        "id": "136572fd.08f6cd",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "Set Headers",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers",
+                "pt": "msg",
+                "to": "{}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "headers.content-type",
+                "pt": "msg",
+                "to": "application/json",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 1580,
+        "wires": [
+            [
+                "ca8f249d.67a818"
+            ]
+        ]
+    },
+    {
+        "id": "ca8f249d.67a818",
+        "type": "http response",
+        "z": "93df6797.928558",
+        "name": "",
+        "x": 590,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "d2260217.c64b6",
+        "type": "function",
+        "z": "93df6797.928558",
+        "name": "set eye URL",
+        "func": "msg.url = global.get(\"appurl\") + \"/\" + \"eye?eye=\" + msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 1800,
+        "wires": [
+            [
+                "b3c092a5.04b7d"
+            ]
+        ]
+    },
+    {
+        "id": "93147317.e79f8",
+        "type": "change",
+        "z": "93df6797.928558",
+        "name": "eye control",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.eye",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 1520,
+        "wires": [
+            [
+                "6487dc60.121b54"
+            ]
+        ]
+    },
+    {
+        "id": "b8f43394.46b9f",
+        "type": "ui_group",
+        "z": "",
+        "name": "Environment",
+        "tab": "b88f2c9a.051c2",
+        "order": 2,
+        "disp": true,
+        "width": "15",
+        "collapse": false
+    },
+    {
+        "id": "442a10c0.1bc67",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "Send IoTF",
+        "org": "9qs5ql",
+        "serverName": "",
+        "devType": "TjBot",
+        "devId": "tjbot-oh",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    },
+    {
+        "id": "610de499.ea3edc",
+        "type": "ui_group",
+        "z": "",
+        "name": "Send",
+        "tab": "b88f2c9a.051c2",
+        "order": 1,
+        "disp": false,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "d2873c8d.dd04e",
+        "type": "ui_group",
+        "z": "",
+        "name": "Motions",
+        "tab": "b88f2c9a.051c2",
+        "order": 3,
+        "disp": true,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "ef333bbc.01b448",
+        "type": "ui_group",
+        "z": "",
+        "name": "Joystick",
+        "tab": "b88f2c9a.051c2",
+        "disp": true,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "b88f2c9a.051c2",
+        "type": "ui_tab",
+        "z": "",
+        "name": "TjBot-New",
+        "icon": "dashboard",
+        "order": 1
+    }
+]

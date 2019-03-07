@@ -1,0 +1,509 @@
+[
+    {
+        "id": "4921d038.8b51e",
+        "type": "tab",
+        "label": "Environment",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "aec60fd6.74c93",
+        "type": "comment",
+        "z": "4921d038.8b51e",
+        "name": "Display Environment Sensor Data",
+        "info": "",
+        "x": 150,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "baaba694.39ddb8",
+        "type": "rpi-sensehat in",
+        "z": "4921d038.8b51e",
+        "name": "Environment",
+        "motion": false,
+        "env": true,
+        "stick": false,
+        "x": 110,
+        "y": 300,
+        "wires": [
+            [
+                "f1297e5e.43079",
+                "ebbfbce2.7dde3",
+                "2adf9f88.7bfd6",
+                "bb14b66f.b6abc8",
+                "d493b45e.e6b028",
+                "7bcc6533.ee2e0c"
+            ]
+        ]
+    },
+    {
+        "id": "b150d2ae.689cd",
+        "type": "ui_gauge",
+        "z": "4921d038.8b51e",
+        "name": "",
+        "group": "614c76dc.418188",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "Temp",
+        "format": "{{value}}",
+        "min": "-40",
+        "max": "+50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 540,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "f1297e5e.43079",
+        "type": "change",
+        "z": "4921d038.8b51e",
+        "name": "set temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 260,
+        "wires": [
+            [
+                "b150d2ae.689cd",
+                "1884b81d.e71028"
+            ]
+        ]
+    },
+    {
+        "id": "ebbfbce2.7dde3",
+        "type": "change",
+        "z": "4921d038.8b51e",
+        "name": "set hum",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.humidity",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "4826a3b1.48674c"
+            ]
+        ]
+    },
+    {
+        "id": "2adf9f88.7bfd6",
+        "type": "change",
+        "z": "4921d038.8b51e",
+        "name": "set pressure",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.pressure",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 330,
+        "y": 340,
+        "wires": [
+            [
+                "bfb8a638.6fe918"
+            ]
+        ]
+    },
+    {
+        "id": "4826a3b1.48674c",
+        "type": "ui_gauge",
+        "z": "4921d038.8b51e",
+        "name": "",
+        "group": "614c76dc.418188",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "Hum",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 530,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "bfb8a638.6fe918",
+        "type": "ui_gauge",
+        "z": "4921d038.8b51e",
+        "name": "",
+        "group": "614c76dc.418188",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "gage",
+        "title": "Pressure",
+        "label": "Pressure",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "1500",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 530,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "1884b81d.e71028",
+        "type": "ui_chart",
+        "z": "4921d038.8b51e",
+        "name": "",
+        "group": "614c76dc.418188",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "label": "Temp",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 520,
+        "y": 220,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "bb14b66f.b6abc8",
+        "type": "function",
+        "z": "4921d038.8b51e",
+        "name": "Set IoT Data",
+        "func": "// enhance payload with a timestamp & devicename\nvar dat = new Date();\nmsg.payload.timestamp = Math.floor(dat);\nmsg.payload.date = dat.toJSON();\nmsg.payload.device = \"tjbot-01\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "644b2151.736bd"
+            ]
+        ]
+    },
+    {
+        "id": "5095156a.05066c",
+        "type": "debug",
+        "z": "4921d038.8b51e",
+        "name": "IoT Sent Env",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 710,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "1fc134d4.4b2bbb",
+        "type": "wiotp out",
+        "z": "4921d038.8b51e",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "787dd67f.06a908",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "environment",
+        "format": "json",
+        "qos": "",
+        "name": "Sent2IoTF",
+        "x": 710,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "d20a0a78.99c978",
+        "type": "inject",
+        "z": "4921d038.8b51e",
+        "name": "Send On",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "2af463ec.c958ec"
+            ]
+        ]
+    },
+    {
+        "id": "af82d1ed.5e09e",
+        "type": "change",
+        "z": "4921d038.8b51e",
+        "name": "Environment",
+        "rules": [
+            {
+                "t": "set",
+                "p": "environment",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aff9716d.e7a38",
+        "type": "inject",
+        "z": "4921d038.8b51e",
+        "name": "Send Off",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "2af463ec.c958ec"
+            ]
+        ]
+    },
+    {
+        "id": "644b2151.736bd",
+        "type": "switch",
+        "z": "4921d038.8b51e",
+        "name": "Send ?",
+        "property": "environment",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "1fc134d4.4b2bbb",
+                "5095156a.05066c"
+            ]
+        ]
+    },
+    {
+        "id": "2af463ec.c958ec",
+        "type": "ui_switch",
+        "z": "4921d038.8b51e",
+        "name": "",
+        "label": "Send Environment",
+        "group": "fcfa748.8148188",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 330,
+        "y": 100,
+        "wires": [
+            [
+                "af82d1ed.5e09e"
+            ]
+        ]
+    },
+    {
+        "id": "d493b45e.e6b028",
+        "type": "debug",
+        "z": "4921d038.8b51e",
+        "name": "Environment",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 330,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "7bcc6533.ee2e0c",
+        "type": "function",
+        "z": "4921d038.8b51e",
+        "name": "Virtueller Taupunkt Sensor",
+        "func": "var Td = msg.payload.temperature * 0.95267614 + \n    msg.payload.pressure*0.00237828 + \n    msg.payload.humidity * 0.2338594 - 24.281223677043389;\n    \nmsg.payload = Td;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 500,
+        "wires": [
+            [
+                "b7227d44.8cc52"
+            ]
+        ]
+    },
+    {
+        "id": "b7227d44.8cc52",
+        "type": "ui_gauge",
+        "z": "4921d038.8b51e",
+        "name": "",
+        "group": "614c76dc.418188",
+        "order": 0,
+        "width": "5",
+        "height": "5",
+        "gtype": "wave",
+        "title": "Taupunkt",
+        "label": "°",
+        "format": "{{value}}",
+        "min": "-50",
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 600,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "614c76dc.418188",
+        "type": "ui_group",
+        "z": "",
+        "name": "Environment",
+        "tab": "7f24773e.89e758",
+        "order": 2,
+        "disp": true,
+        "width": "15",
+        "collapse": false
+    },
+    {
+        "id": "787dd67f.06a908",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "",
+        "org": "bgn6wt",
+        "serverName": "",
+        "devType": "TjBot",
+        "devId": "tjbot-01",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    },
+    {
+        "id": "fcfa748.8148188",
+        "type": "ui_group",
+        "z": "",
+        "name": "Send",
+        "tab": "7f24773e.89e758",
+        "order": 1,
+        "disp": false,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "7f24773e.89e758",
+        "type": "ui_tab",
+        "z": "",
+        "name": "TjBot-OH",
+        "icon": "dashboard",
+        "order": 1
+    }
+]

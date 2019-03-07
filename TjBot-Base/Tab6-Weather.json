@@ -1,0 +1,512 @@
+[
+    {
+        "id": "87fd0b35.d25f58",
+        "type": "tab",
+        "label": "Weather",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "bb98a9fc.a45d28",
+        "type": "comment",
+        "z": "87fd0b35.d25f58",
+        "name": "Weather processing",
+        "info": "",
+        "x": 110,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "acb500e4.c9bd9",
+        "type": "inject",
+        "z": "87fd0b35.d25f58",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 108,
+        "y": 134,
+        "wires": [
+            [
+                "37955096.6d45b",
+                "2ca61abf.589b56"
+            ]
+        ]
+    },
+    {
+        "id": "37955096.6d45b",
+        "type": "change",
+        "z": "87fd0b35.d25f58",
+        "name": "default City",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Linz",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "city",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 104.5,
+        "wires": [
+            [
+                "b3389881.c9e968"
+            ]
+        ]
+    },
+    {
+        "id": "2ca61abf.589b56",
+        "type": "change",
+        "z": "87fd0b35.d25f58",
+        "name": "default Lang",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "de",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "lang",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 317,
+        "y": 161.5,
+        "wires": [
+            [
+                "b0b7ae51.b9ad1"
+            ]
+        ]
+    },
+    {
+        "id": "b3389881.c9e968",
+        "type": "ui_dropdown",
+        "z": "87fd0b35.d25f58",
+        "name": "City",
+        "label": "City",
+        "place": "Select option",
+        "group": "6d57bbdf.763d34",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Wien",
+                "value": "Wien",
+                "type": "str"
+            },
+            {
+                "label": "Linz",
+                "value": "Linz",
+                "type": "str"
+            },
+            {
+                "label": "Graz",
+                "value": "Graz",
+                "type": "str"
+            },
+            {
+                "label": "St. Pölten",
+                "value": "St. Pölten",
+                "type": "str"
+            },
+            {
+                "label": "Klagenfurt",
+                "value": "Klagenfurt",
+                "type": "str"
+            },
+            {
+                "label": "Eisenstadt",
+                "value": "Eisenstadt",
+                "type": "str"
+            },
+            {
+                "label": "Innsbruck",
+                "value": "Innsbruck",
+                "type": "str"
+            },
+            {
+                "label": "Salzburg",
+                "value": "Salzburg",
+                "type": "str"
+            },
+            {
+                "label": "Bregenz",
+                "value": "Bregenz",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 495,
+        "y": 104.75,
+        "wires": [
+            [
+                "df0c7550.ae4c58"
+            ]
+        ]
+    },
+    {
+        "id": "b0b7ae51.b9ad1",
+        "type": "ui_dropdown",
+        "z": "87fd0b35.d25f58",
+        "name": "Language",
+        "label": "Language",
+        "place": "Select option",
+        "group": "6d57bbdf.763d34",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "options": [
+            {
+                "label": "de",
+                "value": "de",
+                "type": "str"
+            },
+            {
+                "label": "en",
+                "value": "en",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 508,
+        "y": 161.75,
+        "wires": [
+            [
+                "cb9183f4.0603f"
+            ]
+        ]
+    },
+    {
+        "id": "1782d016.cf805",
+        "type": "ui_button",
+        "z": "87fd0b35.d25f58",
+        "name": "",
+        "group": "6d57bbdf.763d34",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Get Weather",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 94,
+        "y": 337.75,
+        "wires": [
+            [
+                "4265525c.10d6dc"
+            ]
+        ]
+    },
+    {
+        "id": "df0c7550.ae4c58",
+        "type": "change",
+        "z": "87fd0b35.d25f58",
+        "name": "set city",
+        "rules": [
+            {
+                "t": "set",
+                "p": "city",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 668,
+        "y": 104.75,
+        "wires": [
+            [
+                "bfdc31fa.6ea48"
+            ]
+        ]
+    },
+    {
+        "id": "cb9183f4.0603f",
+        "type": "change",
+        "z": "87fd0b35.d25f58",
+        "name": "set lang",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lang",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 668,
+        "y": 162,
+        "wires": [
+            [
+                "bfdc31fa.6ea48"
+            ]
+        ]
+    },
+    {
+        "id": "4265525c.10d6dc",
+        "type": "change",
+        "z": "87fd0b35.d25f58",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "language",
+                "pt": "msg",
+                "to": "lang",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "city",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 310,
+        "y": 337.75,
+        "wires": [
+            [
+                "eb47a21e.a788b"
+            ]
+        ]
+    },
+    {
+        "id": "eb47a21e.a788b",
+        "type": "function",
+        "z": "87fd0b35.d25f58",
+        "name": "Set Long & Lat",
+        "func": "var latlong;\nmsg.city = msg.payload;\n\nswitch(msg.payload) {\n    case \"Linz\":\n        latlong = \"48.2950649,14.0527468\";        \n        break;\n    case \"Wien\":\n        latlong = \"48.2206849,16.3800599\";\n        break;\n    case \"Graz\":\n        latlong = \"47.0735897,15.4417898\";\n        break;\n    case \"Salzburg\":\n        latlong = \"47.80281,13.05643\";\n        break;\n    case \"Bregenz\":\n        latlong = \"47.50708,9.7519903\";\n        break;\n    case \"Innsbruck\":\n        latlong = \"47.2854551,11.37879\";\n        break;\n    case \"Klagenfurt\":\n        latlong = \"46.641325,14.312755\";\n        break;\n    case \"St. Pölten\":\n        latlong = \"48.19378,15.647015\";\n        break;\n    case \"Eisenstadt\":\n        latlong = \"47.838855,16.5343751\";\n        break;\n    default:\n}\n\nmsg.location = latlong;\nmsg.payload = latlong;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 519,
+        "y": 337.75,
+        "wires": [
+            [
+                "774bb5fd.ca500c"
+            ]
+        ]
+    },
+    {
+        "id": "9efb05f3.9e5828",
+        "type": "debug",
+        "z": "87fd0b35.d25f58",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1347,
+        "y": 264.5,
+        "wires": []
+    },
+    {
+        "id": "bfdc31fa.6ea48",
+        "type": "debug",
+        "z": "87fd0b35.d25f58",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 859,
+        "y": 131.5,
+        "wires": []
+    },
+    {
+        "id": "4cb7edb8.eea964",
+        "type": "function",
+        "z": "87fd0b35.d25f58",
+        "name": "set forecast",
+        "func": "weathertext = \"\";\nweather = msg.forecasts;\n\nif (msg.language == \"en\") { \n    msg.voice = \"en-GB_KateVoice\";\n    weathertext = \"The Weather in \";\n    weathertext = weathertext + msg.city + \" will be on \";\n}\nif (msg.language == \"de\") { \n    msg.voice = \"de-DE_BirgitVoice\";\n    weathertext = \"Das Wetter in \";\n    weathertext = weathertext + msg.city + \" wird am \";\n}\n\nif (weather.length > 0 ) {\n    narrative = weather[0].narrative; \n    dow = weather[0].dow;\n    weathertext = weathertext + dow + \" \" + narrative;\n    if (typeof weather[0].day !== \"undefined\") {\n        code = weather[0].day.icon_code;\n    } else if (typeof weather[0].night !== \"undefined\") {\n        code = weather[0].night.icon_code;\n    }\n} else {\n    weathertext = \"No Weather found!\"\n}\n\nmsg.weathertext = weathertext;\nmsg.code = code;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 941,
+        "y": 338,
+        "wires": [
+            [
+                "7b6317df.6b4d68"
+            ]
+        ]
+    },
+    {
+        "id": "7b6317df.6b4d68",
+        "type": "change",
+        "z": "87fd0b35.d25f58",
+        "name": "Weathertext",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "weathertext",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1143,
+        "y": 338,
+        "wires": [
+            [
+                "9efb05f3.9e5828",
+                "efc61674.a02ca8",
+                "11779d5d.f4ea93"
+            ]
+        ]
+    },
+    {
+        "id": "efc61674.a02ca8",
+        "type": "ui_text",
+        "z": "87fd0b35.d25f58",
+        "group": "6d57bbdf.763d34",
+        "order": 0,
+        "width": "6",
+        "height": "3",
+        "name": "",
+        "label": "Forecast",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 1345,
+        "y": 337.5,
+        "wires": []
+    },
+    {
+        "id": "774bb5fd.ca500c",
+        "type": "weather_insights",
+        "z": "87fd0b35.d25f58",
+        "name": "",
+        "host": "twcservice.mybluemix.net",
+        "service": "/forecast/daily/10day.json",
+        "geocode": "",
+        "units": "m",
+        "language": "",
+        "x": 737,
+        "y": 337.5,
+        "wires": [
+            [
+                "4cb7edb8.eea964",
+                "ef54e6cd.4cb378"
+            ]
+        ]
+    },
+    {
+        "id": "ef54e6cd.4cb378",
+        "type": "debug",
+        "z": "87fd0b35.d25f58",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 990,
+        "y": 274.5,
+        "wires": []
+    },
+    {
+        "id": "5058ca05.1a8214",
+        "type": "speakerpi-output",
+        "z": "87fd0b35.d25f58",
+        "choose": "filebased",
+        "filename": "",
+        "channels": "1",
+        "bitdepth": "8",
+        "samplerate": "11025",
+        "name": "Speaker",
+        "x": 1547,
+        "y": 398,
+        "wires": []
+    },
+    {
+        "id": "11779d5d.f4ea93",
+        "type": "watson-text-to-speech",
+        "z": "87fd0b35.d25f58",
+        "name": "Text2Speech",
+        "lang": "de-DE",
+        "langhidden": "de-DE",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "voice": "de-DE_BirgitVoice",
+        "voicehidden": "",
+        "format": "audio/wav",
+        "password": "2T4yZlqvPfCO",
+        "apikey": "",
+        "payload-response": false,
+        "default-endpoint": true,
+        "service-endpoint": "https://stream.watsonplatform.net/text-to-speech/api",
+        "x": 1363,
+        "y": 398,
+        "wires": [
+            [
+                "5058ca05.1a8214"
+            ]
+        ]
+    },
+    {
+        "id": "6d57bbdf.763d34",
+        "type": "ui_group",
+        "z": "",
+        "name": "Get Weather",
+        "tab": "3c395a80.5962e6",
+        "order": 4,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "3c395a80.5962e6",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Watson",
+        "icon": "fa-bullhorn",
+        "order": 2
+    }
+]

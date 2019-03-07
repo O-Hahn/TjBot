@@ -1,0 +1,700 @@
+[
+    {
+        "id": "7c4c7108.782b1",
+        "type": "tab",
+        "label": "Motion",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "d27f172f.6e0778",
+        "type": "comment",
+        "z": "7c4c7108.782b1",
+        "name": "Motion Training - Demo Flow",
+        "info": "",
+        "x": 140,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "26a91b55.0e4234",
+        "type": "rpi-sensehat in",
+        "z": "7c4c7108.782b1",
+        "name": "Motions",
+        "motion": true,
+        "env": false,
+        "stick": false,
+        "x": 70,
+        "y": 500,
+        "wires": [
+            [
+                "dc8fed9.334a51"
+            ]
+        ]
+    },
+    {
+        "id": "90bb2a67.66cb88",
+        "type": "function",
+        "z": "7c4c7108.782b1",
+        "name": "Store Motions",
+        "func": "// Get Motion Array\nvar motion = flow.get('motions') || [];\nvar acceleration = flow.get('acceleration') || [];\nvar qyroscope = flow.get('qyroscope') || [];\nvar orientation = flow.get('orientation') || [];\nvar compass = flow.get('compass') || [];\nvar timestamp = flow.get('timestamp' || []);\nvar figure = flow.get('figure');\nvar userid = flow.get('userid');\n\n// Enhance Metadata\nmsg.payload.timestamp = Date.now();\nmsg.payload.userid = userid;\nmsg.payload.figure = figure;\n\n// Push and store values\nmotion.push(msg.payload);\nacceleration.push(msg.payload.acceleration);\nqyroscope.push(msg.payload.qyroscope);\norientation.push(msg.payload.orientation);\ncompass.push(msg.payload.compass);\ntimestamp.push(msg.payload.timestamp);\n\n// Store Environment\nflow.set('motions',motion);\nflow.set('acceleration', acceleration);\nflow.set('qyroscope', qyroscope);\nflow.set('orientation', orientation);\nflow.set('compass',compass);\nflow.set('timestamp',timestamp);\nflow.set('recorded', true);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ebf35b00.d54208",
+        "type": "debug",
+        "z": "7c4c7108.782b1",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 830,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "b98c7cbc.98c62",
+        "type": "ui_button",
+        "z": "7c4c7108.782b1",
+        "name": "Start",
+        "group": "1ebc17e9.2a97a8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Start Monitoring",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "",
+        "x": 270,
+        "y": 260,
+        "wires": [
+            [
+                "809d0954.198818",
+                "a36e4b60.c7ac08"
+            ]
+        ]
+    },
+    {
+        "id": "beea09d8.a15978",
+        "type": "ui_button",
+        "z": "7c4c7108.782b1",
+        "name": "Stop",
+        "group": "1ebc17e9.2a97a8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Stop Monitoring",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "topic": "",
+        "x": 270,
+        "y": 160,
+        "wires": [
+            [
+                "809d0954.198818"
+            ]
+        ]
+    },
+    {
+        "id": "54569fa.58d8a6",
+        "type": "ui_text",
+        "z": "7c4c7108.782b1",
+        "group": "1ebc17e9.2a97a8",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Motion Detection",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 830,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "335831d6.7d083e",
+        "type": "template",
+        "z": "7c4c7108.782b1",
+        "name": "Set Message",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Is running: {{payload}} !",
+        "output": "str",
+        "x": 630,
+        "y": 200,
+        "wires": [
+            [
+                "54569fa.58d8a6"
+            ]
+        ]
+    },
+    {
+        "id": "809d0954.198818",
+        "type": "change",
+        "z": "7c4c7108.782b1",
+        "name": "Set Motion",
+        "rules": [
+            {
+                "t": "set",
+                "p": "store",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 200,
+        "wires": [
+            [
+                "335831d6.7d083e"
+            ]
+        ]
+    },
+    {
+        "id": "1d879053.e3577",
+        "type": "inject",
+        "z": "7c4c7108.782b1",
+        "name": "Init",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 90,
+        "y": 100,
+        "wires": [
+            [
+                "4dd8ed5b.9c3784",
+                "beea09d8.a15978"
+            ]
+        ]
+    },
+    {
+        "id": "dc8fed9.334a51",
+        "type": "switch",
+        "z": "7c4c7108.782b1",
+        "name": "Store ?",
+        "property": "store",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 240,
+        "y": 500,
+        "wires": [
+            [
+                "90bb2a67.66cb88"
+            ],
+            [
+                "5c111b4d.378e74"
+            ]
+        ]
+    },
+    {
+        "id": "5c111b4d.378e74",
+        "type": "switch",
+        "z": "7c4c7108.782b1",
+        "name": "Recorded ?",
+        "property": "recorded",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 430,
+        "y": 540,
+        "wires": [
+            [
+                "100d4177.73355f"
+            ]
+        ]
+    },
+    {
+        "id": "100d4177.73355f",
+        "type": "change",
+        "z": "7c4c7108.782b1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "recorded",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "motions",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 540,
+        "wires": [
+            [
+                "ebf35b00.d54208",
+                "d7b43376.9476e",
+                "34ab5648.0f980a"
+            ]
+        ]
+    },
+    {
+        "id": "22ca1723.5b1d38",
+        "type": "file",
+        "z": "7c4c7108.782b1",
+        "name": "Motions FileWrite",
+        "filename": "",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 370,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "13ab9bfc.ea9904",
+        "type": "ui_text",
+        "z": "7c4c7108.782b1",
+        "group": "1ebc17e9.2a97a8",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Recoded elements:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 390,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "a36e4b60.c7ac08",
+        "type": "change",
+        "z": "7c4c7108.782b1",
+        "name": "None",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "recorded",
+                "pt": "flow",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 260,
+        "wires": [
+            [
+                "e969405d.21e4f"
+            ]
+        ]
+    },
+    {
+        "id": "d597bb7f.d20658",
+        "type": "link in",
+        "z": "7c4c7108.782b1",
+        "name": "Store ",
+        "links": [
+            "d7b43376.9476e"
+        ],
+        "x": 35,
+        "y": 660,
+        "wires": [
+            [
+                "eb1d3ed2.84d0e"
+            ]
+        ]
+    },
+    {
+        "id": "d7b43376.9476e",
+        "type": "link out",
+        "z": "7c4c7108.782b1",
+        "name": "Jump Store",
+        "links": [
+            "d597bb7f.d20658"
+        ],
+        "x": 795,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "eb1d3ed2.84d0e",
+        "type": "function",
+        "z": "7c4c7108.782b1",
+        "name": "Store File",
+        "func": "var now = new Date();  // the current datetime as a Date object\nvar iso = now.toISOString();  // converted to YYYY-MM-DDThh:mm:ss.dddZ format\nvar utc = iso.replace(/^(.*)T(.*)Z$/, \"$1 $2\");  // with the 'T' and 'Z' removed\nvar figure = flow.get('figure');\n\nmsg.filename = 'Motions ' + figure + ' ' + utc + '.json';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 160,
+        "y": 660,
+        "wires": [
+            [
+                "22ca1723.5b1d38",
+                "b891b744.70e4c8"
+            ]
+        ]
+    },
+    {
+        "id": "f881763a.8d7f38",
+        "type": "ui_dropdown",
+        "z": "7c4c7108.782b1",
+        "name": "",
+        "label": "Figure",
+        "place": "Select option",
+        "group": "1ebc17e9.2a97a8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "options": [
+            {
+                "label": "X",
+                "value": "X",
+                "type": "str"
+            },
+            {
+                "label": "Horicontal Line",
+                "value": "HL",
+                "type": "str"
+            },
+            {
+                "label": "Vertrical Line",
+                "value": "VL",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 470,
+        "y": 100,
+        "wires": [
+            [
+                "9c37faa1.59a068"
+            ]
+        ]
+    },
+    {
+        "id": "9c37faa1.59a068",
+        "type": "change",
+        "z": "7c4c7108.782b1",
+        "name": "Set Figure",
+        "rules": [
+            {
+                "t": "set",
+                "p": "figure",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 100,
+        "wires": [
+            [
+                "3fd67b1e.211c74"
+            ]
+        ]
+    },
+    {
+        "id": "4dd8ed5b.9c3784",
+        "type": "function",
+        "z": "7c4c7108.782b1",
+        "name": "Init Environment",
+        "func": "// Set defaults\nflow.set('store',false);\nflow.set('recorded', false);\nflow.set('motions',[]);\nflow.set('acceleration',[]);\nflow.set('qyroscope', []);\nflow.set('orientation', []);\nflow.set('compass',[]);\nflow.set('timestamp',[]);\nflow.set('userid',1);\n\n// Set Figure to default\nmsg.payload = 'X';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 100,
+        "wires": [
+            [
+                "f881763a.8d7f38",
+                "706a9af9.302cd4"
+            ]
+        ]
+    },
+    {
+        "id": "91e3104a.edb3d",
+        "type": "comment",
+        "z": "7c4c7108.782b1",
+        "name": "Handle Motions",
+        "info": "",
+        "x": 100,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "5c70839a.0fdf7c",
+        "type": "comment",
+        "z": "7c4c7108.782b1",
+        "name": "Store training",
+        "info": "",
+        "x": 90,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "14f1eb7b.736715",
+        "type": "link in",
+        "z": "7c4c7108.782b1",
+        "name": "Show recorded Elements",
+        "links": [
+            "e969405d.21e4f",
+            "3fd67b1e.211c74",
+            "90bde6f9.12fe48"
+        ],
+        "x": 235,
+        "y": 340,
+        "wires": [
+            [
+                "13ab9bfc.ea9904"
+            ]
+        ]
+    },
+    {
+        "id": "e969405d.21e4f",
+        "type": "link out",
+        "z": "7c4c7108.782b1",
+        "name": "Jump show",
+        "links": [
+            "14f1eb7b.736715"
+        ],
+        "x": 535,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "3fd67b1e.211c74",
+        "type": "link out",
+        "z": "7c4c7108.782b1",
+        "name": "Jump show",
+        "links": [
+            "14f1eb7b.736715"
+        ],
+        "x": 755,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "34ab5648.0f980a",
+        "type": "change",
+        "z": "7c4c7108.782b1",
+        "name": "Set length",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.length",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 820,
+        "y": 600,
+        "wires": [
+            [
+                "90bde6f9.12fe48"
+            ]
+        ]
+    },
+    {
+        "id": "90bde6f9.12fe48",
+        "type": "link out",
+        "z": "7c4c7108.782b1",
+        "name": "Jump show",
+        "links": [
+            "14f1eb7b.736715"
+        ],
+        "x": 935,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "b891b744.70e4c8",
+        "type": "function",
+        "z": "7c4c7108.782b1",
+        "name": "Reset Arrays",
+        "func": "flow.set('motions',[]);\nflow.set('acceleration',[]);\nflow.set('qyroscope', []);\nflow.set('orientation', []);\nflow.set('compass',[]);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ff2344ca.9a61d8",
+        "type": "ui_numeric",
+        "z": "7c4c7108.782b1",
+        "name": "",
+        "label": "UserId",
+        "group": "1ebc17e9.2a97a8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "topic": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "x": 610,
+        "y": 40,
+        "wires": [
+            [
+                "9a7a6199.1f4e7"
+            ]
+        ]
+    },
+    {
+        "id": "706a9af9.302cd4",
+        "type": "function",
+        "z": "7c4c7108.782b1",
+        "name": "",
+        "func": "msg.payload = Math.floor(Math.random() * Math.floor(100));\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 40,
+        "wires": [
+            [
+                "ff2344ca.9a61d8"
+            ]
+        ]
+    },
+    {
+        "id": "9a7a6199.1f4e7",
+        "type": "change",
+        "z": "7c4c7108.782b1",
+        "name": "Set userid",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userid",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 40,
+        "wires": [
+            [
+                "78dc0fbf.cbe68"
+            ]
+        ]
+    },
+    {
+        "id": "78dc0fbf.cbe68",
+        "type": "debug",
+        "z": "7c4c7108.782b1",
+        "name": "UserId",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 910,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "1ebc17e9.2a97a8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Motion Training",
+        "tab": "d85a06e5.a68198",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "d85a06e5.a68198",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Training Motions",
+        "icon": "dashboard",
+        "order": 3
+    }
+]

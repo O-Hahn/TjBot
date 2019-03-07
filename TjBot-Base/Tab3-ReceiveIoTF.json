@@ -1,0 +1,284 @@
+[
+    {
+        "id": "29cdb7a3.7b0158",
+        "type": "tab",
+        "label": "Receive IoTF",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "686100ba.c298b",
+        "type": "comment",
+        "z": "29cdb7a3.7b0158",
+        "name": "Get Light Commands",
+        "info": "",
+        "x": 120,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "a4422fe.2f4e6d",
+        "type": "wiotp in",
+        "z": "29cdb7a3.7b0158",
+        "authType": "d",
+        "deviceKey": "1cb9d17b.12b65f",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "set-light",
+        "commandType": "g",
+        "qos": 0,
+        "name": "IoTF Lights",
+        "x": 80,
+        "y": 120,
+        "wires": [
+            [
+                "cd7a375e.f0cdd8",
+                "7c5d4046.dcab3"
+            ]
+        ]
+    },
+    {
+        "id": "cd7a375e.f0cdd8",
+        "type": "debug",
+        "z": "29cdb7a3.7b0158",
+        "name": "IoTF Receive Lights",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 290,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e81c9e5e.5db4",
+        "type": "wiotp in",
+        "z": "29cdb7a3.7b0158",
+        "authType": "d",
+        "deviceKey": "1cb9d17b.12b65f",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "talk",
+        "commandType": "g",
+        "qos": 0,
+        "name": "IoTF Talk",
+        "x": 80,
+        "y": 360,
+        "wires": [
+            [
+                "1c740673.0907ea",
+                "8992ec48.289fe",
+                "2b81abc0.ed7b14"
+            ]
+        ]
+    },
+    {
+        "id": "1c740673.0907ea",
+        "type": "debug",
+        "z": "29cdb7a3.7b0158",
+        "name": "IoTF Receive Talk",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 290,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "a849b0b8.9a5b9",
+        "type": "comment",
+        "z": "29cdb7a3.7b0158",
+        "name": "Talk Commands",
+        "info": "",
+        "x": 100,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "bee48a15.f3e948",
+        "type": "function",
+        "z": "29cdb7a3.7b0158",
+        "name": "SenseHAT",
+        "func": "// get the Images\nvar senseHATImages = global.get(\"senseHATImages\");\nvar loop = true;\nvar sImage = \"\";\nvar image = [];\n\n// get the right image \nfor (var i = 0; i < senseHATImages.length && loop; i++) {\n    // set the image to be displayed\n    if (senseHATImages[i].name == msg.payload) {\n        loop = false;\n        sImage = senseHATImages[i].sImage;\n        image = senseHATImages[i].image;\n    }\n}\n\nmsg.payload = sImage;\nmsg.image = image;\nmsg.speed = 5;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 450,
+        "y": 120,
+        "wires": [
+            [
+                "e19561ee.8f0b1"
+            ]
+        ]
+    },
+    {
+        "id": "e19561ee.8f0b1",
+        "type": "rpi-sensehat out",
+        "z": "29cdb7a3.7b0158",
+        "name": "",
+        "x": 650,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "7c5d4046.dcab3",
+        "type": "function",
+        "z": "29cdb7a3.7b0158",
+        "name": "set light",
+        "func": "var session = msg.payload.d;\n\nswitch (session.action) {\n    case \"light_off\":\n        msg.payload = \"no_light\";\n        break;\n    case \"light_on\":\n        msg.payload = session.colour;\n        break;\n    default: \n        msg.payload = \"no_light\";\n        break;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 120,
+        "wires": [
+            [
+                "bee48a15.f3e948"
+            ]
+        ]
+    },
+    {
+        "id": "52ddc79e.d873c8",
+        "type": "speakerpi-output",
+        "z": "29cdb7a3.7b0158",
+        "choose": "filebased",
+        "filename": "",
+        "channels": "1",
+        "bitdepth": "8",
+        "samplerate": "11025",
+        "name": "Speaker",
+        "x": 623,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f89667ac.3557d8",
+        "type": "watson-text-to-speech",
+        "z": "29cdb7a3.7b0158",
+        "name": "Text2Speech",
+        "lang": "de-DE",
+        "langhidden": "de-DE",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "voice": "de-DE_BirgitVoice",
+        "voicehidden": "",
+        "format": "audio/wav",
+        "password": "2T4yZlqvPfCO",
+        "apikey": "3l8MeRSUZlAKGNCK_s-VFBJCT-t6bXo7KMqaSSyErzu9",
+        "payload-response": false,
+        "default-endpoint": true,
+        "service-endpoint": "https://stream.watsonplatform.net/text-to-speech/api",
+        "x": 439,
+        "y": 360,
+        "wires": [
+            [
+                "52ddc79e.d873c8"
+            ]
+        ]
+    },
+    {
+        "id": "8992ec48.289fe",
+        "type": "function",
+        "z": "29cdb7a3.7b0158",
+        "name": "set voice",
+        "func": "var gender = global.get('gender') || \"male\";\nvar voice;\nvar session = msg.payload.d;\n\nswitch (session.lang){\n    case \"de\":\n        if (gender == \"male\") {\n            voice = \"de-DE_DieterVoice\";\n        } else {\n            voice = \"de-DE_BirgitVoice\";\n        }\n        break;\n    case \"en\":\n        if (gender == \"male\") {\n            voice = \"en-US_MichaelVoice\";\n        } else {\n            voice = \"en-US_LisaVoice\";\n        }\n        // voice = \"en-GB_KateVoice\";\n        // voice = \"en-US_AllisonVoice\";\n       break;\n    case \"es\":\n        if (gender == \"male\") {\n            voice = \"es-ES_EnriqueVoice\";\n        } else {\n            voice = \"es-ES_LauraVoice\";\n        }\n        // voice = \"es-LA_SofiaVoice\";\n        // voice = \"es-US_SofiaVoice\";\n        break;\n    case \"fr\":\n        voice = \"fr-FR_ReneeVoice\";\n        break;\n    case \"it\":\n        voice = \"it-IT_FrancescaVoice\";\n        break;\n    case \"ja\":\n        voice = \"ja-JP_EmiVoice\";\n        break;\n    case \"pt\":\n        voice = \"pt-BR_IsabelaVoice\";\n        break;\n    default:\n        break;\n}\n\nmsg.voice = voice;\nmsg.payload = session.text;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 360,
+        "wires": [
+            [
+                "f89667ac.3557d8"
+            ]
+        ]
+    },
+    {
+        "id": "43931265.ebaf3c",
+        "type": "function",
+        "z": "29cdb7a3.7b0158",
+        "name": "set wather",
+        "func": "\nmsg.payload = \"weather\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 423,
+        "y": 420.25,
+        "wires": [
+            [
+                "3ffcd94.f8ad726",
+                "b4e7c1e9.61949"
+            ]
+        ]
+    },
+    {
+        "id": "3ffcd94.f8ad726",
+        "type": "function",
+        "z": "29cdb7a3.7b0158",
+        "name": "SenseHAT",
+        "func": "// get the Images\nvar senseHATImages = global.get(\"senseHATImages\");\nvar loop = true;\nvar sImage = \"\";\nvar image = [];\n\n// get the right image \nfor (var i = 0; i < senseHATImages.length && loop; i++) {\n    // set the image to be displayed\n    if (senseHATImages[i].name == msg.payload) {\n        loop = false;\n        sImage = senseHATImages[i].sImage;\n        image = senseHATImages[i].image;\n    }\n}\n\nmsg.payload = sImage;\nmsg.image = image;\nmsg.speed = 5;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 614,
+        "y": 419.25,
+        "wires": [
+            [
+                "7f6a7191.64e22"
+            ]
+        ]
+    },
+    {
+        "id": "b4e7c1e9.61949",
+        "type": "debug",
+        "z": "29cdb7a3.7b0158",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 554,
+        "y": 469.25,
+        "wires": []
+    },
+    {
+        "id": "7f6a7191.64e22",
+        "type": "rpi-sensehat out",
+        "z": "29cdb7a3.7b0158",
+        "name": "",
+        "x": 814,
+        "y": 419.25,
+        "wires": []
+    },
+    {
+        "id": "2b81abc0.ed7b14",
+        "type": "switch",
+        "z": "29cdb7a3.7b0158",
+        "name": "Weather",
+        "property": "payload.d.weathercode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 260,
+        "y": 420,
+        "wires": [
+            [
+                "43931265.ebaf3c"
+            ]
+        ]
+    },
+    {
+        "id": "1cb9d17b.12b65f",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "TjBot IoTF",
+        "org": "9qs5ql",
+        "serverName": "",
+        "devType": "TjBot",
+        "devId": "tjbot-01",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    }
+]

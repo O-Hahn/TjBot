@@ -1,0 +1,835 @@
+[
+    {
+        "id": "8516648b.d70d08",
+        "type": "tab",
+        "label": "Camera",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b8a0e311.abadd",
+        "type": "camerapi-takephoto",
+        "z": "8516648b.d70d08",
+        "filemode": "0",
+        "filename": "snapshot.jpg",
+        "filedefpath": "1",
+        "filepath": "",
+        "fileformat": "jpeg",
+        "resolution": "1",
+        "rotation": "0",
+        "fliph": "0",
+        "flipv": "0",
+        "brightness": "50",
+        "contrast": "100",
+        "sharpness": "100",
+        "quality": "80",
+        "imageeffect": "none",
+        "exposuremode": "auto",
+        "iso": "0",
+        "agcwait": "1.0",
+        "led": "0",
+        "awb": "auto",
+        "name": "",
+        "x": 560,
+        "y": 360,
+        "wires": [
+            [
+                "cb4e1628.7266c8"
+            ]
+        ]
+    },
+    {
+        "id": "cb4e1628.7266c8",
+        "type": "base64",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "action": "",
+        "property": "payload",
+        "x": 560,
+        "y": 420,
+        "wires": [
+            [
+                "fa595ca9.f14a6",
+                "d2b7089b.384128"
+            ]
+        ]
+    },
+    {
+        "id": "65e2cc2c.b21ed4",
+        "type": "wiotp out",
+        "z": "8516648b.d70d08",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "787dd67f.06a908",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "image",
+        "format": "json",
+        "qos": "2",
+        "name": "Send to IBM IoTF",
+        "x": 970,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "fa595ca9.f14a6",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Extend",
+        "func": "store = null;\npredict = null;\n\nif(msg.store) {\n    now = new Date()\n    store = {\n        'payload': {\n            'datetime': now.toJSON(),\n            'timestamp': Math.floor(now),\n            'device': global.get(\"device\"),\n            'image': msg.payload,\n            'label': flow.get('label')\n        }\n    }\n}\n\nif(msg.predict) {\n    predict = {\n        'scoring_payload': {\n            'values': [msg.payload]\n        }\n    }\n}\n\nsize = {\n    'size': Math.round(msg.payload.length / 1000),\n    'unit': 'kB',\n    'suffix' : msg.store ? 'stored' : (msg.predict ? 'predict' : 'preview')\n}\n\nreturn [size, store, predict];\n",
+        "outputs": 3,
+        "noerr": 0,
+        "x": 730,
+        "y": 420,
+        "wires": [
+            [
+                "21f4fbca.ccdd34"
+            ],
+            [
+                "a8b34385.f3d1c",
+                "65e2cc2c.b21ed4"
+            ],
+            [
+                "fa998a01.dde498",
+                "98266c19.066c1"
+            ]
+        ],
+        "outputLabels": [
+            "SIZE",
+            "STORE",
+            "PREDICT"
+        ]
+    },
+    {
+        "id": "ae2abc63.749b4",
+        "type": "ui_template",
+        "z": "8516648b.d70d08",
+        "group": "57e29c90.c63524",
+        "name": "Display Image",
+        "order": 2,
+        "width": "8",
+        "height": "5",
+        "format": "<style>\n#photo {\n    position:absolute;\n    z-index:1;\n    width:320px; \n    height:240px;\n}\n\n#container{\n    display:inline-block;\n    width:320px; \n    height:240px;\n    margin: 0 auto; \n    position:relative; \n}\n\n#gameCanvas{\n    position:relative;\n    z-index:20;\n}\n</style>\n\n<div id=\"container\">\n    <img id=\"photo\", class=\"image\" src=\"\" alt=\"Caputred image\"/>\n    <canvas id=\"gameCanvas\" width='320' height='240'></canvas>\n</div>\n\n<script>\n(function(scope) {\n  scope.$watch('msg', function(msg) {\n    \n    var canvas=document.getElementById(\"gameCanvas\"),\n    ctx = canvas.getContext(\"2d\");\n    \n    if (msg) {\n        if(msg.photo) {\n            $(\"#photo\").attr(\"src\", \"data:image/png;base64, \" + msg.payload);\n            ctx.clearRect(0, 0, canvas.width, canvas.height);\n\n        } else if(msg.bbox) {\n            ctx.clearRect(0, 0, canvas.width, canvas.height);\n            \n            l = msg.bbox[0];\n            t = msg.bbox[1];\n            r = msg.bbox[2];\n            b = msg.bbox[3];\n            ctx.beginPath();\n            ctx.lineWidth = \"1\";\n            ctx.strokeStyle = msg.color;\n            ctx.rect(l-2, t-2, r-l+4, b-t+4);\n            ctx.stroke();\n            \n        } else if(msg.clear) {\n            ctx.clearRect(0, 0, canvas.width, canvas.height);\n        }\n    }\n  });\n})(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 440,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "996a199a.9a3c68",
+        "type": "ui_button",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "group": "57e29c90.c63524",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Preview",
+        "color": "",
+        "bgcolor": "",
+        "icon": "camera",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "",
+        "x": 100,
+        "y": 340,
+        "wires": [
+            [
+                "9947e68f.72a808"
+            ]
+        ]
+    },
+    {
+        "id": "506c12cf.08ed4c",
+        "type": "inject",
+        "z": "8516648b.d70d08",
+        "name": "Init",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.01",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "956fe2b9.3dab1"
+            ]
+        ]
+    },
+    {
+        "id": "956fe2b9.3dab1",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Initialize Flow",
+        "func": "// Set defaults for choice \n//     {\"/\":\"/\"}\nvar labels = [\"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\"];\n\n// if store is a picture taken will be sent to IoTF\nflow.set('store',false);\n\n// if predict is a taken picture will be classified\nflow.set('predict', false);\n\n// the label to be sent with the image\nflow.set('label', '<no-label>');\n\n\nmsg_store = {\n    'payload': flow.get('store')\n}\n\nmsg_predict = {\n    'payload': flow.get('predict')\n}\n\nmsg_label = {\n    'payload': flow.get('label')\n}\n\nreturn [msg_store, msg_predict, msg_label]\n",
+        "outputs": 3,
+        "noerr": 0,
+        "x": 270,
+        "y": 160,
+        "wires": [
+            [],
+            [],
+            [
+                "3e693516.a6830a"
+            ]
+        ],
+        "outputLabels": [
+            "Auto-Store",
+            "Auto-Predict",
+            ""
+        ]
+    },
+    {
+        "id": "21f4fbca.ccdd34",
+        "type": "ui_text",
+        "z": "8516648b.d70d08",
+        "group": "57e29c90.c63524",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Image size",
+        "format": "{{msg.size}}{{msg.unit}} {{msg.suffix}}",
+        "layout": "row-spread",
+        "x": 910,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "3e693516.a6830a",
+        "type": "ui_text_input",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "label": "Label",
+        "group": "57e29c90.c63524",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "100",
+        "topic": "",
+        "x": 470,
+        "y": 180,
+        "wires": [
+            [
+                "f31dbfd9.0ddfc"
+            ]
+        ]
+    },
+    {
+        "id": "f31dbfd9.0ddfc",
+        "type": "change",
+        "z": "8516648b.d70d08",
+        "name": "Set label",
+        "rules": [
+            {
+                "t": "set",
+                "p": "label",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2ddfc1c2.287b4e",
+        "type": "ui_button",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "group": "57e29c90.c63524",
+        "order": 5,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Store",
+        "color": "black",
+        "bgcolor": "#ee5555",
+        "icon": "camera",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 90,
+        "y": 460,
+        "wires": [
+            [
+                "f33ad28f.52248"
+            ]
+        ]
+    },
+    {
+        "id": "9947e68f.72a808",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Preview",
+        "func": "msg.predict = false;\nmsg.store = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 340,
+        "wires": [
+            [
+                "b8a0e311.abadd",
+                "e7b715c.8b84ee8"
+            ]
+        ]
+    },
+    {
+        "id": "f33ad28f.52248",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Store",
+        "func": "msg.predict = false;\nmsg.store = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 460,
+        "wires": [
+            [
+                "b8a0e311.abadd",
+                "22b0fe84.638172"
+            ]
+        ]
+    },
+    {
+        "id": "a8b34385.f3d1c",
+        "type": "debug",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 930,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2df00b3.aa999f4",
+        "type": "ui_button",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "group": "57e29c90.c63524",
+        "order": 6,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "Predict",
+        "color": "black",
+        "bgcolor": "#55ee55",
+        "icon": "camera",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "",
+        "x": 100,
+        "y": 580,
+        "wires": [
+            [
+                "f8aac8a5.951278"
+            ]
+        ]
+    },
+    {
+        "id": "f8aac8a5.951278",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Predict",
+        "func": "msg.predict = true;\nmsg.store = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 580,
+        "wires": [
+            [
+                "b8a0e311.abadd",
+                "be12ff38.7c1cb"
+            ]
+        ]
+    },
+    {
+        "id": "fa998a01.dde498",
+        "type": "debug",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 890,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "d2cff3a2.26905",
+        "type": "debug",
+        "z": "8516648b.d70d08",
+        "name": "Classification Outcome",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1250,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "a14db312.966fa",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Animate Result",
+        "func": "// there is a list of results for the one image\n// sent for classification\n\nfunction num_words(str) {\n  return str.trim().split(/\\s+/).length;\n}\n\n\nspeech = {'payload': 'I could read the following digits.'}\nvar results = msg.payload[0];\nvar delay = 1;\n\nfunction send_result(i) {\n    \n    if( i >= results.length) {\n        node.send([null, {clear: true}]);\n        return;\n    }\n    \n    var photo = {};\n\n    r = results[i];\n    \n    digit = r.class.toString();\n    \n    photo.bbox = r.bbox;\n    \n    if(r.certainty > 0.9) {\n        text = digit;\n        photo.color = '#006600';\n\n    } else if (r.certainty > 0.75) {\n        text =  \"probably \" + digit;\n        photo.color = 'orange';\n        \n    } else {\n        text = \"probably \" + digit + \" but I'm not confident\";\n        photo.color = 'red';\n\n    }\n    \n    if( i < results.length - 1 ) {\n        text = text + ',';\n    }\n\n    if( i == results.length - 1 ) {\n        text = ' and ' + text + '.';\n    }\n    \n    speech = {payload: text};\n    node.send([speech, photo]);\n    \n    if( i < results.length) {\n        setTimeout(send_result, 1400 + num_words(text)*400, i+1);\n    }\n\n}\n\n\nnode.send([speech,null]);\n\nsetTimeout(send_result, 3000, 0);\n\nreturn null;\n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 140,
+        "y": 1120,
+        "wires": [
+            [
+                "9ac35b0.6adf4a8",
+                "fc4e771f.9bce08"
+            ],
+            [
+                "ca117ff.255fb8"
+            ]
+        ],
+        "outputLabels": [
+            "SPEECH",
+            "PHOTO"
+        ]
+    },
+    {
+        "id": "fc4e771f.9bce08",
+        "type": "watson-text-to-speech",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "lang": "en-GB",
+        "langhidden": "en-GB",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "voice": "en-GB_KateVoice",
+        "voicehidden": "en-US_MichaelVoice",
+        "format": "audio/wav",
+        "password": "",
+        "apikey": "3LW7p8r-BVXn068KEZ1bG22bjQGHBH2dGbmGrgTkYeed",
+        "payload-response": true,
+        "default-endpoint": false,
+        "service-endpoint": "https://stream-fra.watsonplatform.net/text-to-speech/api",
+        "x": 420,
+        "y": 1100,
+        "wires": [
+            [
+                "6827186a.e1be98"
+            ]
+        ]
+    },
+    {
+        "id": "6827186a.e1be98",
+        "type": "speakerpi-output",
+        "z": "8516648b.d70d08",
+        "choose": "filebased",
+        "filename": "",
+        "channels": "1",
+        "bitdepth": "8",
+        "samplerate": "22050",
+        "name": "Speaker",
+        "x": 600,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "98266c19.066c1",
+        "type": "http request",
+        "z": "8516648b.d70d08",
+        "name": "Get Token",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://eu-de.ml.cloud.ibm.com//v3/identity/token",
+        "tls": "",
+        "x": 911,
+        "y": 627,
+        "wires": [
+            [
+                "4ac0651f.15c8fc"
+            ]
+        ]
+    },
+    {
+        "id": "5dd62f5c.506fe",
+        "type": "http request",
+        "z": "8516648b.d70d08",
+        "name": "Get Classification",
+        "method": "POST",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 931,
+        "y": 747,
+        "wires": [
+            [
+                "d2cff3a2.26905",
+                "81aa126d.a5b7f",
+                "a14db312.966fa"
+            ]
+        ]
+    },
+    {
+        "id": "4ac0651f.15c8fc",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Classification Request",
+        "func": "msg.headers = {\n    \"Accept\": \"application/json\",\n    \"Authorization\": 'Bearer ' + msg.payload.token,\n    \"Content-Type\": \"application/json;charset=UTF-8\"\n};\n\nmsg.url = \"https://eu-de.ml.cloud.ibm.com/v3/wml_instances/c6cffbe7-484d-4ddc-ba18-11212d5417d8/deployments/0bacdc42-4409-4170-bcff-1eb12bdf1341/online\"\nmsg.payload = msg.scoring_payload;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 941,
+        "y": 687,
+        "wires": [
+            [
+                "5dd62f5c.506fe"
+            ]
+        ]
+    },
+    {
+        "id": "fdf99dd5.e1be7",
+        "type": "comment",
+        "z": "8516648b.d70d08",
+        "name": "Output the classified digits on the speaker",
+        "info": "",
+        "x": 200,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "81aa126d.a5b7f",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Result Summary",
+        "func": "// there is a list of results for the one image\n// sent for classification\nresults = msg.payload[0];\n\nvar text = '';\nfor(i = 0; i < results.length; i++) {\n    if( text != '') {\n        text += ',';\n    }\n    text += results[i].class;\n}\n\nmsg = {\n    'payload': text,\n    'color': 'blue',\n    'speed': 4\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1220,
+        "y": 740,
+        "wires": [
+            [
+                "2d2f72a3.cc56ae",
+                "16496b4f.e04595",
+                "a8521df5.75fac"
+            ]
+        ],
+        "outputLabels": [
+            "SENSEHAT"
+        ]
+    },
+    {
+        "id": "2d2f72a3.cc56ae",
+        "type": "rpi-sensehat out",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "x": 1670,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "f208b48.3c5af48",
+        "type": "ui_text",
+        "z": "8516648b.d70d08",
+        "group": "57e29c90.c63524",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Classification",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 430,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "be12ff38.7c1cb",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Clear",
+        "func": "msg.payload = 'In progress ...';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 640,
+        "wires": [
+            [
+                "a8127cea.cd95"
+            ]
+        ]
+    },
+    {
+        "id": "16496b4f.e04595",
+        "type": "debug",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1650,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "cb61aac6.a97388",
+        "type": "link in",
+        "z": "8516648b.d70d08",
+        "name": "ClassRes",
+        "links": [
+            "a8127cea.cd95",
+            "8106de17.c72b6",
+            "5ca663a8.5a703c",
+            "a8521df5.75fac"
+        ],
+        "x": 315,
+        "y": 820,
+        "wires": [
+            [
+                "f208b48.3c5af48"
+            ]
+        ]
+    },
+    {
+        "id": "a8127cea.cd95",
+        "type": "link out",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "links": [
+            "cb61aac6.a97388"
+        ],
+        "x": 335,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "22b0fe84.638172",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Clear",
+        "func": "msg.payload = '';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 520,
+        "wires": [
+            [
+                "8106de17.c72b6"
+            ]
+        ]
+    },
+    {
+        "id": "8106de17.c72b6",
+        "type": "link out",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "links": [
+            "cb61aac6.a97388"
+        ],
+        "x": 335,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "e7b715c.8b84ee8",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "Clear",
+        "func": "msg.payload = '';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 400,
+        "wires": [
+            [
+                "5ca663a8.5a703c"
+            ]
+        ]
+    },
+    {
+        "id": "5ca663a8.5a703c",
+        "type": "link out",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "links": [
+            "cb61aac6.a97388"
+        ],
+        "x": 335,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "a8521df5.75fac",
+        "type": "link out",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "links": [
+            "cb61aac6.a97388"
+        ],
+        "x": 1475,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "ee45ea35.759678",
+        "type": "inject",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "topic": "",
+        "payload": "Hallo Thomas!",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 560,
+        "y": 1040,
+        "wires": [
+            [
+                "fc4e771f.9bce08"
+            ]
+        ]
+    },
+    {
+        "id": "be3d5df0.96d4a",
+        "type": "link out",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "links": [
+            "210f66e3.cee2fa"
+        ],
+        "x": 675,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "210f66e3.cee2fa",
+        "type": "link in",
+        "z": "8516648b.d70d08",
+        "name": "GUI-Img",
+        "links": [
+            "be3d5df0.96d4a",
+            "ca117ff.255fb8"
+        ],
+        "x": 315,
+        "y": 780,
+        "wires": [
+            [
+                "ae2abc63.749b4",
+                "d6fcbc0e.234f6"
+            ]
+        ]
+    },
+    {
+        "id": "d2b7089b.384128",
+        "type": "function",
+        "z": "8516648b.d70d08",
+        "name": "For GUI",
+        "func": "msg.photo = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 560,
+        "y": 500,
+        "wires": [
+            [
+                "be3d5df0.96d4a"
+            ]
+        ]
+    },
+    {
+        "id": "ca117ff.255fb8",
+        "type": "link out",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "links": [
+            "210f66e3.cee2fa"
+        ],
+        "x": 295,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "9ac35b0.6adf4a8",
+        "type": "debug",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 350,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "d6fcbc0e.234f6",
+        "type": "debug",
+        "z": "8516648b.d70d08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 410,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "787dd67f.06a908",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "",
+        "org": "bgn6wt",
+        "serverName": "",
+        "devType": "TjBot",
+        "devId": "tjbot-01",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    },
+    {
+        "id": "57e29c90.c63524",
+        "type": "ui_group",
+        "z": "",
+        "name": "Camera",
+        "tab": "67f040cf.107df",
+        "disp": true,
+        "width": "8",
+        "collapse": false
+    },
+    {
+        "id": "67f040cf.107df",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Camera",
+        "icon": "dashboard",
+        "order": 6
+    }
+]

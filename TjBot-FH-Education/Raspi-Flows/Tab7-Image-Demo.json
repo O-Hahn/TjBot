@@ -1,0 +1,577 @@
+[
+    {
+        "id": "94c7ddf1.be173",
+        "type": "tab",
+        "label": "Image",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "30df4988.9f3866",
+        "type": "comment",
+        "z": "94c7ddf1.be173",
+        "name": "Take Photo - Demo Flow",
+        "info": "",
+        "x": 130,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "e41aff68.fac1d",
+        "type": "camerapi-takephoto",
+        "z": "94c7ddf1.be173",
+        "filemode": "0",
+        "filename": "",
+        "filedefpath": "1",
+        "filepath": "",
+        "fileformat": "jpeg",
+        "resolution": "2",
+        "rotation": "180",
+        "fliph": "0",
+        "flipv": "0",
+        "brightness": "50",
+        "contrast": "0",
+        "sharpness": "0",
+        "quality": "80",
+        "imageeffect": "none",
+        "exposuremode": "auto",
+        "iso": "0",
+        "agcwait": "0.3",
+        "led": "1",
+        "awb": "cloudy",
+        "name": "Take It",
+        "x": 270,
+        "y": 140,
+        "wires": [
+            [
+                "ac32eaef.f13458",
+                "ccc07dae.9ca05",
+                "e925dc17.03f33"
+            ]
+        ]
+    },
+    {
+        "id": "3fe6cbd7.0647f4",
+        "type": "inject",
+        "z": "94c7ddf1.be173",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "e41aff68.fac1d"
+            ]
+        ]
+    },
+    {
+        "id": "ac32eaef.f13458",
+        "type": "debug",
+        "z": "94c7ddf1.be173",
+        "name": "TakePhoto",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 450,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "3c15ef60.46f95",
+        "type": "ui_template",
+        "z": "94c7ddf1.be173",
+        "group": "38e29571.c7905a",
+        "name": "Show Pic",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<div layout=\"row\" layout-align=\"space-between\">\n    <img src=\"data:image/jpg;base64,{{msg.payload}}\"\n        width='290' \n        height='220' \n        id='img'\n        alt=' Getting Image'\n    >\n</div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 640,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "27e12f70.64e45",
+        "type": "ui_button",
+        "z": "94c7ddf1.be173",
+        "name": "",
+        "group": "38e29571.c7905a",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Take Picture",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fa-photo",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "e41aff68.fac1d"
+            ]
+        ]
+    },
+    {
+        "id": "ccc07dae.9ca05",
+        "type": "base64",
+        "z": "94c7ddf1.be173",
+        "name": "convert base64",
+        "action": "",
+        "property": "payload",
+        "x": 460,
+        "y": 140,
+        "wires": [
+            [
+                "3c15ef60.46f95"
+            ]
+        ]
+    },
+    {
+        "id": "9f4162e9.2149b",
+        "type": "inject",
+        "z": "94c7ddf1.be173",
+        "name": "Default",
+        "topic": "",
+        "payload": "/home/pi/Pictures/",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "e21f4763.5ac438"
+            ]
+        ]
+    },
+    {
+        "id": "e21f4763.5ac438",
+        "type": "ui_dropdown",
+        "z": "94c7ddf1.be173",
+        "name": "",
+        "label": "Path",
+        "place": "Select option",
+        "group": "2101ca6b.bb6cb6",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "options": [
+            {
+                "label": "/Pictures/",
+                "value": "/home/pi/Pictures/",
+                "type": "str"
+            },
+            {
+                "label": "/",
+                "value": "/home/pi/",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 250,
+        "y": 340,
+        "wires": [
+            [
+                "2fbc40a6.94fb3"
+            ]
+        ]
+    },
+    {
+        "id": "2fbc40a6.94fb3",
+        "type": "function",
+        "z": "94c7ddf1.be173",
+        "name": "Set LS",
+        "func": "flow.set (\"lspath\", msg.payload);\nflow.set (\"lsobj\", \"\");\n\nmsg.payload = \" -m \" + msg.payload + \"*.jpg\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 340,
+        "wires": [
+            [
+                "e0e3c45a.a066b8"
+            ]
+        ]
+    },
+    {
+        "id": "e0e3c45a.a066b8",
+        "type": "exec",
+        "z": "94c7ddf1.be173",
+        "command": "ls",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "",
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "50ecbf40.15cbe"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "50ecbf40.15cbe",
+        "type": "function",
+        "z": "94c7ddf1.be173",
+        "name": "Parse",
+        "func": "var i;\nvar str = msg.payload;\nvar path = flow.get(\"lspath\");\nvar list = msg.payload.replace(/\\n|\\r/g, \"\");\nlist = list.split(\",\");\n\nfor (i in list) {\n    list[i] = list[i].replace(path,\"\").trim();\n    console.log(str);\n}\n\nmsg.options = list;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 340,
+        "wires": [
+            [
+                "b9955013.7b517"
+            ]
+        ]
+    },
+    {
+        "id": "b9955013.7b517",
+        "type": "ui_dropdown",
+        "z": "94c7ddf1.be173",
+        "name": "",
+        "label": "Files",
+        "place": "Select option",
+        "group": "2101ca6b.bb6cb6",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "",
+        "x": 790,
+        "y": 340,
+        "wires": [
+            [
+                "7124f131.49b02"
+            ]
+        ]
+    },
+    {
+        "id": "7124f131.49b02",
+        "type": "function",
+        "z": "94c7ddf1.be173",
+        "name": "Filename",
+        "func": "msg.filename = flow.get(\"lspath\") + msg.payload;\nflow.set(\"lsobj\", msg.filename);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 400,
+        "wires": [
+            [
+                "7903db63.eb3824"
+            ]
+        ]
+    },
+    {
+        "id": "7903db63.eb3824",
+        "type": "file in",
+        "z": "94c7ddf1.be173",
+        "name": "Load Pic",
+        "filename": "",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "x": 420,
+        "y": 400,
+        "wires": [
+            [
+                "1533363b.12fd8a",
+                "6fe08465.85647c"
+            ]
+        ]
+    },
+    {
+        "id": "1533363b.12fd8a",
+        "type": "base64",
+        "z": "94c7ddf1.be173",
+        "name": " base64",
+        "action": "",
+        "property": "payload",
+        "x": 580,
+        "y": 400,
+        "wires": [
+            [
+                "1038eaf9.002a85"
+            ]
+        ]
+    },
+    {
+        "id": "1038eaf9.002a85",
+        "type": "ui_template",
+        "z": "94c7ddf1.be173",
+        "group": "2101ca6b.bb6cb6",
+        "name": "Show Pic",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div layout=\"row\" layout-align=\"space-between\">\n    <img src=\"data:image/jpg;base64,{{msg.payload}}\"\n        width='290' \n        height='220' \n        id='img'\n        alt=' Getting Image'\n    >\n</div>",
+        "storeOutMessages": false,
+        "fwdInMessages": true,
+        "templateScope": "local",
+        "x": 740,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1c617a33.b8e766",
+        "type": "comment",
+        "z": "94c7ddf1.be173",
+        "name": "Load Photo from Disk",
+        "info": "",
+        "x": 120,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "f200b570.d01918",
+        "type": "camera",
+        "z": "94c7ddf1.be173",
+        "name": "",
+        "x": 270,
+        "y": 200,
+        "wires": [
+            [
+                "ccc07dae.9ca05"
+            ]
+        ]
+    },
+    {
+        "id": "542cc311.2a6e1c",
+        "type": "visual-recognition-v3",
+        "z": "94c7ddf1.be173",
+        "name": "Visual Recognition",
+        "vr-service-endpoint": "https://gateway.watsonplatform.net/visual-recognition/api",
+        "image-feature": "detectFaces",
+        "lang": "en",
+        "x": 210,
+        "y": 560,
+        "wires": [
+            [
+                "f4aadc78.d191f",
+                "b5abc22a.a56eb",
+                "5b936a35.c91624",
+                "825deed9.4805a",
+                "e3497a75.2bdb38",
+                "e85a2f12.b4bbe"
+            ]
+        ]
+    },
+    {
+        "id": "f4aadc78.d191f",
+        "type": "debug",
+        "z": "94c7ddf1.be173",
+        "name": "VisRec",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 440,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "b5abc22a.a56eb",
+        "type": "ui_text",
+        "z": "94c7ddf1.be173",
+        "group": "c6016b91.fa58d8",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "name": "",
+        "label": "Age Max:",
+        "format": "{{msg.result.images[0].faces[0].age.max}}",
+        "layout": "row-left",
+        "x": 440,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "5b936a35.c91624",
+        "type": "ui_text",
+        "z": "94c7ddf1.be173",
+        "group": "c6016b91.fa58d8",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "name": "",
+        "label": "Age Min:",
+        "format": "{{msg.result.images[0].faces[0].age.min}}",
+        "layout": "row-left",
+        "x": 440,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "825deed9.4805a",
+        "type": "ui_text",
+        "z": "94c7ddf1.be173",
+        "group": "c6016b91.fa58d8",
+        "order": 6,
+        "width": "3",
+        "height": "1",
+        "name": "",
+        "label": "Gender",
+        "format": "{{msg.result.images[0].faces[0].gender.gender}}",
+        "layout": "row-spread",
+        "x": 440,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "e3497a75.2bdb38",
+        "type": "ui_text",
+        "z": "94c7ddf1.be173",
+        "group": "c6016b91.fa58d8",
+        "order": 7,
+        "width": "3",
+        "height": "1",
+        "name": "",
+        "label": "Gender Score",
+        "format": "{{msg.result.images[0].faces[0].gender.score}}",
+        "layout": "row-spread",
+        "x": 460,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "e85a2f12.b4bbe",
+        "type": "ui_text",
+        "z": "94c7ddf1.be173",
+        "group": "c6016b91.fa58d8",
+        "order": 5,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Age Score:",
+        "format": "{{msg.result.images[0].faces[0].age.score}}",
+        "layout": "row-left",
+        "x": 450,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "ee41674f.034918",
+        "type": "comment",
+        "z": "94c7ddf1.be173",
+        "name": "Classify Foto",
+        "info": "",
+        "x": 90,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "56ce907d.7fa5a",
+        "type": "link in",
+        "z": "94c7ddf1.be173",
+        "name": "VisRec",
+        "links": [
+            "6fe08465.85647c",
+            "e925dc17.03f33"
+        ],
+        "x": 55,
+        "y": 560,
+        "wires": [
+            [
+                "542cc311.2a6e1c"
+            ]
+        ]
+    },
+    {
+        "id": "6fe08465.85647c",
+        "type": "link out",
+        "z": "94c7ddf1.be173",
+        "name": "Jump VisRec",
+        "links": [
+            "56ce907d.7fa5a"
+        ],
+        "x": 535,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "e925dc17.03f33",
+        "type": "link out",
+        "z": "94c7ddf1.be173",
+        "name": "Jump VisRec",
+        "links": [
+            "56ce907d.7fa5a"
+        ],
+        "x": 395,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "38e29571.c7905a",
+        "type": "ui_group",
+        "z": "",
+        "name": "Default",
+        "tab": "4b68df09.3c13",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "2101ca6b.bb6cb6",
+        "type": "ui_group",
+        "z": "",
+        "name": "Local Image",
+        "tab": "4b68df09.3c13",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "c6016b91.fa58d8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Output",
+        "tab": "4b68df09.3c13",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "4b68df09.3c13",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Image",
+        "icon": "dashboard",
+        "order": 4
+    }
+]

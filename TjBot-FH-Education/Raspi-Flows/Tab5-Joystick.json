@@ -1,0 +1,348 @@
+[
+    {
+        "id": "8d3682de.9193d",
+        "type": "tab",
+        "label": "Joystick",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a0b3af97.7518c",
+        "type": "comment",
+        "z": "8d3682de.9193d",
+        "name": "Display Joystick Inputs",
+        "info": "",
+        "x": 120,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "aeb1edd9.26eb6",
+        "type": "rpi-sensehat in",
+        "z": "8d3682de.9193d",
+        "name": "Joystick",
+        "motion": false,
+        "env": false,
+        "stick": true,
+        "x": 90,
+        "y": 260,
+        "wires": [
+            [
+                "bef2289c.db2348",
+                "5ed27933.b9ad78",
+                "77aaa2fc.e54aec",
+                "62927635.6ad0e8"
+            ]
+        ]
+    },
+    {
+        "id": "bef2289c.db2348",
+        "type": "change",
+        "z": "8d3682de.9193d",
+        "name": "set key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.key",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 220,
+        "wires": [
+            [
+                "ecee0e55.a5385"
+            ]
+        ]
+    },
+    {
+        "id": "5ed27933.b9ad78",
+        "type": "function",
+        "z": "8d3682de.9193d",
+        "name": "Set IoT Data",
+        "func": "// enhance payload with a timestamp & devicename\nvar dat = new Date();\nmsg.payload.timestamp = Math.floor(dat);\nmsg.payload.date = dat.toJSON();\nmsg.payload.device = \"tjbot-01\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 380,
+        "wires": [
+            [
+                "d63ac69b.7a6ab8"
+            ]
+        ]
+    },
+    {
+        "id": "c46604d8.8606e8",
+        "type": "debug",
+        "z": "8d3682de.9193d",
+        "name": "IoT Sent Joystick",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 730,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c1411a33.239f98",
+        "type": "wiotp out",
+        "z": "8d3682de.9193d",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "787dd67f.06a908",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "joystick",
+        "format": "json",
+        "qos": "",
+        "name": "Sent2IoTF",
+        "x": 710,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "54a05425.a06d9c",
+        "type": "inject",
+        "z": "8d3682de.9193d",
+        "name": "Send On",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "901b09a.7b53bf8"
+            ]
+        ]
+    },
+    {
+        "id": "f7ff1c90.a7a94",
+        "type": "change",
+        "z": "8d3682de.9193d",
+        "name": "Joystick",
+        "rules": [
+            {
+                "t": "set",
+                "p": "joystick",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a12b1f4.82bf6",
+        "type": "inject",
+        "z": "8d3682de.9193d",
+        "name": "Send Off",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "901b09a.7b53bf8"
+            ]
+        ]
+    },
+    {
+        "id": "d63ac69b.7a6ab8",
+        "type": "switch",
+        "z": "8d3682de.9193d",
+        "name": "Send ?",
+        "property": "joystick",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 380,
+        "wires": [
+            [
+                "c1411a33.239f98",
+                "c46604d8.8606e8"
+            ]
+        ]
+    },
+    {
+        "id": "901b09a.7b53bf8",
+        "type": "ui_switch",
+        "z": "8d3682de.9193d",
+        "name": "",
+        "label": "Send Joystick",
+        "group": "fcfa748.8148188",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 320,
+        "y": 100,
+        "wires": [
+            [
+                "f7ff1c90.a7a94"
+            ]
+        ]
+    },
+    {
+        "id": "77aaa2fc.e54aec",
+        "type": "change",
+        "z": "8d3682de.9193d",
+        "name": "set state",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.state",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 260,
+        "wires": [
+            [
+                "605e6d42.88aae4"
+            ]
+        ]
+    },
+    {
+        "id": "62927635.6ad0e8",
+        "type": "debug",
+        "z": "8d3682de.9193d",
+        "name": "Joystick",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 300,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ecee0e55.a5385",
+        "type": "ui_text",
+        "z": "8d3682de.9193d",
+        "group": "af0023c3.02b21",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "Key",
+        "label": "key",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 490,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "605e6d42.88aae4",
+        "type": "ui_text",
+        "z": "8d3682de.9193d",
+        "group": "af0023c3.02b21",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "State",
+        "label": "state",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 490,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "787dd67f.06a908",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "",
+        "org": "bgn6wt",
+        "serverName": "",
+        "devType": "TjBot",
+        "devId": "tjbot-01",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    },
+    {
+        "id": "fcfa748.8148188",
+        "type": "ui_group",
+        "z": "",
+        "name": "Send",
+        "tab": "7f24773e.89e758",
+        "order": 1,
+        "disp": false,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "af0023c3.02b21",
+        "type": "ui_group",
+        "z": "",
+        "name": "Joystick",
+        "tab": "7f24773e.89e758",
+        "disp": true,
+        "width": "5",
+        "collapse": false
+    },
+    {
+        "id": "7f24773e.89e758",
+        "type": "ui_tab",
+        "z": "",
+        "name": "TjBot-OH",
+        "icon": "dashboard",
+        "order": 1
+    }
+]
