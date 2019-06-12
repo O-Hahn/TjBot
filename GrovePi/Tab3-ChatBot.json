@@ -1,0 +1,828 @@
+[
+    {
+        "id": "7b928739.5a6318",
+        "type": "tab",
+        "label": "ChatBot"
+    },
+    {
+        "id": "7b443613.8333e",
+        "type": "microPi",
+        "z": "7b928739.5a6318",
+        "name": "microPi",
+        "filename": "/home/pi/audio/demo.wav",
+        "domain": "http://localhost:1880",
+        "rate": "16000",
+        "bitwidth": "16",
+        "endian": "little",
+        "encoding": "signed-integer",
+        "channels": "2",
+        "silence": "5",
+        "debug": "false",
+        "mode": "666",
+        "x": 283,
+        "y": 86.5,
+        "wires": [
+            [],
+            [
+                "dfc00cc4.41d6e8",
+                "4f371b6.411b8e4",
+                "c3b77084.5f14c8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "99967323.59f5f8",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "Start",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 106,
+        "y": 21,
+        "wires": [
+            [
+                "7b443613.8333e"
+            ]
+        ]
+    },
+    {
+        "id": "ca0fa6b0.cff02",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "Stop",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 101,
+        "y": 124,
+        "wires": [
+            [
+                "7b443613.8333e"
+            ]
+        ]
+    },
+    {
+        "id": "4f371b6.411b8e4",
+        "type": "speakerpi-output",
+        "z": "7b928739.5a6318",
+        "choose": "givenfile",
+        "filename": "/home/pi/audio/demo.wav",
+        "channels": "1",
+        "bitdepth": "8",
+        "samplerate": "22050",
+        "name": "Play",
+        "x": 474,
+        "y": 87,
+        "wires": []
+    },
+    {
+        "id": "dfc00cc4.41d6e8",
+        "type": "debug",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 498,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "c3b77084.5f14c8",
+        "type": "watson-speech-to-text",
+        "z": "7b928739.5a6318",
+        "name": "Speech2Text",
+        "speakerlabels": true,
+        "lang": "en-US",
+        "langhidden": "en-US",
+        "langcustom": "NoCustomisationSetting",
+        "langcustomhidden": "",
+        "band": "NarrowbandModel",
+        "bandhidden": "NarrowbandModel",
+        "password": "5L2fmwFZzHSY",
+        "x": 494,
+        "y": 147,
+        "wires": [
+            [
+                "ca34fc14.6b2e9",
+                "1edee2b0.8615cd"
+            ]
+        ]
+    },
+    {
+        "id": "84264011.f70f6",
+        "type": "play audio",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "voice": "2",
+        "x": 1053.5714225769043,
+        "y": 833.5714302062988,
+        "wires": []
+    },
+    {
+        "id": "7d9e0ab5.ae08cc",
+        "type": "watson-conversation-v1",
+        "z": "7b928739.5a6318",
+        "name": "IoT-Chatbot",
+        "workspaceid": "204cb6a3-56d9-4242-847b-39254cca5612",
+        "multiuser": false,
+        "context": true,
+        "x": 595,
+        "y": 835,
+        "wires": [
+            [
+                "f2d1185a.89808",
+                "b5020bb4.91ffe8",
+                "3407864c.04f392"
+            ]
+        ]
+    },
+    {
+        "id": "f2d1185a.89808",
+        "type": "debug",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 766,
+        "y": 723,
+        "wires": []
+    },
+    {
+        "id": "f1f3526.e0db9b",
+        "type": "comment",
+        "z": "7b928739.5a6318",
+        "name": "The Iot Chatbot with Watson Conversations",
+        "info": "{\n  \"url\": \"https://gateway.watsonplatform.net/conversation/api\",\n  \"password\": \"qUtAULrvRkoL\",\n  \"username\": \"34b7b50f-0d49-4e19-9c50-a19b43aa2be6\"\n}",
+        "x": 509.2857360839844,
+        "y": 667.5713920593262,
+        "wires": []
+    },
+    {
+        "id": "ca34fc14.6b2e9",
+        "type": "change",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "transcription",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "transcription",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "human",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 703,
+        "y": 146,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "4df38ade.bf1c64",
+                "72c52dec.3185ac"
+            ]
+        ]
+    },
+    {
+        "id": "4df38ade.bf1c64",
+        "type": "debug",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 999,
+        "y": 149,
+        "wires": []
+    },
+    {
+        "id": "990d0fb3.00d0f",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn on the green led",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 129.28571319580078,
+        "y": 749.285683631897,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "b5020bb4.91ffe8",
+        "type": "change",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.output.text[0]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload.output.text[0]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "watson",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 837.8571662902832,
+        "y": 833.5714378356934,
+        "wires": [
+            [
+                "84264011.f70f6",
+                "72c52dec.3185ac"
+            ]
+        ]
+    },
+    {
+        "id": "33dce62f.c75bb2",
+        "type": "rpi-gpio out",
+        "z": "7b928739.5a6318",
+        "name": "LED YELLOW",
+        "pin": "11",
+        "set": true,
+        "level": "0",
+        "out": "out",
+        "x": 1392.1427841186523,
+        "y": 1119.2857475280762,
+        "wires": []
+    },
+    {
+        "id": "99c8e548.cba35",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Hello",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 100.71428680419922,
+        "y": 694.9999713897705,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "fcd2530a.921e5",
+        "type": "debug",
+        "z": "7b928739.5a6318",
+        "name": "Display Color",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1379.2856216430664,
+        "y": 1302.1428694725037,
+        "wires": []
+    },
+    {
+        "id": "c6eb24c7.0966f",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "display color red",
+        "topic": "",
+        "payload": "Change the display color to red",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 125.00000762939453,
+        "y": 963.5714120864868,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "5826edc0.2db8d4",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "display color yellow",
+        "topic": "",
+        "payload": "Change the display color to yellow",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 129.28571319580078,
+        "y": 996.4285984039307,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "b3435de2.8dc71",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "display color green",
+        "topic": "",
+        "payload": "Change the display color to green",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 130.71428680419922,
+        "y": 1030.714303970337,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc"
+            ]
+        ]
+    },
+    {
+        "id": "3887d4f5.9ec944",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn on the yellow led",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 129.28571319580078,
+        "y": 780.7143077850342,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "a110ea1e.dfa6",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn on the red led",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 119.28571319580078,
+        "y": 812.1428871154785,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "e7928e59.0fccf8",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn on the buzzer",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 136.42857360839844,
+        "y": 1090.7143020629883,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "3407864c.04f392",
+        "type": "function",
+        "z": "7b928739.5a6318",
+        "name": "Context Demultiplexer",
+        "func": "return  [\n            {payload:(msg.payload.context.led_green === true ? true : false)},\n            {payload:(msg.payload.context.led_yellow === true ? true : false)},\n            {payload:(msg.payload.context.led_red === true ? true : false)},\n            {payload:(msg.payload.context.buzzer === true ? \"1\" : \"0\")},\n            {payload:(msg.payload.context.diplay_color === true ? msg.payload.context.diplay_color : false)},\n            {data:msg.payload.context, topic:context}\n        ];\n",
+        "outputs": "6",
+        "noerr": 0,
+        "x": 874.9999694824219,
+        "y": 1112.1428489685059,
+        "wires": [
+            [
+                "833e065d.0ba1"
+            ],
+            [
+                "33dce62f.c75bb2"
+            ],
+            [
+                "4da11a07.0e0214"
+            ],
+            [
+                "fdf90ae6.0156c8"
+            ],
+            [
+                "fcd2530a.921e5"
+            ],
+            [
+                "422645d8.797da4"
+            ]
+        ]
+    },
+    {
+        "id": "b744505a.03b77",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn off the green led",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 126.42857360839844,
+        "y": 857.8571195602417,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "df5cd972.df35e8",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn off the yellow led",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 129.2857208251953,
+        "y": 886.4285650253296,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "3c91ed5c.a4c392",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn off the red led",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 123.57142639160156,
+        "y": 915.0000200271606,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "2517d076.4f9af8",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "topic": "",
+        "payload": "Turn off the buzzer",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 135.25000762939453,
+        "y": 1128.3214797973633,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "b3c8e335.c8a798",
+        "type": "function",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "func": "msg.params.context = \"reset\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 115,
+        "y": 635,
+        "wires": [
+            [
+                "7d9e0ab5.ae08cc",
+                "1b85b6c2.2fca69"
+            ]
+        ]
+    },
+    {
+        "id": "cbe973c0.51e418",
+        "type": "inject",
+        "z": "7b928739.5a6318",
+        "name": "Reset Context",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 99.28572082519531,
+        "y": 634.9999804496765,
+        "wires": [
+            [
+                "b3c8e335.c8a798"
+            ]
+        ]
+    },
+    {
+        "id": "726bde3d.82cab",
+        "type": "comment",
+        "z": "7b928739.5a6318",
+        "name": "Demo Commands",
+        "info": "{\n  \"url\": \"https://gateway.watsonplatform.net/conversation/api\",\n  \"password\": \"qUtAULrvRkoL\",\n  \"username\": \"34b7b50f-0d49-4e19-9c50-a19b43aa2be6\"\n}",
+        "x": 122.14285278320312,
+        "y": 1184.7143020629883,
+        "wires": []
+    },
+    {
+        "id": "c7469b04.44ad3",
+        "type": "comment",
+        "z": "7b928739.5a6318",
+        "name": "Text to Speech and Playback in the Browser",
+        "info": "{\n  \"url\": \"https://gateway.watsonplatform.net/conversation/api\",\n  \"password\": \"qUtAULrvRkoL\",\n  \"username\": \"34b7b50f-0d49-4e19-9c50-a19b43aa2be6\"\n}",
+        "x": 973.0000686645508,
+        "y": 887.2856998443604,
+        "wires": []
+    },
+    {
+        "id": "7314196d.124c48",
+        "type": "comment",
+        "z": "7b928739.5a6318",
+        "name": "Context Parsing and Output Logic",
+        "info": "{\n  \"url\": \"https://gateway.watsonplatform.net/conversation/api\",\n  \"password\": \"qUtAULrvRkoL\",\n  \"username\": \"34b7b50f-0d49-4e19-9c50-a19b43aa2be6\"\n}",
+        "x": 1383.5714263916016,
+        "y": 987.5714416503906,
+        "wires": []
+    },
+    {
+        "id": "1f6cba70.aa8cae",
+        "type": "debug",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 1740.7142219543457,
+        "y": 450.7142868041992,
+        "wires": []
+    },
+    {
+        "id": "b2fd766c.51045",
+        "type": "template",
+        "z": "7b928739.5a6318",
+        "name": "Convert to CSV",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{timestamp}},{{topic}},{{data}};",
+        "x": 1317.8571166992188,
+        "y": 407.8571267127991,
+        "wires": [
+            [
+                "e983a41e.b9ced8",
+                "1b3d5b2a.64fe25",
+                "9f318540.b97998"
+            ]
+        ]
+    },
+    {
+        "id": "e983a41e.b9ced8",
+        "type": "debug",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "active": true,
+        "console": "true",
+        "complete": "true",
+        "x": 1720.7142219543457,
+        "y": 410.7142868041992,
+        "wires": []
+    },
+    {
+        "id": "1b85b6c2.2fca69",
+        "type": "change",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "human",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 605,
+        "y": 875,
+        "wires": [
+            [
+                "72c52dec.3185ac"
+            ]
+        ]
+    },
+    {
+        "id": "1b3d5b2a.64fe25",
+        "type": "file",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 1572.1430206298828,
+        "y": 340.71429538726807,
+        "wires": []
+    },
+    {
+        "id": "e041342b.e52b08",
+        "type": "function",
+        "z": "7b928739.5a6318",
+        "name": "Join Data Streamsfile",
+        "func": "var context = this.context.flow;\ncontext.data = context.data || new Object();\n\n//Wait for information and store it when it comes\nswitch (msg.topic) {\n    case \"watson\":\n        context.data.watson = msg.watson;\n        context.data.context = msg.payload.context;\n        msg = null;\n        break;\n    case \"human\":\n        context.data.human = msg.human;\n        msg = null;\n        break;\n    default:\n        msg = null;\n    \tbreak;\n}\n\n\n\n//When all the data bins are filled, send out the information in one clump\nif(context.data.human !== null && context.data.watson !== null) {\n    //create date object from timestamp injected in\n    var dt = new Date(); \n    context.data.timestamp = new Date().toString();\n\n    //Create Filename that data will be saved to\n    msg = new Object();\n    msg.filename = \"/home/pi/IoTChatbot-log.csv\";\n    msg.payload = context.data;\n\treturn msg;\n\tcontext.data=null;\n\t\n} else return null; //msg;\n\n\n\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1885,
+        "y": 1079,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "72c52dec.3185ac",
+        "type": "function",
+        "z": "7b928739.5a6318",
+        "name": "Timestamp",
+        "func": "    //create date object from timestamp injected in\n    var dt = new Date(); \n    msg.timestamp = new Date().toString();\n\n    msg.filename = \"/home/pi/IoTChatbot-log.csv\";\n\treturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1120.714225769043,
+        "y": 407.85714626312256,
+        "wires": [
+            [
+                "b2fd766c.51045"
+            ]
+        ]
+    },
+    {
+        "id": "9f318540.b97998",
+        "type": "file in",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "filename": "",
+        "format": "utf8",
+        "x": 1557.8570823669434,
+        "y": 450.71435165405273,
+        "wires": [
+            [
+                "1f6cba70.aa8cae"
+            ]
+        ]
+    },
+    {
+        "id": "422645d8.797da4",
+        "type": "json",
+        "z": "7b928739.5a6318",
+        "name": "",
+        "x": 1145.000015258789,
+        "y": 1059.2856884002686,
+        "wires": [
+            [
+                "72c52dec.3185ac"
+            ]
+        ]
+    },
+    {
+        "id": "833e065d.0ba1",
+        "type": "grove digital output",
+        "z": "7b928739.5a6318",
+        "name": "Green LED",
+        "board": "d3148072.23b5a8",
+        "pin": "7",
+        "x": 1384.2856369018555,
+        "y": 1068.857126235962,
+        "wires": []
+    },
+    {
+        "id": "4da11a07.0e0214",
+        "type": "grove digital output",
+        "z": "7b928739.5a6318",
+        "name": "Red LED",
+        "board": "d3148072.23b5a8",
+        "pin": "8",
+        "x": 1373.999942779541,
+        "y": 1172.2857818603516,
+        "wires": []
+    },
+    {
+        "id": "fdf90ae6.0156c8",
+        "type": "grove digital output",
+        "z": "7b928739.5a6318",
+        "name": "Buzzer",
+        "board": "d3148072.23b5a8",
+        "pin": "6",
+        "x": 1371.1428337097168,
+        "y": 1230.0000133514404,
+        "wires": []
+    },
+    {
+        "id": "1edee2b0.8615cd",
+        "type": "debug",
+        "z": "7b928739.5a6318",
+        "name": "Transcript",
+        "active": true,
+        "console": "false",
+        "complete": "fullresult",
+        "x": 693,
+        "y": 77,
+        "wires": []
+    },
+    {
+        "id": "d3148072.23b5a8",
+        "type": "board-config",
+        "z": "",
+        "board": "GrovePi"
+    }
+]

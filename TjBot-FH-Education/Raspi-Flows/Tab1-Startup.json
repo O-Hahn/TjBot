@@ -1,15 +1,15 @@
 [
     {
-        "id": "650ea4c6.6bf0dc",
+        "id": "b8d6d29f.18f0b",
         "type": "tab",
         "label": "Startup",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "e1141f58.5bdd4",
+        "id": "e3c1cdd2.d43f7",
         "type": "comment",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Inital Config of TJBot",
         "info": "",
         "x": 120,
@@ -17,9 +17,9 @@
         "wires": []
     },
     {
-        "id": "8b891fb9.a2d3d",
+        "id": "640ff26b.a60b9c",
         "type": "inject",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Startup",
         "topic": "",
         "payload": "Startup",
@@ -31,16 +31,16 @@
         "y": 156,
         "wires": [
             [
-                "c7d83bc6.261978",
-                "ba5fa57b.ad1ec8",
-                "ced68678.708548"
+                "c6519e83.7973e",
+                "a2d73b83.a2bc68",
+                "46268cdc.38b0d4"
             ]
         ]
     },
     {
-        "id": "c7d83bc6.261978",
+        "id": "c6519e83.7973e",
         "type": "exec",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "command": "ifconfig eth0",
         "addpay": false,
         "append": "",
@@ -52,16 +52,16 @@
         "y": 92,
         "wires": [
             [
-                "db99fefa.95ec2"
+                "e21c5c80.a2a68"
             ],
             [],
             []
         ]
     },
     {
-        "id": "db99fefa.95ec2",
+        "id": "e21c5c80.a2a68",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Extract eth0",
         "func": "// Initialize variables\nvar tokens, inet, bcast, mask;\nvar eth0 =   {\n    \"ip\" : null, \n    \"bcast\" : null, \n    \"mask\" : null\n}\n\n// Parse the entire string by spaces, and put each item into an array called tokens\ntokens = msg.payload.split(\"\\n\", 4);\nmsg.tokens = tokens;\n\n// check if IP exists\nif (tokens[1].indexOf('inet') == -1) {\n    msg.eth0 = eth0;\n    return msg;\n}\n\n// split possible ip\ntokens[1] = tokens[1].substr(tokens[1].indexOf('inet'));\ninet = tokens[1].split(\" \");\n\neth0.ip = inet[1];\neth0.bcast = inet[7];\neth0.mask = inet[4];\n\n// Don't send a message if the IF is the known default. Change to default ip.\nif (eth0.ip==\"192.168.0.120\") { \n    //outString = \"\"; // set output to null if ip is the same so no message is sent\n    msg.payload = \"NoIp\";\n} else {\n    // return the final output\n    msg.payload = eth0.ip;\n}\n\nmsg.eth0 = eth0;\n\nreturn msg;\n",
         "outputs": 1,
@@ -70,23 +70,23 @@
         "y": 80.00000238418579,
         "wires": [
             [
-                "2a79da68.945df6"
+                "9ae2a25.1df266"
             ]
         ]
     },
     {
-        "id": "d42ae381.6fb2f",
+        "id": "81699f4a.c735",
         "type": "rpi-sensehat out",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "",
         "x": 782,
         "y": 361.5,
         "wires": []
     },
     {
-        "id": "ba5fa57b.ad1ec8",
+        "id": "a2d73b83.a2bc68",
         "type": "exec",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "command": "hostname",
         "addpay": false,
         "append": "",
@@ -97,16 +97,16 @@
         "y": 155.00001525878906,
         "wires": [
             [
-                "b07d6588.5853c8"
+                "9aeb5b73.10f138"
             ],
             [],
             []
         ]
     },
     {
-        "id": "b07d6588.5853c8",
+        "id": "9aeb5b73.10f138",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Get Hostname",
         "func": "msg.payload = msg.payload.slice(0,msg.payload.length-1);\n\nglobal.set(\"device\", msg.payload);\n\nreturn msg;",
         "outputs": 1,
@@ -115,14 +115,14 @@
         "y": 136,
         "wires": [
             [
-                "2b1578a1.838ee8"
+                "b94ad4c5.256498"
             ]
         ]
     },
     {
-        "id": "27a302b.2b7c8fe",
+        "id": "94d8263.daafcd8",
         "type": "change",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Loop Init",
         "rules": [
             {
@@ -142,14 +142,14 @@
         "y": 418,
         "wires": [
             [
-                "6e6d21cc.078b1"
+                "8ca5403e.7afcb"
             ]
         ]
     },
     {
-        "id": "6e6d21cc.078b1",
+        "id": "8ca5403e.7afcb",
         "type": "switch",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "",
         "property": "loop",
         "propertyType": "flow",
@@ -170,15 +170,15 @@
         "y": 418,
         "wires": [
             [
-                "f68ab89b.bbcef8"
+                "40e5871a.3b86f8"
             ],
             []
         ]
     },
     {
-        "id": "a2908b6d.f271a8",
+        "id": "9809a43c.2a3fb8",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Increase",
         "func": "var count = flow.get('loop') || 0;\ncount += 1;\nflow.set('loop', count);\n\nreturn msg;",
         "outputs": 1,
@@ -187,43 +187,43 @@
         "y": 361,
         "wires": [
             [
-                "6e6d21cc.078b1",
-                "cde71acf.1fdc48"
+                "8ca5403e.7afcb",
+                "9bc069d6.bca398"
             ]
         ]
     },
     {
-        "id": "fc4afb6e.aa10d8",
+        "id": "fc5233d2.01691",
         "type": "link out",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Show IP",
         "links": [
-            "bfb82d3b.abd8e"
+            "3009e4a9.7478bc"
         ],
         "x": 1142.0001945495605,
         "y": 67.00000953674316,
         "wires": []
     },
     {
-        "id": "bfb82d3b.abd8e",
+        "id": "3009e4a9.7478bc",
         "type": "link in",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "",
         "links": [
-            "fc4afb6e.aa10d8"
+            "fc5233d2.01691"
         ],
         "x": 36,
         "y": 418,
         "wires": [
             [
-                "27a302b.2b7c8fe"
+                "94d8263.daafcd8"
             ]
         ]
     },
     {
-        "id": "f68ab89b.bbcef8",
+        "id": "40e5871a.3b86f8",
         "type": "delay",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Wait",
         "pauseType": "delay",
         "timeout": "20",
@@ -239,14 +239,14 @@
         "y": 418,
         "wires": [
             [
-                "a2908b6d.f271a8"
+                "9809a43c.2a3fb8"
             ]
         ]
     },
     {
-        "id": "cde71acf.1fdc48",
+        "id": "9bc069d6.bca398",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "HAT Msg",
         "func": "var hostname = global.get(\"device\") || \"\";\nvar ip = global.get(\"IP\");\nvar rotation = global.get(\"rotation\");\n\nif (rotation) {\n    msg.payload = rotation + \"\\n\" + hostname + \" : \" + ip.ip;\n} else {\n    msg.payload = hostname + \" : \" + ip.ip;\n}\nmsg.speed = 4;\n\nreturn msg;",
         "outputs": 1,
@@ -255,15 +255,15 @@
         "y": 361,
         "wires": [
             [
-                "d42ae381.6fb2f",
-                "f60e9d8.326146"
+                "81699f4a.c735",
+                "6ff71b4e.484514"
             ]
         ]
     },
     {
-        "id": "2b1578a1.838ee8",
+        "id": "b94ad4c5.256498",
         "type": "debug",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Hostsname",
         "active": false,
         "console": "false",
@@ -273,9 +273,9 @@
         "wires": []
     },
     {
-        "id": "6fa6ef9e.d9461",
+        "id": "bd618d40.18e0f",
         "type": "comment",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Show local IP - 3 Times",
         "info": "",
         "x": 120,
@@ -283,25 +283,25 @@
         "wires": []
     },
     {
-        "id": "9414bd24.bfd72",
+        "id": "744aece1.4f2354",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Set IP Global",
-        "func": "var ip = \"NO-IP\";\nif (msg.eth0.ip.length > 0) {\n    global.set(\"IP\", msg.eth0);\n    ip = msg.eth0.ip;\n} else {\n    if (msg.wlan0.ip.length > 0) {\n        global.set(\"IP\", msg.wlan0);\n        ip = msg.wlan0.ip;\n    }\n}\nvar url = \"http://\" + ip + \":1880\";\n\n// Set the Application URL (local)\nglobal.set(\"appurl\", url);\n\n// Set the IP-Address used by TJBot\nglobal.set(\"ipaddr\", ip);\n\nreturn msg;",
+        "func": "var ip = \"NO-IP\";\nif (msg.eth0.ip && msg.eth0.ip.length > 0) {\n    global.set(\"IP\", msg.eth0);\n    ip = msg.eth0.ip;\n} else {\n    if (msg.wlan0.ip && msg.wlan0.ip.length > 0) {\n        global.set(\"IP\", msg.wlan0);\n        ip = msg.wlan0.ip;\n    }\n}\nvar url = \"http://\" + ip + \":1880\";\n\n// Set the Application URL (local)\nglobal.set(\"appurl\", url);\n\n// Set the IP-Address used by TJBot\nglobal.set(\"ipaddr\", ip);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 1025.0000762939453,
         "y": 67.0000057220459,
         "wires": [
             [
-                "fc4afb6e.aa10d8"
+                "fc5233d2.01691"
             ]
         ]
     },
     {
-        "id": "f60e9d8.326146",
+        "id": "6ff71b4e.484514",
         "type": "debug",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "",
         "active": false,
         "console": "false",
@@ -311,9 +311,9 @@
         "wires": []
     },
     {
-        "id": "2a79da68.945df6",
+        "id": "9ae2a25.1df266",
         "type": "exec",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "command": "ifconfig wlan0",
         "addpay": false,
         "append": "",
@@ -325,16 +325,16 @@
         "y": 80.00000190734863,
         "wires": [
             [
-                "4f9acc76.2b8254"
+                "2237d889.bb7db8"
             ],
             [],
             []
         ]
     },
     {
-        "id": "4f9acc76.2b8254",
+        "id": "2237d889.bb7db8",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Extract wlan0",
         "func": "// Initialize variables\nvar tokens, inet, bcast, mask;\nvar wlan0 = {\n    \"ip\" : null,\n    \"bcast\" : null, \n    \"mask\" : null\n}\n\n// Parse the entire string by spaces, and put each item into an array called tokens\ntokens = msg.payload.split(\"\\n\", 4);\nmsg.tokens = tokens;\n\n// check if IP exists\nif (tokens[1].indexOf('inet') == -1) {\n    msg.wlan0 = wlan0;\n    return msg;\n}\n\n// split possible ip\ntokens[1] = tokens[1].substr(tokens[1].indexOf('inet'));\ninet = tokens[1].split(\" \");\n\nwlan0.ip = inet[1];\nwlan0.bcast = inet[7];\nwlan0.mask = inet[4];\n\n// Don't send a message if the IF is the known default. Change to default ip.\nif (wlan0.ip==\"192.168.0.120\") { \n    //outString = \"\"; // set output to null if ip is the same so no message is sent\n    msg.payload = \"NoIp\";\n} else {\n    // return the final output\n    msg.payload = wlan0.ip;\n}\n\nmsg.wlan0 = wlan0;\n\nreturn msg;\n",
         "outputs": 1,
@@ -343,15 +343,15 @@
         "y": 67.00000190734863,
         "wires": [
             [
-                "9414bd24.bfd72",
-                "d1dba884.ba4b68"
+                "744aece1.4f2354",
+                "833de14a.4616f"
             ]
         ]
     },
     {
-        "id": "ced68678.708548",
+        "id": "46268cdc.38b0d4",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Set Globals",
         "func": "// Shloud data sent to IoTF\nglobal.set(\"sendIoTF\", true);\n\n// Is TJBot male ore female\nglobal.set(\"gender\", \"male\");\n\n// What is the default location \nglobal.set(\"location\", \"Linz\");\n\n// Set the necessary rotation for the 8x8 matrix\nglobal.set(\"rotation\",\"R270\");\n\n// Eye Settings \nglobal.set(\"eyeDelay\", 100);\nglobal.set(\"eyeShow\", false);\n\nreturn msg;",
         "outputs": 1,
@@ -360,14 +360,14 @@
         "y": 214.01042556762695,
         "wires": [
             [
-                "e35eb6c3.fabdc8"
+                "61ffd40c.7b64ac"
             ]
         ]
     },
     {
-        "id": "e35eb6c3.fabdc8",
+        "id": "61ffd40c.7b64ac",
         "type": "function",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "Def. SenseHAT",
         "func": "var senseHATImages = [];\nvar rotation = global.get(\"rotation\");\n\nvar sHImage = {\n    \"name\" : \"weather\",\n    \"image\" : [ \n        \"y\",\"y\",\"y\",\"e\",\"e\",\"e\",\"e\",\"e\",\n        \"y\",\"y\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n        \"y\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"w\",\"w\",\"e\",\"e\",\"e\",\"e\",\n        \"e\",\"w\",\"e\",\"e\",\"w\",\"e\",\"e\",\"e\",\n        \"w\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n        \"e\",\"w\",\"e\",\"e\",\"w\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"w\",\"w\",\"e\",\"e\",\"e\",\"e\"\n        ],\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nvar sHImage = {\n    \"name\" : \"no_light\",\n    \"image\" : [ \n        \"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"e\",\"x\",\"x\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"x\",\"e\",\"e\",\"x\",\"e\",\"e\",\n        \"e\",\"x\",\"e\",\"e\",\"e\",\"e\",\"x\",\"e\",\n        \"e\",\"x\",\"e\",\"e\",\"e\",\"e\",\"x\",\"e\",\n        \"e\",\"e\",\"x\",\"e\",\"e\",\"x\",\"e\",\"e\",\n        \"e\",\"e\",\"e\",\"x\",\"x\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"e\",\"x\",\"x\",\"e\",\"e\",\"e\"\n        ],\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nvar xx_light = [ \n\"?\",\"e\",\"e\",\"?\",\"?\",\"e\",\"e\",\"?\",\n\"e\",\"?\",\"e\",\"x\",\"x\",\"e\",\"?\",\"e\",\n\"e\",\"e\",\"x\",\"e\",\"e\",\"x\",\"e\",\"e\",\n\"?\",\"x\",\"e\",\"e\",\"e\",\"e\",\"x\",\"?\",\n\"e\",\"x\",\"e\",\"e\",\"e\",\"e\",\"x\",\"e\",\n\"e\",\"?\",\"x\",\"e\",\"e\",\"x\",\"?\",\"e\",\n\"?\",\"e\",\"e\",\"x\",\"x\",\"e\",\"e\",\"?\",\n\"e\",\"e\",\"e\",\"x\",\"x\",\"e\",\"e\",\"e\"\n];\n\n// define the possible lights \nvar red_light = xx_light.slice();\nvar blue_light = xx_light.slice();\nvar yellow_light = xx_light.slice();\nvar white_light = xx_light.slice();\nvar green_light = xx_light.slice();\nfor (var y = 0; y < 8; y++) {\n    for (var x = 0; x < 8; x++) {\n        if (xx_light[y*8+x] == \"?\") {\n            red_light[y*8+x] = \"r\";         \n            blue_light[y*8+x] = \"b\";         \n            green_light[y*8+x] = \"g\";         \n            white_light[y*8+x] = \"w\";         \n            yellow_light[y*8+x] = \"y\";         \n        } else {\n            red_light[y*8+x] = xx_light[y*8+x];         \n            blue_light[y*8+x] = xx_light[y*8+x];         \n            green_light[y*8+x] = xx_light[y*8+x];         \n            white_light[y*8+x] = xx_light[y*8+x];         \n            yellow_light[y*8+x] = xx_light[y*8+x];         \n        }\n    }\n}\n\nsHImage = {\n    \"name\" : \"red_light\",\n    \"image\" :  red_light,\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nsHImage = {\n    \"name\" : \"green_light\",\n    \"image\" :  green_light,\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nsHImage = {\n    \"name\" : \"yellow_light\",\n    \"image\" :  yellow_light,\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nsHImage = {\n    \"name\" : \"blue_light\",\n    \"image\" :  blue_light,\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nsHImage = {\n    \"name\" : \"white_light\",\n    \"image\" :  white_light,\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\n    \nsHImage = {\n    \"name\" : \"smily\",\n    \"image\" :  [ \n        \"o\",\"o\",\"o\",\"e\",\"e\",\"o\",\"o\",\"o\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"w\",\"b\",\"w\",\"e\",\"e\",\"w\",\"b\",\"w\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"e\",\"e\",\"e\",\"y\",\"y\",\"e\",\"e\",\"e\",\n        \"r\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"r\",\n        \"e\",\"r\",\"r\",\"r\",\"r\",\"r\",\"r\",\"e\",\n        \"e\",\"e\",\"e\",\"r\",\"r\",\"e\",\"e\",\"e\"\n        ],\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nsHImage = {\n    \"name\" : \"frusty\",\n    \"image\" :  [ \n        \"o\",\"o\",\"o\",\"e\",\"e\",\"o\",\"o\",\"o\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"w\",\"b\",\"w\",\"e\",\"e\",\"w\",\"b\",\"w\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"e\",\"e\",\"e\",\"y\",\"y\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n        \"e\",\"r\",\"r\",\"r\",\"r\",\"r\",\"r\",\"e\",\n        \"r\",\"r\",\"e\",\"e\",\"e\",\"e\",\"r\",\"r\"\n        ],\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nsHImage = {\n    \"name\" : \"surprised\",\n    \"image\" :  [ \n        \"o\",\"o\",\"o\",\"e\",\"e\",\"o\",\"o\",\"o\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"w\",\"b\",\"w\",\"e\",\"e\",\"w\",\"b\",\"w\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"e\",\"e\",\"e\",\"y\",\"y\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"r\",\"r\",\"r\",\"r\",\"e\",\"e\",\n        \"e\",\"e\",\"r\",\"e\",\"e\",\"r\",\"e\",\"e\",\n        \"e\",\"e\",\"r\",\"r\",\"r\",\"r\",\"e\",\"e\"\n        ],\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\nsHImage = {\n    \"name\" : \"nutreal\",\n    \"image\" :  [ \n        \"o\",\"o\",\"o\",\"e\",\"e\",\"o\",\"o\",\"o\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"w\",\"b\",\"w\",\"e\",\"e\",\"w\",\"b\",\"w\",\n        \"w\",\"w\",\"w\",\"e\",\"e\",\"w\",\"w\",\"w\",\n        \"e\",\"e\",\"e\",\"y\",\"y\",\"e\",\"e\",\"e\",\n        \"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\"e\",\n        \"e\",\"r\",\"r\",\"r\",\"r\",\"r\",\"r\",\"e\",\n        \"e\",\"e\",\"r\",\"r\",\"r\",\"r\",\"e\",\"e\"\n        ],\n    \"sImage\": \"\"\n}\nsenseHATImages.push(sHImage);\n\n// convert all the images to a SenseHAT string\nfor (var i = 0; i < senseHATImages.length; i++) {\n    var sImage = \"\";\n    var first = true;\n    for (var y = 0; y < 8; y++) {\n        for (var x = 0; x < 8; x++) {\n            if (first === true) {\n                sImage = \"\";\n                if (rotation) {\n                    sImage = rotation + \"\\n\";\n                }\n                sImage = sImage + x + \",\" + y;\n                first = false;\n            } else {\n                sImage = sImage + \",\" + x + \",\" + y;\n            }\n            switch (senseHATImages[i].image[y*8+x]) {\n                case \"r\":\n                    sImage = sImage + \",red\";\n                    break;\n                case \"g\":\n                    sImage = sImage + \",green\";\n                    break;\n                case \"b\":\n                    sImage = sImage + \",blue\";\n                    break;\n                case \"y\":\n                    sImage = sImage + \",yellow\";\n                    break;\n                case \"p\":\n                    sImage = sImage + \",purple\";\n                    break;\n                case \"m\":\n                    sImage = sImage + \",magenta\";\n                    break;\n                case \"l\":\n                    sImage = sImage + \",oldlace\";\n                    break;\n                case \"o\":\n                    //sImage = sImage + \",210,105,30\";\n                    sImage = sImage + \",orange\";\n                    break;\n                case \"i\":\n                    sImage = sImage + \",pink\";\n                    break;\n                case \"x\":\n                    sImage = sImage + \",192,192,192\";\n                    break;\n                case \"w\":\n                    sImage = sImage + \",white\";\n                    break;\n                default:\n                    sImage = sImage + \",off\";\n                    break;\n            }    \n        }\n    }\n    senseHATImages[i].sImage = sImage;\n}\n\n// save Images to global\nglobal.set(\"senseHATImages\", senseHATImages);\n    \nreturn msg;",
         "outputs": 1,
@@ -379,11 +379,11 @@
         ]
     },
     {
-        "id": "d1dba884.ba4b68",
+        "id": "833de14a.4616f",
         "type": "debug",
-        "z": "650ea4c6.6bf0dc",
+        "z": "b8d6d29f.18f0b",
         "name": "IP-Adresse",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,

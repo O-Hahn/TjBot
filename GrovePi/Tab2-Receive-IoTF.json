@@ -1,0 +1,1215 @@
+[
+    {
+        "id": "c32403fe.ab9fd",
+        "type": "tab",
+        "label": "Receive IoTF"
+    },
+    {
+        "id": "d30eb78e.52918",
+        "type": "comment",
+        "z": "c32403fe.ab9fd",
+        "name": "GrovePi-1 - Receive from IoTF ",
+        "info": "",
+        "x": 155,
+        "y": 26,
+        "wires": []
+    },
+    {
+        "id": "b2f6405.303f7c",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "set-lcd",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF Set-Lcd",
+        "x": 93,
+        "y": 139,
+        "wires": [
+            [
+                "8f08a8a3.4c367",
+                "84deb8ce.812da"
+            ]
+        ]
+    },
+    {
+        "id": "8f08a8a3.4c367",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 306,
+        "y": 75.5,
+        "wires": []
+    },
+    {
+        "id": "84deb8ce.812da",
+        "type": "change",
+        "z": "c32403fe.ab9fd",
+        "name": "Save msg",
+        "rules": [
+            {
+                "t": "set",
+                "p": "orig",
+                "pt": "msg",
+                "to": "payload.d",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 286.5,
+        "y": 139,
+        "wires": [
+            [
+                "a5392491.c6cd78"
+            ]
+        ]
+    },
+    {
+        "id": "a5392491.c6cd78",
+        "type": "switch",
+        "z": "c32403fe.ab9fd",
+        "name": "Which cmd",
+        "property": "payload.d.cmd",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Temperature",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Restore",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 3,
+        "x": 347.4999084472656,
+        "y": 215,
+        "wires": [
+            [
+                "76de52a6.17cdfc"
+            ],
+            [
+                "99f8b501.239f28"
+            ],
+            [
+                "d2cce080.400648"
+            ]
+        ]
+    },
+    {
+        "id": "76de52a6.17cdfc",
+        "type": "change",
+        "z": "c32403fe.ab9fd",
+        "name": "Save into lastlcd",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lastlcd",
+                "pt": "global",
+                "to": "payload.d",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 543.2333984375,
+        "y": 156.86666870117188,
+        "wires": [
+            [
+                "d2cce080.400648"
+            ]
+        ]
+    },
+    {
+        "id": "99f8b501.239f28",
+        "type": "switch",
+        "z": "c32403fe.ab9fd",
+        "name": "lastlcd exists",
+        "property": "lastlcd",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 532.2333984375,
+        "y": 214.26666259765625,
+        "wires": [
+            [
+                "b7eac7c2.0bb03"
+            ],
+            [
+                "d2cce080.400648"
+            ]
+        ]
+    },
+    {
+        "id": "d2cce080.400648",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Set LCD",
+        "func": "var lcd = {\n    \"text\" : msg.orig.text,\n    \"rgb\" : msg.orig.rgb\n}\n\nmsg.payload = lcd; \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 734.2333984375,
+        "y": 288.73333740234375,
+        "wires": [
+            [
+                "24c249b4.b2c896",
+                "4bd3e7c6.55ab68"
+            ]
+        ]
+    },
+    {
+        "id": "b7eac7c2.0bb03",
+        "type": "change",
+        "z": "c32403fe.ab9fd",
+        "name": "Restore lastlcd",
+        "rules": [
+            {
+                "t": "set",
+                "p": "orig",
+                "pt": "msg",
+                "to": "lastlcd",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 752.2333984375,
+        "y": 183.66668701171875,
+        "wires": [
+            [
+                "d2cce080.400648"
+            ]
+        ]
+    },
+    {
+        "id": "24c249b4.b2c896",
+        "type": "grove lcdrgb output",
+        "z": "c32403fe.ab9fd",
+        "name": "LCD Display",
+        "board": "d33c21ca.4b21e",
+        "pin": "1",
+        "x": 921.2333984375,
+        "y": 287.933349609375,
+        "wires": []
+    },
+    {
+        "id": "4bd3e7c6.55ab68",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 924.2333984375,
+        "y": 234.06668090820312,
+        "wires": []
+    },
+    {
+        "id": "be4418e0.059668",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "speak",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF speak",
+        "x": 84,
+        "y": 476,
+        "wires": [
+            [
+                "11184acd.73f81d",
+                "e4190b9c.9a3c88"
+            ]
+        ]
+    },
+    {
+        "id": "11184acd.73f81d",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 277.6333312988281,
+        "y": 426.0999755859375,
+        "wires": []
+    },
+    {
+        "id": "e4190b9c.9a3c88",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Save msg",
+        "func": "msg.orig = msg.payload.d;\n\nmsg.srclang = msg.payload.d.srclang;\nmsg.destlang = msg.payload.d.destlang;\nmsg.payload = msg.payload.d.speak; \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 274.6333312988281,
+        "y": 475.60009765625,
+        "wires": [
+            [
+                "386974cb.2e276c"
+            ]
+        ]
+    },
+    {
+        "id": "386974cb.2e276c",
+        "type": "switch",
+        "z": "c32403fe.ab9fd",
+        "name": "Translate?",
+        "property": "srclang",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "destlang",
+                "vt": "msg"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 305.6333312988281,
+        "y": 553.6000366210938,
+        "wires": [
+            [
+                "4e5e39d.92d15c8"
+            ],
+            [
+                "65610cd8.8f2aa4"
+            ]
+        ]
+    },
+    {
+        "id": "4e5e39d.92d15c8",
+        "type": "watson-translator",
+        "z": "c32403fe.ab9fd",
+        "name": "Translator",
+        "action": "translate",
+        "basemodel": "ar-en",
+        "domain": "news",
+        "srclang": "de",
+        "destlang": "en",
+        "password": "TYuZM6jD04i6",
+        "custom": "",
+        "domainhidden": "news",
+        "srclanghidden": "de",
+        "destlanghidden": "en",
+        "basemodelhidden": "ar-en",
+        "customhidden": "",
+        "filetype": "forcedglossary",
+        "trainid": "",
+        "lgparams2": true,
+        "x": 480.2666320800781,
+        "y": 497.2333068847656,
+        "wires": [
+            [
+                "65610cd8.8f2aa4",
+                "8f87c3a8.339df8"
+            ]
+        ]
+    },
+    {
+        "id": "65610cd8.8f2aa4",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "set text2speach",
+        "func": "if (msg.orig) {\n    if (msg.orig.voice) {\n        msg.voice = msg.orig.voice;\n    } else {\n        if (msg.destlang == \"en\" ) { msg.voice = \"en-GB_KateVoice\" }\n        if (msg.destlang == \"es\" ) { msg.voice = \"es-ES_LauraVoice\" }\n        if (msg.destlang == \"de\" ) { msg.voice = \"de-DE_BirgitVoice\"}\n        if (msg.destlang == \"fr\" ) { msg.voice = \"fr-FR_ReneeVoice\"}\n        if (msg.destlang == \"it\" ) { msg.voice = \"it-IT_FrancescaVoice\"}\n        if (msg.destlang == \"pt\" ) { msg.voice = \"pt-BR_IsabelaVoice\"}\n    } \n} else {\n    if (msg.destlang == \"en\" ) { msg.voice = \"en-GB_KateVoice\" }\n    if (msg.destlang == \"es\" ) { msg.voice = \"es-ES_LauraVoice\" }\n    if (msg.destlang == \"de\" ) { msg.voice = \"de-DE_BirgitVoice\"}\n    if (msg.destlang == \"fr\" ) { msg.voice = \"fr-FR_ReneeVoice\"}\n    if (msg.destlang == \"it\" ) { msg.voice = \"it-IT_FrancescaVoice\"}\n    if (msg.destlang == \"pt\" ) { msg.voice = \"pt-BR_IsabelaVoice\"}\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 694.6333312988281,
+        "y": 560.1000366210938,
+        "wires": [
+            [
+                "ba376c8f.b35008"
+            ]
+        ]
+    },
+    {
+        "id": "8f87c3a8.339df8",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "Translation",
+        "active": true,
+        "console": "false",
+        "complete": "translation",
+        "x": 688.6333312988281,
+        "y": 497.10009765625,
+        "wires": []
+    },
+    {
+        "id": "9e2de41e.c124c8",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Test Message",
+        "func": "msg.payload = \"Dies ist ein Test\";\nmsg.srclang = \"de\";\nmsg.destlang =\"en\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 286.2666320800781,
+        "y": 380.2333068847656,
+        "wires": [
+            [
+                "4e5e39d.92d15c8"
+            ]
+        ]
+    },
+    {
+        "id": "ba376c8f.b35008",
+        "type": "watson-text-to-speech",
+        "z": "c32403fe.ab9fd",
+        "name": "Text2Speach",
+        "lang": "de-DE",
+        "langhidden": "de-DE",
+        "voice": "de-DE_BirgitVoice",
+        "voicehidden": "",
+        "format": "audio/wav",
+        "password": "GX0sH8KLnAug",
+        "x": 700.2666320800781,
+        "y": 642.2333068847656,
+        "wires": [
+            [
+                "ded7af40.b028b8",
+                "3db6daa3.1c1dd6"
+            ]
+        ]
+    },
+    {
+        "id": "a5f6ce3.ae5733",
+        "type": "inject",
+        "z": "c32403fe.ab9fd",
+        "name": "Start Test",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 104.26663208007812,
+        "y": 380.2333068847656,
+        "wires": [
+            [
+                "9e2de41e.c124c8"
+            ]
+        ]
+    },
+    {
+        "id": "17955b10.7f85d5",
+        "type": "inject",
+        "z": "c32403fe.ab9fd",
+        "name": "Test ",
+        "topic": "",
+        "payload": "Dies ist ein Test",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 474.6333312988281,
+        "y": 642.6000061035156,
+        "wires": [
+            [
+                "ba376c8f.b35008"
+            ]
+        ]
+    },
+    {
+        "id": "ded7af40.b028b8",
+        "type": "speakerpi-output",
+        "z": "c32403fe.ab9fd",
+        "choose": "filebased",
+        "channels": "1",
+        "bitdepth": "8",
+        "samplerate": "22050",
+        "name": "Raspi Speaker",
+        "x": 928.6333312988281,
+        "y": 642.6000366210938,
+        "wires": []
+    },
+    {
+        "id": "3db6daa3.1c1dd6",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 919.6333312988281,
+        "y": 593.1000366210938,
+        "wires": []
+    },
+    {
+        "id": "403c3faf.10e5a8",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "set-led",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF Set-Led",
+        "x": 91,
+        "y": 796,
+        "wires": [
+            [
+                "343cff6a.519a5",
+                "bafd3901.e34e"
+            ]
+        ]
+    },
+    {
+        "id": "343cff6a.519a5",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 290.6333312988281,
+        "y": 734.3331909179688,
+        "wires": []
+    },
+    {
+        "id": "bafd3901.e34e",
+        "type": "switch",
+        "z": "c32403fe.ab9fd",
+        "name": "Toggle mode",
+        "property": "payload.d.toggle",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 297.0000305175781,
+        "y": 795.5332641601562,
+        "wires": [
+            [
+                "5a92bcf3.934cec"
+            ],
+            [
+                "2026ddf0.82ed4a"
+            ]
+        ]
+    },
+    {
+        "id": "5a92bcf3.934cec",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "switch on/off",
+        "func": "var newMsg = { payload: false };\nif (msg.payload.d.turnon) {\n    newMsg.payload = msg.payload.d.turnon;    \n} \n\n// switch all off\n// toggle the led lights depending on red/green\n// stat represents on/off for the led light\nif (msg.payload.d.led == \"all off\") {\n    return [{ payload: false },{ payload: false },{ payload: false }];\n} else if (msg.payload.d.led == \"green\") {\n    return [newMsg, { payload: false },{ payload: false }];\n} else if (msg.payload.d.led == \"red\") {\n    return [{ payload: false }, newMsg,{ payload: false }];\n} else if (msg.payload.d.led == \"blue\") {\n    return [{ payload: false }, { payload: false }, newMsg];\n}else {\n    return [{ payload: false }, { payload: false }, { payload: false }];\n}",
+        "outputs": "3",
+        "noerr": 0,
+        "x": 691.6333618164062,
+        "y": 788.5331115722656,
+        "wires": [
+            [
+                "4af09f8f.56ef7"
+            ],
+            [
+                "1ea75ab4.283abd"
+            ],
+            [
+                "90e0a43c.31a758"
+            ]
+        ]
+    },
+    {
+        "id": "2026ddf0.82ed4a",
+        "type": "switch",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "property": "payload.d.led",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "green",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "red",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "blue",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 3,
+        "x": 507.0000915527344,
+        "y": 884.5332336425781,
+        "wires": [
+            [
+                "ba311736.dc0ad"
+            ],
+            [
+                "f3f1839.4c0a4"
+            ],
+            [
+                "abb775f7.6dc22"
+            ]
+        ]
+    },
+    {
+        "id": "4af09f8f.56ef7",
+        "type": "grove digital output",
+        "z": "c32403fe.ab9fd",
+        "name": "Green Led",
+        "board": "5675b940.d4baa",
+        "pin": "7",
+        "x": 952.0000610351562,
+        "y": 774.8000793457031,
+        "wires": []
+    },
+    {
+        "id": "1ea75ab4.283abd",
+        "type": "grove digital output",
+        "z": "c32403fe.ab9fd",
+        "name": "Red Led",
+        "board": "5675b940.d4baa",
+        "pin": "8",
+        "x": 940.0000610351562,
+        "y": 849.8000793457031,
+        "wires": []
+    },
+    {
+        "id": "90e0a43c.31a758",
+        "type": "grove digital output",
+        "z": "c32403fe.ab9fd",
+        "name": "Blue Led",
+        "board": "7a4bdb0c.52937c",
+        "pin": "4",
+        "x": 942.0000610351562,
+        "y": 923.13330078125,
+        "wires": []
+    },
+    {
+        "id": "ba311736.dc0ad",
+        "type": "change",
+        "z": "c32403fe.ab9fd",
+        "name": "Set On/Off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.d.turnon",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 688.0000915527344,
+        "y": 842.9999084472656,
+        "wires": [
+            [
+                "4af09f8f.56ef7"
+            ]
+        ]
+    },
+    {
+        "id": "f3f1839.4c0a4",
+        "type": "change",
+        "z": "c32403fe.ab9fd",
+        "name": "Set On/Off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.d.turnon",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 689.6333923339844,
+        "y": 884.5332641601562,
+        "wires": [
+            [
+                "1ea75ab4.283abd"
+            ]
+        ]
+    },
+    {
+        "id": "abb775f7.6dc22",
+        "type": "change",
+        "z": "c32403fe.ab9fd",
+        "name": "Set On/Off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.d.turnon",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 690.6333923339844,
+        "y": 923.5332641601562,
+        "wires": [
+            [
+                "90e0a43c.31a758"
+            ]
+        ]
+    },
+    {
+        "id": "b969e069.729718",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "set-light",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF Set-Light",
+        "x": 94,
+        "y": 1062,
+        "wires": [
+            [
+                "aac16a9.0b75e98",
+                "2e99faa.53e7206"
+            ]
+        ]
+    },
+    {
+        "id": "aac16a9.0b75e98",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 296,
+        "y": 1018.7999877929688,
+        "wires": []
+    },
+    {
+        "id": "2e99faa.53e7206",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Set RGB",
+        "func": "var rgb = [ parseInt(msg.payload.d.lightr), parseInt(msg.payload.d.lightg), parseInt(msg.payload.d.lightb) ];\n\nvar lcd = {\n    \"text\" : msg.payload.d.text,\n    \"rgb\" : rgb\n}\n\nmsg.payload = lcd; \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290.1666564941406,
+        "y": 1073.4666748046875,
+        "wires": [
+            [
+                "acd87f75.4f92a"
+            ]
+        ]
+    },
+    {
+        "id": "acd87f75.4f92a",
+        "type": "grove lcdrgb output",
+        "z": "c32403fe.ab9fd",
+        "name": "LCD",
+        "board": "916b6c19.9f06a8",
+        "pin": "1",
+        "x": 455.0000305175781,
+        "y": 1073.86669921875,
+        "wires": []
+    },
+    {
+        "id": "5bf7243c.8b8a4c",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "play",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF play",
+        "x": 87,
+        "y": 1237,
+        "wires": [
+            [
+                "ebba283a.fccd3",
+                "325637a2.91747"
+            ]
+        ]
+    },
+    {
+        "id": "ebba283a.fccd3",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 301,
+        "y": 1186.7998962402344,
+        "wires": []
+    },
+    {
+        "id": "325637a2.91747",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Set play",
+        "func": "var newPath = \"/home/pi/Git/predefsound/\";\nvar newFile;\n\nmsg.choose = \"filebased\";\n\nif (msg.payload.d.filename) {\n    if (msg.payload.d.filename == \"watson-1.wav\") {\n        newFile = newPath + \"100percent.wav\";\n    } else if (msg.payload.d.filename == \"watson-2.wav\") {\n        newFile = newPath + \"everonward.wav\";\n    } else if (msg.payload.d.filename == \"watson-3.wav\") {\n        newFile = newPath + \"hailtoibm.wav\";\n    } else if (msg.payload.d.filename == \"watson-4.wav\") {\n        newFile = newPath + \"marchon.wav\";\n    } else if (msg.payload.d.filename == \"watson-5.wav\") {\n        newFile = newPath + \"hello.wav\";\n    } else {\n        newFile = newPath + msg.payload.d.filename;\n    }\n} else {\n        newFile = newPath + \"hello.wav\";\n}\n\nmsg.filename = newFile;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 296.6333312988281,
+        "y": 1237.5999450683594,
+        "wires": [
+            [
+                "6a85c03d.ca8b68"
+            ]
+        ]
+    },
+    {
+        "id": "6a85c03d.ca8b68",
+        "type": "speakerpi-output",
+        "z": "c32403fe.ab9fd",
+        "choose": "filebased",
+        "filename": "",
+        "channels": "2",
+        "bitdepth": "8",
+        "samplerate": "22050",
+        "name": "Raspi Speaker",
+        "x": 496.0000305175781,
+        "y": 1237.7332458496094,
+        "wires": []
+    },
+    {
+        "id": "880027c8.355a18",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "set-buzzer",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF Set-Buzzer",
+        "x": 102,
+        "y": 1394,
+        "wires": [
+            [
+                "1f793.6c66b86d9",
+                "95da1a41.f3afe"
+            ]
+        ]
+    },
+    {
+        "id": "1f793.6c66b86d9",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 298,
+        "y": 1350.7999267578125,
+        "wires": []
+    },
+    {
+        "id": "95da1a41.f3afe",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Set buzzer",
+        "func": "if (msg.payload.d.status === true) {\n    msg.payload = true; \n} else {\n    msg.payload = false;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 302.6333312988281,
+        "y": 1404.5999755859375,
+        "wires": [
+            [
+                "4de9aea2.e3a1e8"
+            ]
+        ]
+    },
+    {
+        "id": "4de9aea2.e3a1e8",
+        "type": "grove digital output",
+        "z": "c32403fe.ab9fd",
+        "name": "Buzzer",
+        "board": "ea294574.36b56",
+        "pin": "6",
+        "x": 472.0000305175781,
+        "y": 1403.6666259765625,
+        "wires": []
+    },
+    {
+        "id": "5aa666e3.3cc88",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "get-image",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF Get-Image",
+        "x": 102,
+        "y": 1568,
+        "wires": [
+            [
+                "bb61e2a6.44808",
+                "700db2e5.a83734"
+            ]
+        ]
+    },
+    {
+        "id": "bb61e2a6.44808",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 298,
+        "y": 1524.7999267578125,
+        "wires": []
+    },
+    {
+        "id": "700db2e5.a83734",
+        "type": "camerapi-takephoto",
+        "z": "c32403fe.ab9fd",
+        "filemode": "1",
+        "filename": "dashboard.jpg",
+        "filedefpath": "1",
+        "filepath": "/home/pi/images/",
+        "fileformat": "jpeg",
+        "resolution": "1",
+        "fliph": "1",
+        "flipv": "1",
+        "name": "Take Photo",
+        "x": 306,
+        "y": 1580,
+        "wires": [
+            [
+                "4a9d37f6.e3d33"
+            ]
+        ]
+    },
+    {
+        "id": "4a9d37f6.e3d33",
+        "type": "os-put",
+        "z": "c32403fe.ab9fd",
+        "name": "Put the Photo",
+        "container": "Pictures",
+        "objectname": "",
+        "objectmode": "0",
+        "imageformat": "jpeg",
+        "audioformat": "wav",
+        "filepath": "/home/pi/images/",
+        "filename": "dashboard.jpg",
+        "formattype": "0",
+        "mode": "0",
+        "osconfig": "37fc5a73.0b873e",
+        "x": 315,
+        "y": 1625,
+        "wires": [
+            [
+                "5ddc1c13.b03a7c",
+                "e13001c.4a603"
+            ]
+        ]
+    },
+    {
+        "id": "5ddc1c13.b03a7c",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "set url",
+        "func": "msg.payload = msg.url;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 302,
+        "y": 1677.5,
+        "wires": [
+            [
+                "7e7b4fa3.ac28c8"
+            ]
+        ]
+    },
+    {
+        "id": "e13001c.4a603",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 489,
+        "y": 1597,
+        "wires": []
+    },
+    {
+        "id": "7e7b4fa3.ac28c8",
+        "type": "visual-recognition-v3",
+        "z": "c32403fe.ab9fd",
+        "name": "Detect Faces",
+        "apikey": "46bd0eed187ec73b4ea37d459932a16e3ddd3d54",
+        "image-feature": "detectFaces",
+        "x": 469,
+        "y": 1677.5,
+        "wires": [
+            [
+                "628e90a5.ab99c",
+                "55148d19.869bbc"
+            ]
+        ]
+    },
+    {
+        "id": "628e90a5.ab99c",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 648,
+        "y": 1630,
+        "wires": []
+    },
+    {
+        "id": "55148d19.869bbc",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Set IoTF image",
+        "func": "var sensor =\n    {\"d\":\n        {\n            \"device\":\"grovepi-1\",\n            \"sensor\" : \"image\",\n            \"timestamp\" : new Date(),\n            \"url\": msg.url,\n            \"gender\": \"unknown\",\n            \"age\" : 999\n        }\n    }; \n\n// set the gender and the age from the picture    \nif (msg.result.images.length >= 0) {\n    if (msg.result.images[0].faces.length >= 0){\n        sensor.d.gender = msg.result.images[0].faces[0].gender.gender + \"(\" + msg.result.images[0].faces[0].gender.score + \")\";\n        sensor.d.age = msg.result.images[0].faces[0].age.max;\n    }\n}\n\nmsg.payload = JSON.stringify(sensor);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 674,
+        "y": 1677,
+        "wires": [
+            [
+                "5cb7d25.a2e6a2c",
+                "2d840059.deb7d"
+            ]
+        ]
+    },
+    {
+        "id": "5cb7d25.a2e6a2c",
+        "type": "wiotp out",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Cloud IoTF",
+        "x": 855,
+        "y": 1676,
+        "wires": []
+    },
+    {
+        "id": "2d840059.deb7d",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 871,
+        "y": 1627,
+        "wires": []
+    },
+    {
+        "id": "ba086a14.8c6608",
+        "type": "wiotp in",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "get-text",
+        "commandType": "g",
+        "qos": "0",
+        "name": "IoTF Get-Text",
+        "x": 88,
+        "y": 1793,
+        "wires": [
+            [
+                "5e7d074b.2a5798"
+            ]
+        ]
+    },
+    {
+        "id": "5e7d074b.2a5798",
+        "type": "function",
+        "z": "c32403fe.ab9fd",
+        "name": "Set IoTF microphone",
+        "func": "var sensor =\n    {\"d\":\n        {\n            \"device\":\"grovepi-1\",\n            \"sensor\" : \"microphone\",\n            \"timestamp\" : new Date(),\n            \"text\": \"Dies ist eine wunderbare Mikrofon aufnahme!!\"\n        }\n    }; \n\nmsg.payload = JSON.stringify(sensor);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 642,
+        "y": 1791,
+        "wires": [
+            [
+                "96ec3b9f.b61dd",
+                "e28eb003.1172c"
+            ]
+        ]
+    },
+    {
+        "id": "96ec3b9f.b61dd",
+        "type": "wiotp out",
+        "z": "c32403fe.ab9fd",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "3a5e9e53.b2029a",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Cloud IoTF",
+        "x": 860,
+        "y": 1791,
+        "wires": []
+    },
+    {
+        "id": "e28eb003.1172c",
+        "type": "debug",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 869,
+        "y": 1732,
+        "wires": []
+    },
+    {
+        "id": "aa498a66.03f2b",
+        "type": "inject",
+        "z": "c32403fe.ab9fd",
+        "name": "",
+        "topic": "On",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 718,
+        "y": 719,
+        "wires": [
+            [
+                "4af09f8f.56ef7",
+                "1ea75ab4.283abd"
+            ]
+        ]
+    },
+    {
+        "id": "3a5e9e53.b2029a",
+        "type": "wiotp-credentials",
+        "z": "c32403fe.ab9fd",
+        "name": "IBM Cloud IoTF",
+        "org": "frjtub",
+        "serverName": "",
+        "devType": "grovepi",
+        "devId": "grovepi-0",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    },
+    {
+        "id": "d33c21ca.4b21e",
+        "type": "board-config",
+        "z": "c32403fe.ab9fd",
+        "board": "GrovePi"
+    },
+    {
+        "id": "5675b940.d4baa",
+        "type": "board-config",
+        "z": "c32403fe.ab9fd",
+        "board": "GrovePi"
+    },
+    {
+        "id": "7a4bdb0c.52937c",
+        "type": "board-config",
+        "z": "c32403fe.ab9fd",
+        "board": "GrovePi"
+    },
+    {
+        "id": "916b6c19.9f06a8",
+        "type": "board-config",
+        "z": "c32403fe.ab9fd",
+        "board": "GrovePi"
+    },
+    {
+        "id": "ea294574.36b56",
+        "type": "board-config",
+        "z": "c32403fe.ab9fd",
+        "board": "GrovePi"
+    },
+    {
+        "id": "37fc5a73.0b873e",
+        "type": "os-config",
+        "z": "c32403fe.ab9fd",
+        "cfgtype": "api",
+        "region": "dallas",
+        "userId": "3998bd30604f4d6284f5c0deb702eff9",
+        "userName": "Admin_e4185bf7a977854c4b9a4b761bd54a5ac01a84e4",
+        "password": "T7j7e?lZH!nyq0,2",
+        "name": "Bluemix Service"
+    }
+]

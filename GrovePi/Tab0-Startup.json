@@ -1,0 +1,364 @@
+[
+    {
+        "id": "b8d6d29f.18f0b",
+        "type": "tab",
+        "label": "Startup",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "e3c1cdd2.d43f7",
+        "type": "comment",
+        "z": "b8d6d29f.18f0b",
+        "name": "Inital Config of GrovePi",
+        "info": "",
+        "x": 130,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "640ff26b.a60b9c",
+        "type": "inject",
+        "z": "b8d6d29f.18f0b",
+        "name": "Startup",
+        "topic": "",
+        "payload": "Startup",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 100,
+        "y": 140,
+        "wires": [
+            [
+                "c6519e83.7973e",
+                "46268cdc.38b0d4"
+            ]
+        ]
+    },
+    {
+        "id": "c6519e83.7973e",
+        "type": "exec",
+        "z": "b8d6d29f.18f0b",
+        "command": "ifconfig eth0",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "eth0",
+        "x": 270,
+        "y": 92,
+        "wires": [
+            [
+                "e21c5c80.a2a68"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e21c5c80.a2a68",
+        "type": "function",
+        "z": "b8d6d29f.18f0b",
+        "name": "Extract eth0",
+        "func": "// Initialize variables\nvar tokens, inet, bcast, mask;\nvar eth0 =   {\n    \"ip\" : null, \n    \"bcast\" : null, \n    \"mask\" : null\n}\n\n// Parse the entire string by spaces, and put each item into an array called tokens\ntokens = msg.payload.split(\"\\n\", 4);\nmsg.tokens = tokens;\n\n// check if IP exists\nif (tokens[1].indexOf('inet') == -1) {\n    msg.eth0 = eth0;\n    return msg;\n}\n\n// split possible ip\ntokens[1] = tokens[1].substr(tokens[1].indexOf('inet'));\ninet = tokens[1].split(\" \");\n\neth0.ip = inet[1];\neth0.bcast = inet[7];\neth0.mask = inet[4];\n\n// Don't send a message if the IF is the known default. Change to default ip.\nif (eth0.ip==\"192.168.0.120\") { \n    //outString = \"\"; // set output to null if ip is the same so no message is sent\n    msg.payload = \"NoIp\";\n} else {\n    // return the final output\n    msg.payload = eth0.ip;\n}\n\nmsg.eth0 = eth0;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 451.00002670288086,
+        "y": 80.00000238418579,
+        "wires": [
+            [
+                "9ae2a25.1df266"
+            ]
+        ]
+    },
+    {
+        "id": "a2d73b83.a2bc68",
+        "type": "exec",
+        "z": "b8d6d29f.18f0b",
+        "command": "hostname",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "hostname",
+        "x": 540,
+        "y": 160,
+        "wires": [
+            [
+                "9aeb5b73.10f138"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9aeb5b73.10f138",
+        "type": "function",
+        "z": "b8d6d29f.18f0b",
+        "name": "Get Hostname",
+        "func": "msg.payload = msg.payload.slice(0,msg.payload.length-1);\n\nglobal.set(\"device\", msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 760,
+        "y": 140,
+        "wires": [
+            [
+                "b94ad4c5.256498",
+                "a89811bb.03fa5",
+                "4e1fb081.d212b"
+            ]
+        ]
+    },
+    {
+        "id": "b94ad4c5.256498",
+        "type": "debug",
+        "z": "b8d6d29f.18f0b",
+        "name": "Hostsname",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 950,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "744aece1.4f2354",
+        "type": "function",
+        "z": "b8d6d29f.18f0b",
+        "name": "Set IP Global",
+        "func": "var ip = \"NO-IP\";\nif (msg.eth0.ip && msg.eth0.ip.length > 0) {\n    global.set(\"IP\", msg.eth0);\n    ip = msg.eth0.ip;\n} else {\n    if (msg.wlan0.ip && msg.wlan0.ip.length > 0) {\n        global.set(\"IP\", msg.wlan0);\n        ip = msg.wlan0.ip;\n    }\n}\nvar url = \"http://\" + ip + \":1880\";\n\n// Set the Application URL (local)\nglobal.set(\"appurl\", url);\n\n// Set the IP-Address used by TJBot\nglobal.set(\"ipaddr\", ip);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 985.0000762939453,
+        "y": 67.0000057220459,
+        "wires": [
+            [
+                "a2d73b83.a2bc68"
+            ]
+        ]
+    },
+    {
+        "id": "9ae2a25.1df266",
+        "type": "exec",
+        "z": "b8d6d29f.18f0b",
+        "command": "ifconfig wlan0",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "wlan0",
+        "x": 613.0000076293945,
+        "y": 80.00000190734863,
+        "wires": [
+            [
+                "2237d889.bb7db8"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "2237d889.bb7db8",
+        "type": "function",
+        "z": "b8d6d29f.18f0b",
+        "name": "Extract wlan0",
+        "func": "// Initialize variables\nvar tokens, inet, bcast, mask;\nvar wlan0 = {\n    \"ip\" : null,\n    \"bcast\" : null, \n    \"mask\" : null\n}\n\n// Parse the entire string by spaces, and put each item into an array called tokens\ntokens = msg.payload.split(\"\\n\", 4);\nmsg.tokens = tokens;\n\n// check if IP exists\nif (tokens[1].indexOf('inet') == -1) {\n    msg.wlan0 = wlan0;\n    return msg;\n}\n\n// split possible ip\ntokens[1] = tokens[1].substr(tokens[1].indexOf('inet'));\ninet = tokens[1].split(\" \");\n\nwlan0.ip = inet[1];\nwlan0.bcast = inet[7];\nwlan0.mask = inet[4];\n\n// Don't send a message if the IF is the known default. Change to default ip.\nif (wlan0.ip==\"192.168.0.120\") { \n    //outString = \"\"; // set output to null if ip is the same so no message is sent\n    msg.payload = \"NoIp\";\n} else {\n    // return the final output\n    msg.payload = wlan0.ip;\n}\n\nmsg.wlan0 = wlan0;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800.0000610351562,
+        "y": 67.00000190734863,
+        "wires": [
+            [
+                "744aece1.4f2354",
+                "833de14a.4616f"
+            ]
+        ]
+    },
+    {
+        "id": "46268cdc.38b0d4",
+        "type": "function",
+        "z": "b8d6d29f.18f0b",
+        "name": "Set Globals",
+        "func": "// Shloud data sent to IoTF\nglobal.set(\"sendIoTF\", true);\n\n// Is TJBot male ore female\nglobal.set(\"gender\", \"male\");\n\n// What is the default location \nglobal.set(\"location\", \"Linz\");\n\n// Set the necessary rotation for the 8x8 matrix\nglobal.set(\"rotation\",\"R270\");\n\n// Eye Settings \nglobal.set(\"eyeDelay\", 100);\nglobal.set(\"eyeShow\", false);\n\nglobal.set(\"startup\", false);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 293.01739501953125,
+        "y": 214.01042556762695,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "833de14a.4616f",
+        "type": "debug",
+        "z": "b8d6d29f.18f0b",
+        "name": "IP-Adresse",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 994,
+        "y": 16,
+        "wires": []
+    },
+    {
+        "id": "b4b91e42.67c47",
+        "type": "grove lcdrgb output",
+        "z": "b8d6d29f.18f0b",
+        "name": "",
+        "board": "619d0337.50208c",
+        "pin": "1",
+        "x": 810,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "4e1fb081.d212b",
+        "type": "function",
+        "z": "b8d6d29f.18f0b",
+        "name": "set lcd msg",
+        "func": "var ip = global.get(\"ipaddr\", ip);\nvar device = global.get(\"device\", msg.payload);\n// var rgb = [ parseInt(msg.payload.d.lightr), parseInt(msg.payload.d.lightg), parseInt(msg.payload.d.lightb) ];\n\nvar lcd = {\n    \"text\" : device + '\\n' + ip,\n    \"rgb\" : [255,0,0]\n}\n\nmsg.payload = lcd; \n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "b4b91e42.67c47"
+            ]
+        ]
+    },
+    {
+        "id": "a89811bb.03fa5",
+        "type": "change",
+        "z": "b8d6d29f.18f0b",
+        "name": "Loop Init",
+        "rules": [
+            {
+                "t": "set",
+                "p": "loop",
+                "pt": "flow",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 173,
+        "y": 420,
+        "wires": [
+            [
+                "7c71c4b2.d7ceec"
+            ]
+        ]
+    },
+    {
+        "id": "7c71c4b2.d7ceec",
+        "type": "switch",
+        "z": "b8d6d29f.18f0b",
+        "name": "",
+        "property": "loop",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "3",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 350,
+        "y": 420,
+        "wires": [
+            [
+                "fc20f651.967168"
+            ],
+            [
+                "de97ea50.e5f4c8"
+            ]
+        ]
+    },
+    {
+        "id": "fc20f651.967168",
+        "type": "delay",
+        "z": "b8d6d29f.18f0b",
+        "name": "Wait",
+        "pauseType": "delay",
+        "timeout": "20",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 510,
+        "y": 400,
+        "wires": [
+            [
+                "a4333849.206238"
+            ]
+        ]
+    },
+    {
+        "id": "a4333849.206238",
+        "type": "function",
+        "z": "b8d6d29f.18f0b",
+        "name": "Increase",
+        "func": "var count = flow.get('loop') || 0;\ncount += 1;\nflow.set('loop', count);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 340,
+        "wires": [
+            [
+                "7c71c4b2.d7ceec",
+                "4e1fb081.d212b"
+            ]
+        ]
+    },
+    {
+        "id": "de97ea50.e5f4c8",
+        "type": "change",
+        "z": "b8d6d29f.18f0b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "startup",
+                "pt": "global",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "619d0337.50208c",
+        "type": "board-config",
+        "z": "",
+        "board": "GrovePi"
+    }
+]

@@ -1,0 +1,356 @@
+[
+    {
+        "id": "c428db9c.347588",
+        "type": "tab",
+        "label": "Send IoTF"
+    },
+    {
+        "id": "9ce7604b.bf60b",
+        "type": "grove digital sensor",
+        "z": "c428db9c.347588",
+        "name": "Temp&Hum",
+        "board": "6dc27e3c.1bab",
+        "sensor": "dht11",
+        "repeat": "1",
+        "pin": "2",
+        "x": 102,
+        "y": 151,
+        "wires": [
+            [
+                "cd11447e.be856",
+                "e3d7607a.e834f8"
+            ]
+        ]
+    },
+    {
+        "id": "cd11447e.be856",
+        "type": "debug",
+        "z": "c428db9c.347588",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 300,
+        "y": 105.5,
+        "wires": []
+    },
+    {
+        "id": "e3d7607a.e834f8",
+        "type": "function",
+        "z": "c428db9c.347588",
+        "name": "Set IoTF temphum",
+        "func": "var sensor =\n    {\"d\":\n        {\n            \"device\":\"grovepi-0\",\n            \"sensor\" : \"temphum\",\n            \"timestamp\" : new Date(),\n            \"temperature\":msg.payload.temperature,\n            \"humidity\": msg.payload.humidity,\n            \"heatIndex\" : msg.payload.heatIndex\n        }\n    }; \n\nmsg.payload = JSON.stringify(sensor);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 151,
+        "wires": [
+            [
+                "d9a33753.8b375"
+            ]
+        ]
+    },
+    {
+        "id": "d9a33753.8b375",
+        "type": "wiotp out",
+        "z": "c428db9c.347588",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "4189ff70.ba09f8",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Cloud IoTF",
+        "x": 514,
+        "y": 150.5,
+        "wires": []
+    },
+    {
+        "id": "35f9aece.d1eb22",
+        "type": "grove digital sensor",
+        "z": "c428db9c.347588",
+        "name": "Ultrasonic",
+        "board": "6dc27e3c.1bab",
+        "sensor": "ultrasonic",
+        "repeat": "1",
+        "pin": "3",
+        "x": 86.5,
+        "y": 295,
+        "wires": [
+            [
+                "89fb4cb2.708b1",
+                "fe29a378.967a9"
+            ]
+        ]
+    },
+    {
+        "id": "89fb4cb2.708b1",
+        "type": "debug",
+        "z": "c428db9c.347588",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 295.5,
+        "y": 250.5,
+        "wires": []
+    },
+    {
+        "id": "fe29a378.967a9",
+        "type": "function",
+        "z": "c428db9c.347588",
+        "name": "Set IoTF ultrasonic",
+        "func": "var sensor =\n    {\"d\":\n        {\n            \"device\":\"grovepi-0\",\n            \"sensor\" : \"ultrasonic\",\n            \"timestamp\" : new Date(),\n            \"distance\" : msg.payload\n        }\n    }; \n\nmsg.payload = JSON.stringify(sensor);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 311.5,
+        "y": 295,
+        "wires": [
+            [
+                "1c0cca43.af4426"
+            ]
+        ]
+    },
+    {
+        "id": "1c0cca43.af4426",
+        "type": "wiotp out",
+        "z": "c428db9c.347588",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "4189ff70.ba09f8",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Cloud IoTF",
+        "x": 513.5,
+        "y": 295.5,
+        "wires": []
+    },
+    {
+        "id": "5a12c2e9.82f754",
+        "type": "grove analog sensor",
+        "z": "c428db9c.347588",
+        "name": "Light",
+        "pin": "0",
+        "sensor": "light",
+        "repeat": "1",
+        "board": "6dc27e3c.1bab",
+        "x": 75.23333740234375,
+        "y": 451.6666564941406,
+        "wires": [
+            [
+                "5f5f7472.3d2b3c",
+                "91de68ee.b6522"
+            ]
+        ]
+    },
+    {
+        "id": "5f5f7472.3d2b3c",
+        "type": "debug",
+        "z": "c428db9c.347588",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 292.23333740234375,
+        "y": 401.0666809082031,
+        "wires": []
+    },
+    {
+        "id": "91de68ee.b6522",
+        "type": "function",
+        "z": "c428db9c.347588",
+        "name": "Set IoTF light",
+        "func": "var sensor =\n    {\"d\":\n        {\n            \"device\":\"grovepi-0\",\n            \"sensor\" : \"light\",\n            \"timestamp\" : new Date(),\n            \"light\" : msg.payload\n        }\n    }; \n\nmsg.payload = JSON.stringify(sensor);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 288.8666687011719,
+        "y": 450.8666687011719,
+        "wires": [
+            [
+                "f5faf4c0.81252"
+            ]
+        ]
+    },
+    {
+        "id": "f5faf4c0.81252",
+        "type": "wiotp out",
+        "z": "c428db9c.347588",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "4189ff70.ba09f8",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Cloud IoTF",
+        "x": 500.8666687011719,
+        "y": 450.8666687011719,
+        "wires": []
+    },
+    {
+        "id": "ddd01fe9.97f9f",
+        "type": "grove analog sensor",
+        "z": "c428db9c.347588",
+        "name": "Sound",
+        "pin": "1",
+        "sensor": "sound",
+        "repeat": "1",
+        "board": "6dc27e3c.1bab",
+        "x": 85.86666870117188,
+        "y": 600.86669921875,
+        "wires": [
+            [
+                "498f79f1.d26b4",
+                "59673a7f.6631a4"
+            ]
+        ]
+    },
+    {
+        "id": "498f79f1.d26b4",
+        "type": "debug",
+        "z": "c428db9c.347588",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 288.8666687011719,
+        "y": 549.2667236328125,
+        "wires": []
+    },
+    {
+        "id": "59673a7f.6631a4",
+        "type": "function",
+        "z": "c428db9c.347588",
+        "name": "Set IoTF sound",
+        "func": "var sensor =\n    {\"d\":\n        {\n            \"device\":\"grovepi-0\",\n            \"sensor\" : \"sound\",\n            \"timestamp\" : new Date(),\n            \"sound\" : msg.payload\n        }\n    }; \n\nmsg.payload = JSON.stringify(sensor);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 294.5,
+        "y": 601.0667114257812,
+        "wires": [
+            [
+                "abb61a3.ac3c468"
+            ]
+        ]
+    },
+    {
+        "id": "abb61a3.ac3c468",
+        "type": "wiotp out",
+        "z": "c428db9c.347588",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "4189ff70.ba09f8",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Cloud IoTF",
+        "x": 495.5,
+        "y": 601.0667114257812,
+        "wires": []
+    },
+    {
+        "id": "70c3a426.4e01cc",
+        "type": "grove digital sensor",
+        "z": "c428db9c.347588",
+        "name": "Button",
+        "board": "6dc27e3c.1bab",
+        "sensor": "button",
+        "repeat": "1",
+        "pin": "5",
+        "x": 88.23333740234375,
+        "y": 742.2667236328125,
+        "wires": [
+            [
+                "37e89f2b.f210d8",
+                "d8de49b1.6979c8"
+            ]
+        ]
+    },
+    {
+        "id": "37e89f2b.f210d8",
+        "type": "debug",
+        "z": "c428db9c.347588",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 286.23333740234375,
+        "y": 700.199951171875,
+        "wires": []
+    },
+    {
+        "id": "d8de49b1.6979c8",
+        "type": "function",
+        "z": "c428db9c.347588",
+        "name": "Set IoTF button",
+        "func": "var sensor =\n    {\"d\":\n        {\n            \"device\":\"grovepi-0\",\n            \"sensor\" : \"button\",\n            \"timestamp\" : new Date(),\n            \"status\" : msg.payload\n        }\n    }; \n\nmsg.payload = JSON.stringify(sensor);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 297.23333740234375,
+        "y": 742.6000061035156,
+        "wires": [
+            [
+                "2bf12567.28e7ca"
+            ]
+        ]
+    },
+    {
+        "id": "2bf12567.28e7ca",
+        "type": "wiotp out",
+        "z": "c428db9c.347588",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "4189ff70.ba09f8",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "name": "Bluemix IoTF",
+        "x": 506.8666687011719,
+        "y": 742.4666748046875,
+        "wires": []
+    },
+    {
+        "id": "3a0a74e1.e4c0ec",
+        "type": "comment",
+        "z": "c428db9c.347588",
+        "name": "GrovePi-0 - Send to IoTF ",
+        "info": "",
+        "x": 124,
+        "y": 23,
+        "wires": []
+    },
+    {
+        "id": "6dc27e3c.1bab",
+        "type": "board-config",
+        "z": "c428db9c.347588",
+        "board": "GrovePi"
+    },
+    {
+        "id": "4189ff70.ba09f8",
+        "type": "wiotp-credentials",
+        "z": "c428db9c.347588",
+        "name": "IBM Cloud IoTF",
+        "org": "frjtub",
+        "serverName": "",
+        "devType": "grovepi",
+        "devId": "grovepi-0",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    }
+]

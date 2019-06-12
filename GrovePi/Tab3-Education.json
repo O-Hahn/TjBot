@@ -1,0 +1,692 @@
+[
+    {
+        "id": "647b88c8.3913d8",
+        "type": "tab",
+        "label": "Education",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "15b6ec6d.4cf414",
+        "type": "comment",
+        "z": "647b88c8.3913d8",
+        "name": "GrovePi Demonstration Flows",
+        "info": "",
+        "x": 140,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ba78c8c1.f09e28",
+        "type": "grove digital sensor",
+        "z": "647b88c8.3913d8",
+        "name": "Temp_Hum",
+        "board": "619d0337.50208c",
+        "sensor": "dht11",
+        "repeat": "1",
+        "pin": "2",
+        "x": 87,
+        "y": 189,
+        "wires": [
+            [
+                "6290ed9b.5aad04",
+                "aa280ce5.d6639",
+                "1cc0696.bb57e97"
+            ]
+        ]
+    },
+    {
+        "id": "6290ed9b.5aad04",
+        "type": "debug",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 306,
+        "y": 126,
+        "wires": []
+    },
+    {
+        "id": "aa280ce5.d6639",
+        "type": "switch",
+        "z": "647b88c8.3913d8",
+        "name": "Temp",
+        "property": "payload.temperature",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "20",
+                "vt": "str"
+            },
+            {
+                "t": "btwn",
+                "v": "20",
+                "vt": "num",
+                "v2": "28",
+                "v2t": "num"
+            },
+            {
+                "t": "gt",
+                "v": "28",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 3,
+        "x": 296,
+        "y": 188,
+        "wires": [
+            [
+                "2ade9dc5.a152f2"
+            ],
+            [
+                "6912cbd4.5f2234"
+            ],
+            [
+                "43145602.6d2f78"
+            ]
+        ]
+    },
+    {
+        "id": "2ade9dc5.a152f2",
+        "type": "template",
+        "z": "647b88c8.3913d8",
+        "name": "to cold",
+        "field": "text",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "It is to cold at {{payload.temperature}} !",
+        "x": 514,
+        "y": 148,
+        "wires": [
+            [
+                "a1090916.7dfa98"
+            ]
+        ]
+    },
+    {
+        "id": "6912cbd4.5f2234",
+        "type": "template",
+        "z": "647b88c8.3913d8",
+        "name": "fine",
+        "field": "text",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "The temp is {{payload.temperature}} !",
+        "x": 514,
+        "y": 188,
+        "wires": [
+            [
+                "8c59d6d5.697248"
+            ]
+        ]
+    },
+    {
+        "id": "43145602.6d2f78",
+        "type": "template",
+        "z": "647b88c8.3913d8",
+        "name": "to hot",
+        "field": "text",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "It is hot at {{payload.temperature}} !",
+        "x": 511,
+        "y": 231,
+        "wires": [
+            [
+                "14675648.ff88aa"
+            ]
+        ]
+    },
+    {
+        "id": "a1090916.7dfa98",
+        "type": "change",
+        "z": "647b88c8.3913d8",
+        "name": "Blue",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"rgb\":[0,0,255]}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload.text",
+                "pt": "msg",
+                "to": "text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 666,
+        "y": 148,
+        "wires": [
+            [
+                "5a142370.b8065c",
+                "c1f4d8af.a68888"
+            ]
+        ]
+    },
+    {
+        "id": "5a142370.b8065c",
+        "type": "debug",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 878,
+        "y": 107,
+        "wires": []
+    },
+    {
+        "id": "bc37608e.98378",
+        "type": "grove lcdrgb output",
+        "z": "647b88c8.3913d8",
+        "name": "LCD",
+        "board": "619d0337.50208c",
+        "pin": "1",
+        "x": 970,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "8c59d6d5.697248",
+        "type": "change",
+        "z": "647b88c8.3913d8",
+        "name": "Green",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"rgb\":[0,255,0]}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload.text",
+                "pt": "msg",
+                "to": "text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 669,
+        "y": 188,
+        "wires": [
+            [
+                "c1f4d8af.a68888"
+            ]
+        ]
+    },
+    {
+        "id": "14675648.ff88aa",
+        "type": "change",
+        "z": "647b88c8.3913d8",
+        "name": "Red",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"rgb\":[255,0,0]}",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "payload.text",
+                "pt": "msg",
+                "to": "text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 668,
+        "y": 231,
+        "wires": [
+            [
+                "c1f4d8af.a68888"
+            ]
+        ]
+    },
+    {
+        "id": "65acd9fb.be7e18",
+        "type": "grove digital sensor",
+        "z": "647b88c8.3913d8",
+        "name": "Distanz",
+        "board": "619d0337.50208c",
+        "sensor": "ultrasonic",
+        "repeat": "1",
+        "pin": "3",
+        "x": 81,
+        "y": 423,
+        "wires": [
+            [
+                "4f452eb.7ad6ed",
+                "f17f90f3.a4f38",
+                "e634149b.13b728"
+            ]
+        ]
+    },
+    {
+        "id": "4f452eb.7ad6ed",
+        "type": "debug",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 275,
+        "y": 325,
+        "wires": []
+    },
+    {
+        "id": "7aa52e38.8085e",
+        "type": "grove digital output",
+        "z": "647b88c8.3913d8",
+        "name": "Green",
+        "board": "619d0337.50208c",
+        "pin": "7",
+        "x": 780,
+        "y": 481,
+        "wires": []
+    },
+    {
+        "id": "e7f6ce1.4ddea3",
+        "type": "grove digital output",
+        "z": "647b88c8.3913d8",
+        "name": "Red",
+        "board": "619d0337.50208c",
+        "pin": "8",
+        "x": 784,
+        "y": 362,
+        "wires": []
+    },
+    {
+        "id": "86cb81e4.9d273",
+        "type": "grove digital output",
+        "z": "647b88c8.3913d8",
+        "name": "Blue",
+        "board": "619d0337.50208c",
+        "pin": "5",
+        "x": 780,
+        "y": 421,
+        "wires": []
+    },
+    {
+        "id": "f17f90f3.a4f38",
+        "type": "switch",
+        "z": "647b88c8.3913d8",
+        "name": "Distance",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "50",
+                "vt": "num"
+            },
+            {
+                "t": "btwn",
+                "v": "50",
+                "vt": "num",
+                "v2": "100",
+                "v2t": "num"
+            },
+            {
+                "t": "gt",
+                "v": "100",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 3,
+        "x": 271,
+        "y": 423,
+        "wires": [
+            [
+                "57052442.0b183c"
+            ],
+            [
+                "f9db92bf.490eb"
+            ],
+            [
+                "7cad83a5.6a168c"
+            ]
+        ]
+    },
+    {
+        "id": "57052442.0b183c",
+        "type": "change",
+        "z": "647b88c8.3913d8",
+        "name": "Led Rot",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"red\":true, \"green\":false,\"blue\":false}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 456,
+        "y": 373,
+        "wires": [
+            [
+                "35b5b0d.56b605"
+            ]
+        ]
+    },
+    {
+        "id": "f9db92bf.490eb",
+        "type": "change",
+        "z": "647b88c8.3913d8",
+        "name": "Led Blau",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"red\":false, \"green\":false,\"blue\":true}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 455,
+        "y": 423,
+        "wires": [
+            [
+                "35b5b0d.56b605"
+            ]
+        ]
+    },
+    {
+        "id": "7cad83a5.6a168c",
+        "type": "change",
+        "z": "647b88c8.3913d8",
+        "name": "Led Grün",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"red\":false, \"green\":true,\"blue\":false}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 457,
+        "y": 473,
+        "wires": [
+            [
+                "35b5b0d.56b605"
+            ]
+        ]
+    },
+    {
+        "id": "35b5b0d.56b605",
+        "type": "function",
+        "z": "647b88c8.3913d8",
+        "name": "set on/off",
+        "func": "var red = { payload: msg.payload.red };\nvar blue = { payload: msg.payload.blue };\nvar green = { payload: msg.payload.green };\n\nreturn [red, blue, green];",
+        "outputs": "3",
+        "noerr": 0,
+        "x": 620,
+        "y": 422,
+        "wires": [
+            [
+                "e7f6ce1.4ddea3"
+            ],
+            [
+                "86cb81e4.9d273"
+            ],
+            [
+                "7aa52e38.8085e"
+            ]
+        ]
+    },
+    {
+        "id": "5994b24d.6b157c",
+        "type": "grove analog sensor",
+        "z": "647b88c8.3913d8",
+        "name": "Sound",
+        "pin": "0",
+        "sensor": "sound",
+        "repeat": "1",
+        "board": "619d0337.50208c",
+        "x": 72,
+        "y": 611,
+        "wires": [
+            [
+                "93ae4393.2f61"
+            ]
+        ]
+    },
+    {
+        "id": "93ae4393.2f61",
+        "type": "debug",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 273,
+        "y": 567,
+        "wires": []
+    },
+    {
+        "id": "2a0eb7c1.3e3788",
+        "type": "grove analog sensor",
+        "z": "647b88c8.3913d8",
+        "name": "Light",
+        "pin": "1",
+        "sensor": "sound",
+        "repeat": "1",
+        "board": "619d0337.50208c",
+        "x": 70,
+        "y": 725,
+        "wires": [
+            [
+                "cc0638eb.811a88"
+            ]
+        ]
+    },
+    {
+        "id": "cc0638eb.811a88",
+        "type": "debug",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 277,
+        "y": 690,
+        "wires": []
+    },
+    {
+        "id": "4fb24f54.25b44",
+        "type": "grove digital sensor",
+        "z": "647b88c8.3913d8",
+        "name": "Button",
+        "board": "619d0337.50208c",
+        "sensor": "button",
+        "repeat": "1",
+        "pin": "4",
+        "x": 72,
+        "y": 836,
+        "wires": [
+            [
+                "e19600c4.62d76"
+            ]
+        ]
+    },
+    {
+        "id": "e19600c4.62d76",
+        "type": "debug",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 263,
+        "y": 801,
+        "wires": []
+    },
+    {
+        "id": "aa84b209.96d0b",
+        "type": "ui_gauge",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "group": "ec9c6a9f.27d8a8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "degrees",
+        "format": "{{value}}",
+        "min": "-40",
+        "max": "40",
+        "colors": [
+            "#0000ff",
+            "#00b500",
+            "#ca3838"
+        ],
+        "seg1": "18",
+        "seg2": "24",
+        "x": 531,
+        "y": 276,
+        "wires": []
+    },
+    {
+        "id": "1cc0696.bb57e97",
+        "type": "change",
+        "z": "647b88c8.3913d8",
+        "name": "set temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 299,
+        "y": 276,
+        "wires": [
+            [
+                "aa84b209.96d0b"
+            ]
+        ]
+    },
+    {
+        "id": "e634149b.13b728",
+        "type": "ui_gauge",
+        "z": "647b88c8.3913d8",
+        "name": "",
+        "group": "ec9c6a9f.27d8a8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "wave",
+        "title": "Distance",
+        "label": "mm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "700",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 274,
+        "y": 508,
+        "wires": []
+    },
+    {
+        "id": "c1f4d8af.a68888",
+        "type": "switch",
+        "z": "647b88c8.3913d8",
+        "name": "startup ?",
+        "property": "startup",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 840,
+        "y": 180,
+        "wires": [
+            [
+                "bc37608e.98378"
+            ]
+        ]
+    },
+    {
+        "id": "619d0337.50208c",
+        "type": "board-config",
+        "z": "",
+        "board": "GrovePi"
+    },
+    {
+        "id": "ec9c6a9f.27d8a8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Dashboard",
+        "tab": "cf1bc284.66bf6",
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "cf1bc284.66bf6",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard"
+    }
+]
